@@ -1,78 +1,85 @@
 package shop;
 
-public class Rad 
-{
- private String name;
- private Hersteller hersteller;
- private int zoll;
- private int baujahr;
- 
-public String getName() {
-	return name;
-}
-public void setName(String name) {
-	this.name = name;
-}
-public Hersteller getHersteller() {
-	return hersteller;
-}
-public void setHersteller(Hersteller hersteller) {
-	this.hersteller = hersteller;
-}
-public int getZoll() {
-	return zoll;
-}
-public void setZoll(int zoll) {
-	this.zoll = zoll;
-}
-public int getBaujahr() {
-	return baujahr;
-}
-public void setBaujahr(int baujahr) {
-	this.baujahr = baujahr;
-}
+public class Rad {
+	private String name;
+	private Hersteller hersteller;
+	private int zoll;
+	private int baujahr;
 
+	public String getName() {
+		return name;
+	}
 
-@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Hersteller getHersteller() {
+		return hersteller;
+	}
+
+	public void setHersteller(Hersteller hersteller) {
+		this.hersteller = hersteller;
+	}
+
+	public int getZoll() {
+		return zoll;
+	}
+
+	public void setZoll(int zoll) {
+		this.zoll = zoll;
+	}
+
+	public int getBaujahr() {
+		return baujahr;
+	}
+
+	public void setBaujahr(int baujahr) {
+		this.baujahr = baujahr;
+	}
+
+	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
-@Override
-public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + baujahr;
-	result = prime * result
-			+ ((hersteller == null) ? 0 : hersteller.hashCode());
-	result = prime * result + ((name == null) ? 0 : name.hashCode());
-	result = prime * result + zoll;
-	return result;
-}
-@Override
-public boolean equals(Object obj) {
-	if (this == obj)
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + baujahr;
+		result = prime * result
+				+ ((hersteller == null) ? 0 : hersteller.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + zoll;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Rad other = (Rad) obj;
+		if (baujahr != other.baujahr)
+			return false;
+		if (hersteller == null) {
+			if (other.hersteller != null)
+				return false;
+		} else if (!hersteller.equals(other.hersteller))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (zoll != other.zoll)
+			return false;
 		return true;
-	if (obj == null)
-		return false;
-	if (getClass() != obj.getClass())
-		return false;
-	Rad other = (Rad) obj;
-	if (baujahr != other.baujahr)
-		return false;
-	if (hersteller == null) {
-		if (other.hersteller != null)
-			return false;
-	} else if (!hersteller.equals(other.hersteller))
-		return false;
-	if (name == null) {
-		if (other.name != null)
-			return false;
-	} else if (!name.equals(other.name))
-		return false;
-	if (zoll != other.zoll)
-		return false;
-	return true;
-}
-	
+	}
+
 }
