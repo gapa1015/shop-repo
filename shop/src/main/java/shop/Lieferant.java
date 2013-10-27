@@ -2,10 +2,10 @@ package shop;
 
 import java.util.List;
 
-public class Hersteller {
+public class Lieferant {
 
 	private Long id;
-	private String name;
+	private String nmae;
 	private List<Rad> raeder;
 
 	public Long getId() {
@@ -16,20 +16,26 @@ public class Hersteller {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNmae() {
+		return nmae;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNmae(String nmae) {
+		this.nmae = nmae;
 	}
 
-	public List<Rad> getReader() {
+	public List<Rad> getRaeder() {
 		return raeder;
 	}
 
-	public void setReader(List<Rad> reader) {
-		this.raeder = reader;
+	public void setRaeder(List<Rad> raeder) {
+		this.raeder = raeder;
+	}
+
+	@Override
+	public String toString() {
+		return "Lieferant [id=" + id + ", nmae=" + nmae + ", raeder=" + raeder
+				+ "]";
 	}
 
 	@Override
@@ -37,7 +43,7 @@ public class Hersteller {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((nmae == null) ? 0 : nmae.hashCode());
 		result = prime * result + ((raeder == null) ? 0 : raeder.hashCode());
 		return result;
 	}
@@ -50,16 +56,16 @@ public class Hersteller {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Hersteller other = (Hersteller) obj;
+		Lieferant other = (Lieferant) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (nmae == null) {
+			if (other.nmae != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!nmae.equals(other.nmae))
 			return false;
 		if (raeder == null) {
 			if (other.raeder != null)
@@ -68,14 +74,8 @@ public class Hersteller {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Hersteller [id=" + id + ", name=" + name + ", raeder=" + raeder
-				+ "]";
-	}
 	
-	public void addRad(Rad rad)
+	public void addRad (Rad rad)
 	{
 		raeder.add(rad);
 	}
