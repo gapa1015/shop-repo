@@ -1,4 +1,4 @@
-package shop;
+package shop.artikelverwaltung;
 
 import java.util.List;
 

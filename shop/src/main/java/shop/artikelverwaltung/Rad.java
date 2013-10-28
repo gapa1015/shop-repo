@@ -1,4 +1,4 @@
-package shop;
+package shop.artikelverwaltung;
 
 public class Rad {
 	private String name;
