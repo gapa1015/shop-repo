@@ -32,6 +32,10 @@ public class Hersteller {
 		this.raeder = reader;
 	}
 
+	public void addRad(Rad rad) {
+		raeder.add(rad);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,10 +78,4 @@ public class Hersteller {
 		return "Hersteller [id=" + id + ", name=" + name + ", raeder=" + raeder
 				+ "]";
 	}
-	
-	public void addRad(Rad rad)
-	{
-		raeder.add(rad);
-	}
-
 }

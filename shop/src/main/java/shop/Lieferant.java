@@ -32,6 +32,10 @@ public class Lieferant {
 		this.raeder = raeder;
 	}
 
+	public void addRad(Rad rad) {
+		raeder.add(rad);
+	}
+
 	@Override
 	public String toString() {
 		return "Lieferant [id=" + id + ", nmae=" + nmae + ", raeder=" + raeder
@@ -74,10 +78,4 @@ public class Lieferant {
 			return false;
 		return true;
 	}
-	
-	public void addRad (Rad rad)
-	{
-		raeder.add(rad);
-	}
-
 }
