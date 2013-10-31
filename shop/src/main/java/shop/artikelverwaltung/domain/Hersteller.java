@@ -1,11 +1,11 @@
-package shop.artikelverwaltung;
+package shop.artikelverwaltung.domain;
 
 import java.util.List;
 
-public class Lieferant {
+public class Hersteller {
 
 	private Long id;
-	private String nmae;
+	private String name;
 	private List<Rad> raeder;
 
 	public Long getId() {
@@ -16,20 +16,20 @@ public class Lieferant {
 		this.id = id;
 	}
 
-	public String getNmae() {
-		return nmae;
+	public String getName() {
+		return name;
 	}
 
-	public void setNmae(String nmae) {
-		this.nmae = nmae;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public List<Rad> getRaeder() {
+	public List<Rad> getReader() {
 		return raeder;
 	}
 
-	public void setRaeder(List<Rad> raeder) {
-		this.raeder = raeder;
+	public void setReader(List<Rad> reader) {
+		this.raeder = reader;
 	}
 
 	public void addRad(Rad rad) {
@@ -37,17 +37,11 @@ public class Lieferant {
 	}
 
 	@Override
-	public String toString() {
-		return "Lieferant [id=" + id + ", nmae=" + nmae + ", raeder=" + raeder
-				+ "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nmae == null) ? 0 : nmae.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((raeder == null) ? 0 : raeder.hashCode());
 		return result;
 	}
@@ -60,16 +54,16 @@ public class Lieferant {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Lieferant other = (Lieferant) obj;
+		Hersteller other = (Hersteller) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (nmae == null) {
-			if (other.nmae != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!nmae.equals(other.nmae))
+		} else if (!name.equals(other.name))
 			return false;
 		if (raeder == null) {
 			if (other.raeder != null)
@@ -77,5 +71,11 @@ public class Lieferant {
 		} else if (!raeder.equals(other.raeder))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Hersteller [id=" + id + ", name=" + name + ", raeder=" + raeder
+				+ "]";
 	}
 }

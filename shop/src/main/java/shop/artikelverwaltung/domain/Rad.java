@@ -1,12 +1,11 @@
-package shop.artikelverwaltung;
+package shop.artikelverwaltung.domain;
 
-import java.util.List;
-
-public class Ersatzteil {
+public class Rad {
 	private String name;
 	private Hersteller hersteller;
 	private Lieferant lieferant;
-	private List<Rad> kompartibel;
+	private int zoll;
+	private int baujahr;
 	private int preis;
 
 	public String getName() {
@@ -25,20 +24,28 @@ public class Ersatzteil {
 		this.hersteller = hersteller;
 	}
 
+	public int getZoll() {
+		return zoll;
+	}
+
+	public void setZoll(int zoll) {
+		this.zoll = zoll;
+	}
+
+	public int getBaujahr() {
+		return baujahr;
+	}
+
+	public void setBaujahr(int baujahr) {
+		this.baujahr = baujahr;
+	}
+
 	public Lieferant getLieferant() {
 		return lieferant;
 	}
 
 	public void setLieferant(Lieferant lieferant) {
 		this.lieferant = lieferant;
-	}
-
-	public List<Rad> getKompartibel() {
-		return kompartibel;
-	}
-
-	public void setKompartibel(List<Rad> kompartibel) {
-		this.kompartibel = kompartibel;
 	}
 
 	public int getPreis() {
@@ -51,23 +58,23 @@ public class Ersatzteil {
 
 	@Override
 	public String toString() {
-		return "Ersatzteile [name=" + name + ", hersteller=" + hersteller
-				+ ", lieferant=" + lieferant + ", kompartibel=" + kompartibel
-				+ ", preis=" + preis + "]";
+		return "Rad [name=" + name + ", hersteller=" + hersteller
+				+ ", lieferant=" + lieferant + ", zoll=" + zoll + ", baujahr="
+				+ baujahr + ", preis=" + preis + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + baujahr;
 		result = prime * result
 				+ ((hersteller == null) ? 0 : hersteller.hashCode());
-		result = prime * result
-				+ ((kompartibel == null) ? 0 : kompartibel.hashCode());
 		result = prime * result
 				+ ((lieferant == null) ? 0 : lieferant.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + preis;
+		result = prime * result + zoll;
 		return result;
 	}
 
@@ -79,16 +86,13 @@ public class Ersatzteil {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ersatzteil other = (Ersatzteil) obj;
+		Rad other = (Rad) obj;
+		if (baujahr != other.baujahr)
+			return false;
 		if (hersteller == null) {
 			if (other.hersteller != null)
 				return false;
 		} else if (!hersteller.equals(other.hersteller))
-			return false;
-		if (kompartibel == null) {
-			if (other.kompartibel != null)
-				return false;
-		} else if (!kompartibel.equals(other.kompartibel))
 			return false;
 		if (lieferant == null) {
 			if (other.lieferant != null)
@@ -102,6 +106,9 @@ public class Ersatzteil {
 			return false;
 		if (preis != other.preis)
 			return false;
+		if (zoll != other.zoll)
+			return false;
 		return true;
 	}
+
 }
