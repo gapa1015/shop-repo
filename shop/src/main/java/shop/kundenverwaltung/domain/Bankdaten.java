@@ -1,4 +1,4 @@
-package shop.kundenverwaltung;
+package shop.kundenverwaltung.domain;
 
 public class Bankdaten {
 	
