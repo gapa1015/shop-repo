@@ -7,7 +7,10 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 import javax.inject.Inject;
 import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -17,6 +20,11 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
+
+
+
+import shop.kundenverwaltung.domain.Kunde;
 import shop.util.UriHelper;
 
 
@@ -39,7 +47,28 @@ public class KundeResource {
 		return null; //hab GET für Kunde angefangen
 		
 	}
-		
+	
+	@POST
+	@Consumes( {APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
+	@Produces
+	public Response createKunde(Kunde kunde) {
+		return null;
+	}
+	
+	@PUT
+	@Produces({ APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
+	@Consumes
+	Response updateKunde(Kunde kunde) {
+		return null;
+	}
+	
+	
+	@DELETE
+	@Path("{id:[1-9] [0-9]*}")
+	@Produces
+	Response deleteKunde(@PathParam("id")Long id) {
+		return null;
+	}
 	
 	
 	
