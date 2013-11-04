@@ -28,4 +28,15 @@ public class Mock {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public static Bestellung createBestellung(Bestellung bestellung) {
+		final Date date = new Date();
+		
+		bestellung.setId((long)10);
+		bestellung.setAusgeliefert(false);
+		bestellung.setKunde(null);
+		bestellung.setBestelldatum(date);
+		
+		return bestellung;
+	}
 }
