@@ -2,6 +2,7 @@ package shop.util;
 
 import java.util.Date;
 
+import shop.artikelverwaltung.domain.Rad;
 import shop.bestellverwaltung.domain.Bestellung;
 
 public class Mock {
@@ -21,5 +22,10 @@ public class Mock {
 		bestellung.setBestelldatum(date);
 		
 		return bestellung;
+	}
+
+	public static Rad findeRadById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

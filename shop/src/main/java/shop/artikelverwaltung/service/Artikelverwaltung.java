@@ -1,4 +1,4 @@
-package shop.artikelverwaltung.rest;
+package shop.artikelverwaltung.service;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 
 import shop.artikelverwaltung.domain.Ersatzteil;
 import shop.artikelverwaltung.domain.Hersteller;
@@ -16,12 +17,14 @@ public class Artikelverwaltung {
 	// Rad
 
 	@GET
+	@Path("/rad")
 	public List<Rad> findAllRaeder() {
 		return null;
 		// TODO Implement findAllRaeder
 	}
 
 	@GET
+	@Path("/rad/{id:[1-9][0-9]*}")
 	public Rad findRadById() {
 		return null;
 		// TODO Implement findRadById
@@ -113,7 +116,7 @@ public class Artikelverwaltung {
 	@GET
 	public List<Rad> findErsatzteilkompartibelMitRaeder(Ersatzteil ersatzteil) {
 		return null;
-	// TODO Implement findErsatzteilkompartibelMitRaeder
+		// TODO Implement findErsatzteilkompartibelMitRaeder
 	}
 
 	@GET
@@ -173,87 +176,5 @@ public class Artikelverwaltung {
 	@DELETE
 	public void deleteErsatzteilById(Long id) {
 		// TODO Implement deleteErsatztteilById
-	}
-
-	// Hersteller
-	@GET
-	public List<Hersteller> findAllHersteller() {
-		return null;
-		// TODO Implement findAllHersteller
-	}
-
-	@GET
-	public Hersteller findHerstellerById() {
-		return null;
-		// TODO Implement findAllHerstellerById
-	}
-
-	@GET
-	public Hersteller findHerstellerByName() {
-		return null;
-		// TODO Implement findAllHerstellerByName
-	}
-
-	@POST
-	public Hersteller createHersteller() {
-		return null;
-		// TODO Implement createHersteller
-	}
-
-	@PUT
-	public Hersteller updateHersteller() {
-		return null;
-		// TODO Implement updateHersteller
-	}
-
-	@DELETE
-	public void deleteHersteller() {
-		// TODO Implement deleteHersteller
-	}
-
-	@DELETE
-	public void deleteHerstellerById() {
-		// TODO Implement deleteHerstellerById
-	}
-
-	// Lieferant
-	@GET
-	public List<Lieferant> findAllLieferanten() {
-		return null;
-		// TODO Implement findAllLieferanten
-	}
-
-	@GET
-	public Lieferant findLieferantById() {
-		return null;
-		// TODO Implement findAllLieferantenById
-	}
-
-	@GET
-	public Lieferant findLieferantByName() {
-		return null;
-		// TODO Implement findAllLieferantenByName
-	}
-
-	@POST
-	public Lieferant createLieferant() {
-		return null;
-		// TODO Implement createLieferant
-	}
-
-	@PUT
-	public Lieferant updateLieferant() {
-		return null;
-		// TODO Implement updateLieferant
-	}
-
-	@DELETE
-	public void deleteLieferant() {
-		// TODO Implement deleteLieferant
-	}
-
-	@DELETE
-	public void deleteLieferantById() {
-		// TODO Implement deleteLieferantById
 	}
 }

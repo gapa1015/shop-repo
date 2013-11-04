@@ -1,12 +1,21 @@
 package shop.artikelverwaltung.domain;
 
 public class Rad {
+	private Long id;
 	private String name;
 	private Hersteller hersteller;
 	private Lieferant lieferant;
 	private int zoll;
 	private int baujahr;
 	private int preis;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
