@@ -24,7 +24,9 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
 import shop.kundenverwaltung.domain.Kunde;
+import shop.util.Mock;
 import shop.util.UriHelper;
 
 
@@ -52,7 +54,9 @@ public class KundeResource {
 	@Consumes( {APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
 	@Produces
 	public Response createKunde(Kunde kunde) {
-		return null;
+		kunde = Mock.createKunde(kunde);
+		return Response.created(getUriKunde(kunde,uriInfo))
+		.build();
 	}
 	
 	@PUT
@@ -66,8 +70,8 @@ public class KundeResource {
 	@DELETE
 	@Path("{id:[1-9] [0-9]*}")
 	@Produces
-	Response deleteKunde(@PathParam("id")Long id) {
-		return null;
+	public void deleteKunde(@PathParam("id")Long id) {
+		Mock.deleteKunde(id);
 	}
 	
 	
