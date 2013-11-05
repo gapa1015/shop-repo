@@ -25,11 +25,6 @@ public class Mock {
 		
 		return bestellung;
 	}
-	public static void deleteKunde(Long id) {
-		
-		System.out.println("Kunde mit ID= " + id + "wurde geloescht");
-		
-	}
 	
 	
 	public static Kunde findeKundeById(Long id) {
@@ -94,5 +89,14 @@ public class Mock {
 		return kund;
 		
 	}
+	
+	public static void deleteKunde(Long id) {
+		
+		System.out.println("Kunde mit ID= " + id + "wurde geloescht");
+		
+	}
 
+	public static void updateKunde(Kunde kunde) {
+		System.out.println("Kunde mit ID = " + id + "wurde gelöscht");
+	}
 }
