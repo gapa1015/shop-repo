@@ -3,17 +3,22 @@ package shop.kundenverwaltung.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
+import static shop.util.Constants.SELF_LINK;
+
+import java.net.URI;
 
 import javax.inject.Inject;
 import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -25,6 +30,9 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
+import shop.bestellverwaltung.domain.Bestellung;
+import shop.bestellverwaltung.rest.BestellungResource;
 import shop.kundenverwaltung.domain.Kunde;
 import shop.util.Mock;
 import shop.util.UriHelper;
@@ -43,26 +51,53 @@ public class KundeResource {
 	@GET
 	@Path("{id:[1-9] [0-9]*}")
 	public Response findKundeById(@PathParam("id") Long id) {
+		final Kunde kunde = Mock.findeKundeById(id);
+		if (kunde == null) {
+			throw new NotFoundException("Keine Kunde mit der ID " + id + " gefunden.");
+		}
 		
+		setStructuralLinks(kunde, uriInfo);
 		
+		final Response response = Response.ok(kunde)
+										  .links(getTransitionalLinks(kunde, uriInfo))
+										  .build();
 		
-		return null; //hab GET für Kunde angefangen
+		return response;
+	}
+	
+	public void setStructuralLinks(Kunde kunde, UriInfo uriInfo) {
 		
 	}
+	
+	private Link[] getTransitionalLinks(Kunde kunde, UriInfo uriInfo) {
+		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
+							  .rel(SELF_LINK)
+							  .build();
+		return new Link[] { self };
+	}
+	
+	public URI getUriKunde(Kunde kunde, UriInfo uriInfo) {
+		return uriHelper.getURI(KundeResource.class, "findeKundeById", kunde.getId(), uriInfo);
+	}
+
+
+		
+	
 	
 	@POST
 	@Consumes( {APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
 	@Produces
 	public Response createKunde(Kunde kunde) {
 		kunde = Mock.createKunde(kunde);
-		return null;
+		return Response.created(getUriKunde(kunde, uriInfo))
+		.build();
 	}
 	
 	@PUT
 	@Produces({ APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
 	@Consumes
-	Response updateKunde(Kunde kunde) {
-		return null;
+	public void updateKunde(Kunde kunde) {
+		Mock.updateKunde(kunde);
 	}
 	
 	
