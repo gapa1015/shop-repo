@@ -55,8 +55,7 @@ public class KundeResource {
 	@Produces
 	public Response createKunde(Kunde kunde) {
 		kunde = Mock.createKunde(kunde);
-		return Response.created(getUriKunde(kunde,uriInfo))
-		.build();
+		return null;
 	}
 	
 	@PUT
