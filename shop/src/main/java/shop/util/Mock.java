@@ -97,6 +97,6 @@ public class Mock {
 	}
 
 	public static void updateKunde(Kunde kunde) {
-		System.out.println("Kunde mit ID = " + id + "wurde gelöscht");
+		System.out.println("Kunde mit ID = " + kunde + "wurde aktualliert");
 	}
 }
