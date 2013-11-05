@@ -5,7 +5,7 @@ import java.util.List;
 public class Lieferant {
 
 	private Long id;
-	private String nmae;
+	private String name;
 	private List<Rad> raeder;
 
 	public Long getId() {
@@ -17,11 +17,11 @@ public class Lieferant {
 	}
 
 	public String getNmae() {
-		return nmae;
+		return name;
 	}
 
 	public void setNmae(String nmae) {
-		this.nmae = nmae;
+		this.name = nmae;
 	}
 
 	public List<Rad> getRaeder() {
@@ -38,7 +38,7 @@ public class Lieferant {
 
 	@Override
 	public String toString() {
-		return "Lieferant [id=" + id + ", nmae=" + nmae + ", raeder=" + raeder
+		return "Lieferant [id=" + id + ", nmae=" + name + ", raeder=" + raeder
 				+ "]";
 	}
 
@@ -47,7 +47,7 @@ public class Lieferant {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nmae == null) ? 0 : nmae.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((raeder == null) ? 0 : raeder.hashCode());
 		return result;
 	}
@@ -66,10 +66,10 @@ public class Lieferant {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (nmae == null) {
-			if (other.nmae != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!nmae.equals(other.nmae))
+		} else if (!name.equals(other.name))
 			return false;
 		if (raeder == null) {
 			if (other.raeder != null)
