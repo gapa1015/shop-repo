@@ -36,34 +36,34 @@ public class ArtikelResource {
 
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response findeRadById(@PathParam("id") Long id) {
-		final Rad rad = Mock.findRadById(id);
-		if (rad == null) {
-			throw new NotFoundException("Kein Rad mit der ID " + id
-					+ " gefunden.");
-		}
-
-		setStructuralLinks(rad, uriInfo);
-
-		final Response response = Response.ok(rad)
-				.links(getTransitionalLinks(rad, uriInfo)).build();
-
-		return response;
-	}
-
-	public void setStructuralLinks(Rad rad, UriInfo uriInfo) {
-
-	}
-
-	private Link[] getTransitionalLinks(Rad rad, UriInfo uriInfo) {
-		final Link self = Link.fromUri(getUriRad(rad, uriInfo)).rel(SELF_LINK)
-				.build();
-		return new Link[] { self };
-	}
-
-	public URI getUriRad(Rad rad, UriInfo uriInfo) {
-		return uriHelper.getURI(ArtikelResource.class, "findeBestellungById",
-				rad.getId(), uriInfo);
-	}
+	public Response findRadById(@PathParam("id") Long id) {
+//		final Rad rad = Mock.findRadById(id);
+//		if (rad == null) {
+//			throw new NotFoundException("Kein Rad mit der ID " + id
+//					+ " gefunden.");
+//		}
+//
+//		setStructuralLinks(rad, uriInfo);
+//
+//		final Response response = Response.ok(rad)
+//				.links(getTransitionalLinks(rad, uriInfo)).build();
+//
+//		return response;
+//	}
+//
+//	public void setStructuralLinks(Rad rad, UriInfo uriInfo) {
+//
+//	}
+//
+//	private Link[] getTransitionalLinks(Rad rad, UriInfo uriInfo) {
+//		final Link self = Link.fromUri(getUriRad(rad, uriInfo)).rel(SELF_LINK)
+//				.build();
+//		return new Link[] { self };
+//	}
+//
+//	public URI getUriRad(Rad rad, UriInfo uriInfo) {
+//		return uriHelper.getURI(ArtikelResource.class, "findeBestellungById",
+//				rad.getId(), uriInfo);
+//	}
 
 }
