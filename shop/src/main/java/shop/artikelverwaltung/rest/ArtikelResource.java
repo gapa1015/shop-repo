@@ -3,8 +3,6 @@ package shop.artikelverwaltung.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
-import static shop.util.Constants.SELF_LINK;
-
 import java.net.URI;
 
 import javax.inject.Inject;
@@ -20,6 +18,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import shop.artikelverwaltung.domain.Rad;
+import shop.bestellverwaltung.domain.Bestellung;
+import shop.bestellverwaltung.rest.BestellungResource;
 import shop.util.Mock;
 import shop.util.UriHelper;
 
@@ -36,34 +36,15 @@ public class ArtikelResource {
 
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response findRadById(@PathParam("id") Long id) {
-//		final Rad rad = Mock.findRadById(id);
-//		if (rad == null) {
-//			throw new NotFoundException("Kein Rad mit der ID " + id
-//					+ " gefunden.");
-//		}
-//
-//		setStructuralLinks(rad, uriInfo);
-//
-//		final Response response = Response.ok(rad)
-//				.links(getTransitionalLinks(rad, uriInfo)).build();
-//
-//		return response;
-//	}
-//
-//	public void setStructuralLinks(Rad rad, UriInfo uriInfo) {
-//
-//	}
-//
-//	private Link[] getTransitionalLinks(Rad rad, UriInfo uriInfo) {
-//		final Link self = Link.fromUri(getUriRad(rad, uriInfo)).rel(SELF_LINK)
-//				.build();
-//		return new Link[] { self };
-//	}
-//
-//	public URI getUriRad(Rad rad, UriInfo uriInfo) {
-//		return uriHelper.getURI(ArtikelResource.class, "findeBestellungById",
-//				rad.getId(), uriInfo);
-//	}
-
+	public Rad findRadById(@PathParam("id") Long id) {
+		final Rad rad = Mock.findeRadById(id);
+		if (rad == null) {
+			throw new NotFoundException("Kein Fahrrad mit der ID " + id + " gefunden.");
+		}
+		return rad;
+	}
+	
+	public URI getUriRad(Rad rad, UriInfo uriInfo) {
+		return uriHelper.getURI(ArtikelResource.class, "findeRadById", rad.getId(), uriInfo);
+	}
 }

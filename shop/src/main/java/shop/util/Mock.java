@@ -25,27 +25,36 @@ public class Mock {
 		
 		return bestellung;
 	}
-
-	final Hersteller ahersteller = new Hersteller();
-
 	
-	final static Lieferant alieferant = new Lieferant();
-	alieferant01.setId(002);
-	alieferant01.setName("Heinz");
+	public static Bestellung createBestellung(Bestellung bestellung) {
+		final Date date = new Date();
+		
+		bestellung.setId((long)10);
+		bestellung.setAusgeliefert(false);
+		bestellung.setKunde(null);
+		bestellung.setBestelldatum(date);
+		
+		return bestellung;
+	}	
 	
-	
-	
-	public static Rad findRadById(final Long id) {
-	final Rad arad = new Rad();
-	arad.setId(id);
-	arad.setName("Name von"+id);
-	arad.setPreis(5000);
-	arad.setBaujahr(1990);
-	arad.setZoll(28);
-	arad.setHersteller(ahersteller);
-	arad.setLieferant(alieferant);
-	
+	public static Rad findeRadById(Long id) {
+		final Lieferant lieferant = new Lieferant();
+		lieferant.setId(id+1);
+		lieferant.setNmae("Test");
+		
+		final Hersteller hersteller = new Hersteller();
+		hersteller.setId(id+2);
+		hersteller.setName("TestTest");
+		
+		final Rad arad = new Rad();
+		arad.setId(id);
+		arad.setName("Name von"+id);
+		arad.setPreis(5000);
+		arad.setBaujahr(1990);
+		arad.setZoll(28);
+		arad.setHersteller(hersteller);
+		arad.setLieferant(lieferant);
+		
+		return arad;
 	}
-	
-	
 }

@@ -22,13 +22,6 @@ public class Artikelverwaltung {
 //		// TODO Implement findAllRaeder
 //	}
 
-	@GET
-	@Path("/rad/{id:[1-9][0-9]*}")
-	public Rad findRadById(Long id) {
-		return Mock.findRadById(id);
-		// TODO Implement findRadById
-	}
-
 //	@GET
 //	public Rad findRadByName() {
 //		return null;
