@@ -24,8 +24,9 @@ public class Mock {
 		return bestellung;
 	}
 
-	public static Rad findeRadById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public static Rad findRadById(Long id) {
+		final Rad rad = new Rad();
+		rad.setId(id);
+		return rad;
 	}
 }

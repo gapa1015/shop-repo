@@ -37,7 +37,7 @@ public class ArtikelResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findeRadById(@PathParam("id") Long id) {
-		final Rad rad = Mock.findeRadById(id);
+		final Rad rad = Mock.findRadById(id);
 		if (rad == null) {
 			throw new NotFoundException("Kein Rad mit der ID " + id
 					+ " gefunden.");
