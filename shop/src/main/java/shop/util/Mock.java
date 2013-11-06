@@ -108,32 +108,20 @@ public class Mock {
 
 	}
 
-	public static Kunde findeKundeById(Long id) {
+	public static Kunde findKundeById(Long id) {
 		if (id > MAX_ID) {
 			return null;
 		}
-
-		final Kunde kunde = new Kunde();
+		final Kunde kunde=new Kunde();
+		
 		kunde.setId(id);
-		kunde.setVorname("Andreas");
-		kunde.setNachname("Jankowoi");
-		kunde.setEmail("jaan1011@hs-karlsruhe.de");
-		Date geburt = new Date();
-		kunde.setGeburtstag(geburt);
-		kunde.setTelefon("00234234994");
-
-		final Adresse adress = new Adresse();
-		adress.setStrasse("Kaiserstrasse");
-		adress.setHausnummer("12");
-		adress.setStadt("Karlsruhe");
-		adress.setPlz("76100");
-		kunde.setAdresse(adress);
-
-		final Bankdaten bank = new Bankdaten();
-		bank.setBankname("Sparkasse Ettlingen");
-		bank.setKontonummer(83747446);
-		bank.setBlz(325443567);
-		kunde.setBankdaten(bank);
+		kunde.setNachname("Twat");
+		kunde.setVorname("Wat");
+		kunde.setEmail("Test");
+		kunde.setTelefon("Rest");
+		kunde.setAdresse(null);
+		kunde.setBankdaten(null);
+		kunde.setGeburtstag(null);
 
 		return kunde;
 	}
