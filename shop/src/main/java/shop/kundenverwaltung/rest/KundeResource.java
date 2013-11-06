@@ -3,6 +3,8 @@ package shop.kundenverwaltung.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
+import static shop.util.Constants.SELF_LINK;
+
 import java.net.URI;
 
 import javax.inject.Inject;
@@ -16,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -37,16 +40,19 @@ public class KundeResource {
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Kunde findKundeById(@PathParam("id") Long id) {
+	public Response findKundeById(@PathParam("id") Long id) {
 		final Kunde kunde = Mock.findKundeById(id);
 		if (kunde == null) {
 			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
 		}
 		
-		return kunde;
+		setStructuralLinks(kunde,uriInfo);
+		return Response.ok(kunde)
+					   .links(getTransitionalLinks(kunde, uriInfo))
+					   .build();
 	}
 	
-	public void setStructuralLinks(Kunde kunde, UriInfo uriInfo) {
+   public void setStructuralLinks(Kunde kunde, UriInfo uriInfo) {
 		
 	}
 	
@@ -55,10 +61,11 @@ public class KundeResource {
 							  .rel(SELF_LINK)
 							  .build();
 		return new Link[] { self };
-=======
-		return kunde;
->>>>>>> branch 'master' of https://github.com/gapa1015/shop-repo.git
+
+
 	}
+
+	
 	
 	public URI getUriKunde(Kunde kunde, UriInfo uriInfo) {
 		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
@@ -87,9 +94,5 @@ public class KundeResource {
 	public void deleteKunde(@PathParam("id")Long id) {
 		Mock.deleteKunde(id);
 	}
-	
-	
-	
-	
 
 }
