@@ -64,8 +64,33 @@ public class KundeResource {
 
 
 	}
-
-	
+		
+		@GET
+		public Response findKundeByVorname(@PathParam("vorname") String vorname) {
+			final Kunde kunde = Mock.findKundeByVorname(vorname);
+			if (kunde == null) {
+				throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
+			}
+			
+			setStructuralLinks(kunde,uriInfo);
+			return Response.ok(kunde)
+						   .links(getTransitionalLinks(kunde, uriInfo))
+						   .build();
+	}
+		
+		@GET
+		public Response findKundeByNachname(@PathParam("nachname") String nachname) {
+			final Kunde kunde = Mock.findKundeByNachname(nachname);
+			if (kunde == null) {
+				throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
+			}
+			
+			setStructuralLinks(kunde,uriInfo);
+			return Response.ok(kunde)
+						   .links(getTransitionalLinks(kunde, uriInfo))
+						   .build();
+	}
+		
 	
 	public URI getUriKunde(Kunde kunde, UriInfo uriInfo) {
 		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
