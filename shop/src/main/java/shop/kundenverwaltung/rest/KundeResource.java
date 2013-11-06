@@ -39,19 +39,13 @@ public class KundeResource {
 	
 	@GET
 	@Path("{id:[1-9] [0-9]*}")
-	public Response findKundeById(@PathParam("id") Long id) {
+	public Kunde findKundeById(@PathParam("id") Long id) {
 		final Kunde kunde = Mock.findeKundeById(id);
 		if (kunde == null) {
 			throw new NotFoundException("Keine Kunde mit der ID " + id + " gefunden.");
 		}
 		
-		setStructuralLinks(kunde, uriInfo);
-		
-		final Response response = Response.ok(kunde)
-										  .links(getTransitionalLinks(kunde, uriInfo))
-										  .build();
-		
-		return response;
+		return kunde;
 	}
 	
 	public void setStructuralLinks(Kunde kunde, UriInfo uriInfo) {
