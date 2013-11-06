@@ -3,12 +3,10 @@ package shop.kundenverwaltung.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
-import static shop.util.Constants.SELF_LINK;
-
 import java.net.URI;
 
 import javax.inject.Inject;
-import javax.websocket.server.PathParam;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,7 +16,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -34,15 +31,16 @@ public class KundeResource {
 	
 	@Context
 	private UriInfo uriInfo;
+	
 	@Inject
 	private UriHelper uriHelper;
 	
 	@GET
-	@Path("{id:[1-9] [0-9]*}")
+	@Path("{id:[1-9][0-9]*}")
 	public Kunde findKundeById(@PathParam("id") Long id) {
-		final Kunde kunde = Mock.findeKundeById(id);
+		final Kunde kunde = Mock.findKundeById(id);
 		if (kunde == null) {
-			throw new NotFoundException("Keine Kunde mit der ID " + id + " gefunden.");
+			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
 		}
 		
 		return kunde;
@@ -57,15 +55,14 @@ public class KundeResource {
 							  .rel(SELF_LINK)
 							  .build();
 		return new Link[] { self };
+=======
+		return kunde;
+>>>>>>> branch 'master' of https://github.com/gapa1015/shop-repo.git
 	}
 	
 	public URI getUriKunde(Kunde kunde, UriInfo uriInfo) {
-		return uriHelper.getURI(KundeResource.class, "findeKundeById", kunde.getId(), uriInfo);
-	}
-
-
-		
-	
+		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
+	}	
 	
 	@POST
 	@Consumes( {APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
