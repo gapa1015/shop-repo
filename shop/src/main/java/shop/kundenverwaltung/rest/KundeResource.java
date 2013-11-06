@@ -17,6 +17,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
@@ -66,7 +67,7 @@ public class KundeResource {
 	}
 		
 		@GET
-		public Response findKundeByVorname(@PathParam("vorname") String vorname) {
+		public Response findKundeByVorname(@QueryParam("vorname") String vorname) {
 			final Kunde kunde = Mock.findKundeByVorname(vorname);
 			if (kunde == null) {
 				throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
@@ -79,7 +80,7 @@ public class KundeResource {
 	}
 		
 		@GET
-		public Response findKundeByNachname(@PathParam("nachname") String nachname) {
+		public Response findKundeByNachname(@QueryParam("nachname") String nachname) {
 			final Kunde kunde = Mock.findKundeByNachname(nachname);
 			if (kunde == null) {
 				throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
