@@ -2,10 +2,13 @@ package shop.artikelverwaltung.domain;
 
 import java.util.List;
 
+import shop.kundenverwaltung.domain.Adresse;
+
 public class Hersteller {
 
 	private Long id;
 	private String name;
+	private Adresse adresse;
 	private List<Rad> raeder;
 
 	public Long getId() {
@@ -34,6 +37,14 @@ public class Hersteller {
 
 	public void addRad(Rad rad) {
 		raeder.add(rad);
+	}
+
+	public Adresse getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
 	}
 
 	@Override
@@ -75,7 +86,8 @@ public class Hersteller {
 
 	@Override
 	public String toString() {
-		return "Hersteller [id=" + id + ", name=" + name + ", raeder=" + raeder
+		return "Hersteller [id=" + id + ", name=" + name + ", adresse=" + adresse +", raeder=" + raeder
 				+ "]";
 	}
+
 }

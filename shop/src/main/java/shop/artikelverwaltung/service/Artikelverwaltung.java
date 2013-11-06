@@ -6,11 +6,9 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
 
 import shop.artikelverwaltung.domain.Ersatzteil;
 import shop.artikelverwaltung.domain.Rad;
-import shop.util.Mock;
 
 public class Artikelverwaltung {
 	// Rad

@@ -22,17 +22,6 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-
-
-
-
-
-
-
-
-
-import shop.bestellverwaltung.domain.Bestellung;
-import shop.bestellverwaltung.rest.BestellungResource;
 import shop.kundenverwaltung.domain.Kunde;
 import shop.util.Mock;
 import shop.util.UriHelper;
