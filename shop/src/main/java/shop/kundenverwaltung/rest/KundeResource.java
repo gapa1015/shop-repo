@@ -43,6 +43,7 @@ public class KundeResource {
 	@Path("{id:[1-9][0-9]*}")
 	public Response findKundeById(@PathParam("id") Long id) {
 		final Kunde kunde = Mock.findKundeById(id);
+
 		if (kunde == null) {
 			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
 		}
@@ -95,7 +96,7 @@ public class KundeResource {
 	
 	public URI getUriKunde(Kunde kunde, UriInfo uriInfo) {
 		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
-	}	
+	}
 	
 	@POST
 	@Consumes( {APPLICATION_JSON, APPLICATION_XML,TEXT_XML})

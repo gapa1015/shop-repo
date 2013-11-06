@@ -48,35 +48,25 @@ public class Mock {
 		System.out.println("Bestellung mit ID=" + id + " geloescht");
 	}
 
-	public static Rad findeRadById(Long id) {
-//		final Adresse adress = new Adresse();
-//		adress.setStrasse("Moltestr");
-//		adress.setHausnummer("30");
-//		adress.setStadt("Karlsruhe");
-//		adress.setPlz("76133");
-		
+	public static Rad findRadById(Long id) {
 		final Lieferant lieferant = new Lieferant();
 		lieferant.setId(id + 1);
-		lieferant.setName("Test");
-//   	lieferant.setAdresse(adress);
-		
+		lieferant.setName("Franz");
+
 		final Hersteller hersteller = new Hersteller();
 		hersteller.setId(id + 2);
-		hersteller.setName("TestTest");
-//		hersteller.setAdresse(adress);
+		hersteller.setName("Velo GmbH");
 		
-		final Rad arad = new Rad();
-		arad.setId(id);
-		arad.setName("Name von" + id);
-		arad.setPreis(5000);
-		arad.setBaujahr(1990);
-		arad.setZoll(28);
-		arad.setHersteller(hersteller);
-		arad.setLieferant(lieferant);
+		final Rad rad = new Rad();
+		rad.setId(id);
+		rad.setName("City-Bike");
+		rad.setPreis(150);
+		rad.setBaujahr(2013);
+		rad.setZoll(28);
+		rad.setHersteller(null);
+		rad.setLieferant(null);
 
-		System.out.println("Das folgende Rad wurde gefunden" + arad);
-
-		return arad;
+		return rad;
 	}
 
 	public static Rad createRad(Rad rad) {
@@ -99,15 +89,15 @@ public class Mock {
 	}
 
 	public static void deleteRad(Long id) {
-
+		System.out.println("Rad mit ID = " + id + " geloescht");
 	}
 
 	public static void deleteKunde(Long id) {
 
-		System.out.println("Kunde mit ID= " + id + "wurde geloescht");
+		System.out.println("Kunde mit ID = " + id + "wurde geloescht");
 
 	}
-
+								
 	public static Kunde findKundeById(Long id) {
 		if (id > MAX_ID) {
 			return null;
