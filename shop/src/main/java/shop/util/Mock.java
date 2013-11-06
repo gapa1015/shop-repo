@@ -42,6 +42,14 @@ public class Mock {
 		return bestellung;
 	}	
 	
+	public static void updateBestellung(Bestellung bestellung) {
+		System.out.println("Aktualisierte Bestellung: " + bestellung);
+	}
+
+	public static void deleteBestellung(Long id) {
+		System.out.println("Bestellung mit ID=" + id + " geloescht");
+	}
+	
 	public static Rad findeRadById(Long id) {
 		final Lieferant lieferant = new Lieferant();
 		lieferant.setId(id+1);
@@ -131,20 +139,9 @@ public class Mock {
 		
 		System.out.println("Der folge Kunde wurde erstellt" + kund);
 		return kund;
-		
-	}
+	}	
 	
-	public static void deleteKunde(Long id) {
-		
-		System.out.println("Kunde mit ID= " + id + "wurde geloescht");
-		
-	}
-
-
-
-=======
 	public static void updateKunde(Kunde kunde) {
 		System.out.println("Kunde mit ID = " + kunde + "wurde aktualliert");
 	}
->>>>>>> refs/heads/Andi
 }
