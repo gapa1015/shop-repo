@@ -3,6 +3,7 @@ package shop.kundenverwaltung.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
+
 import java.net.URI;
 
 import javax.inject.Inject;
@@ -19,6 +20,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import shop.bestellverwaltung.domain.Bestellung;
+import shop.bestellverwaltung.rest.BestellungResource;
 import shop.kundenverwaltung.domain.Kunde;
 import shop.util.Mock;
 import shop.util.UriHelper;
@@ -36,7 +39,7 @@ public class KundeResource {
 	private UriHelper uriHelper;
 	
 	@GET
-	@Path("{id:[1-9][0-9]*}")
+	@Path("/{id:[1-9][0-9]*}")
 	public Kunde findKundeById(@PathParam("id") Long id) {
 		final Kunde kunde = Mock.findKundeById(id);
 		if (kunde == null) {
@@ -47,7 +50,7 @@ public class KundeResource {
 	
 	public URI getUriKunde(Kunde kunde, UriInfo uriInfo) {
 		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
-	}	
+	}
 	
 	@POST
 	@Consumes( {APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
