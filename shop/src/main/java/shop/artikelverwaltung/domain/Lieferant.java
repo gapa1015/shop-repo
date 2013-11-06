@@ -8,7 +8,7 @@ public class Lieferant {
 
 	private Long id;
 	private String name;
-	private Adresse adresse;
+//	private Adresse adresse;
 	private List<Rad> raeder;
 
 	public Long getId() {
@@ -19,12 +19,12 @@ public class Lieferant {
 		this.id = id;
 	}
 
-	public String getNmae() {
+	public String getName() {
 		return name;
 	}
 
-	public void setNmae(String nmae) {
-		this.name = nmae;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Rad> getRaeder() {
@@ -39,17 +39,17 @@ public class Lieferant {
 		raeder.add(rad);
 	}
 
-	public Adresse getAdresse() {
-		return adresse;
-	}
-
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
-	}
+//	public Adresse getAdresse() {
+//		return adresse;
+//	}
+//
+//	public void setAdresse(Adresse adresse) {
+//		this.adresse = adresse;
+//	}
 
 	@Override
 	public String toString() {
-		return "Lieferant [id=" + id + ", nmae=" + name + ", adresse=" + adresse + ", raeder=" + raeder
+		return "Lieferant [id=" + id + ", nmae=" + name + ", raeder=" + raeder
 				+ "]";
 	}
 
