@@ -49,21 +49,21 @@ public class Mock {
 	}
 
 	public static Rad findeRadById(Long id) {
-		final Adresse adress = new Adresse();
-		adress.setStrasse("Moltestr");
-		adress.setHausnummer("30");
-		adress.setStadt("Karlsruhe");
-		adress.setPlz("76133");
+//		final Adresse adress = new Adresse();
+//		adress.setStrasse("Moltestr");
+//		adress.setHausnummer("30");
+//		adress.setStadt("Karlsruhe");
+//		adress.setPlz("76133");
 		
 		final Lieferant lieferant = new Lieferant();
 		lieferant.setId(id + 1);
-		lieferant.setNmae("Test");
-		lieferant.setAdresse(adress);
+		lieferant.setName("Test");
+//		lieferant.setAdresse(adress);
 		
 		final Hersteller hersteller = new Hersteller();
 		hersteller.setId(id + 2);
 		hersteller.setName("TestTest");
-		hersteller.setAdresse(adress);
+//		hersteller.setAdresse(adress);
 		
 		final Rad arad = new Rad();
 		arad.setId(id);
@@ -74,9 +74,6 @@ public class Mock {
 		arad.setHersteller(hersteller);
 		arad.setLieferant(lieferant);
 
-		lieferant.addRad(arad);
-		hersteller.addRad(arad);
-
 		System.out.println("Das folgende Rad wurde gefunden" + arad);
 
 		return arad;
@@ -84,7 +81,7 @@ public class Mock {
 
 	public static Rad createRad(Rad rad) {
 		final Rad radx = new Rad();
-		radx.setId(rad.getId());
+		radx.setId((long) 10);
 		radx.setName(rad.getName());
 		radx.setPreis(rad.getPreis());
 		radx.setZoll(rad.getZoll());

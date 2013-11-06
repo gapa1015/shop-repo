@@ -8,7 +8,7 @@ public class Hersteller {
 
 	private Long id;
 	private String name;
-	private Adresse adresse;
+//	private Adresse adresse;
 	private List<Rad> raeder;
 
 	public Long getId() {
@@ -39,13 +39,13 @@ public class Hersteller {
 		raeder.add(rad);
 	}
 
-	public Adresse getAdresse() {
-		return adresse;
-	}
-
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
-	}
+//	public Adresse getAdresse() {
+//		return adresse;
+//	}
+//
+//	public void setAdresse(Adresse adresse) {
+//		this.adresse = adresse;
+//	}
 
 	@Override
 	public int hashCode() {
@@ -86,7 +86,7 @@ public class Hersteller {
 
 	@Override
 	public String toString() {
-		return "Hersteller [id=" + id + ", name=" + name + ", adresse=" + adresse +", raeder=" + raeder
+		return "Hersteller [id=" + id + ", name=" + name + ", raeder=" + raeder
 				+ "]";
 	}
 
