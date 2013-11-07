@@ -61,7 +61,7 @@ public class KundeResource {
 	private Link[] getTransitionalLinks(Kunde kunde, UriInfo uriInfo) {
 		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
 				.rel(SELF_LINK).build();
-		return new Link[] { self };
+		return new Link[] {self};
 
 	}
 

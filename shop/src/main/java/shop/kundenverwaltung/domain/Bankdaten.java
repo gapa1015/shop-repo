@@ -41,7 +41,7 @@ public class Bankdaten {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Bankdaten other = (Bankdaten) obj;
+		final Bankdaten other = (Bankdaten) obj;
 		if (bankname == null) {
 			if (other.bankname != null)
 				return false;
