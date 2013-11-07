@@ -10,51 +10,51 @@ import shop.kundenverwaltung.domain.Adresse;
 import shop.kundenverwaltung.domain.Bankdaten;
 import shop.kundenverwaltung.domain.Kunde;
 
-public class Mock {
-	private static final int MAX_ID = 99;
+public final class Mock {
+	private static final int MAX_ID=99;
 
 	public static Bestellung findeBestellungById(Long id) {
 		if (id > MAX_ID) {
 			return null;
 		}
-
+		
+		final Kunde kunde = findKundeById(id+1);
 		final Date date = new Date();
 
 		final Bestellung bestellung = new Bestellung();
 		bestellung.setId(id);
 		bestellung.setAusgeliefert(false);
-		bestellung.setKunde(null);
+		bestellung.setKunde(kunde);
 		bestellung.setBestelldatum(date);
 
 		return bestellung;
 	}
 
 	public static Bestellung createBestellung(Bestellung bestellung) {
-		final Date date = new Date();
-
-		bestellung.setId((long) 10);
+		bestellung.setId((long) bestellung.getKunde().getNachname().length());
 		bestellung.setAusgeliefert(false);
-		bestellung.setKunde(null);
-		bestellung.setBestelldatum(date);
-
+		bestellung.setKunde(bestellung.getKunde());
+		bestellung.setBestelldatum(bestellung.getBestelldatum());
+		
+		System.out.println("Erstellte Bestellung: "+bestellung);
 		return bestellung;
 	}
 
 	public static void updateBestellung(Bestellung bestellung) {
-		System.out.println("Aktualisierte Bestellung: " + bestellung);
+		System.out.println("Aktualisierte Bestellung: "+bestellung);
 	}
 
 	public static void deleteBestellung(Long id) {
-		System.out.println("Bestellung mit ID=" + id + " geloescht");
+		System.out.println("Bestellung mit ID="+id+" geloescht");
 	}
 
 	public static Rad findRadById(Long id) {
 		final Lieferant lieferant = new Lieferant();
-		lieferant.setId(id + 1);
+		lieferant.setId(id+1);
 		lieferant.setName("Franz");
 
 		final Hersteller hersteller = new Hersteller();
-		hersteller.setId(id + 2);
+		hersteller.setId(id+2);
 		hersteller.setName("Velo GmbH");
 		
 		final Rad rad = new Rad();
@@ -79,23 +79,16 @@ public class Mock {
 		radx.setHersteller(rad.getHersteller());
 		radx.setLieferant(rad.getLieferant());
 
-		System.out.println("Das folgende Rad wurde erstellt" + rad);
-
+		System.out.println("Erstelltes Rad: "+rad);
 		return rad;
 	}
 
 	public static void updateRad(Rad rad) {
-		System.out.println("Rad mit ID = " + rad + "wurde aktualliert");
+		System.out.println("Aktualisiertes Rad: "+rad);
 	}
 
 	public static void deleteRad(Long id) {
-		System.out.println("Rad mit ID = " + id + " geloescht");
-	}
-
-	public static void deleteKunde(Long id) {
-
-		System.out.println("Kunde mit ID = " + id + "wurde geloescht");
-
+		System.out.println("Rad mit ID = "+id+"geloescht");
 	}
 								
 	public static Kunde findKundeById(Long id) {
@@ -106,35 +99,7 @@ public class Mock {
 		kunde.setId(id); kunde.setVorname("Andreas"); 
 		kunde.setNachname("Jankowoi"); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		Date geburt = new Date(); 
-		kunde.setGeburtstag(geburt); 
-		kunde.setTelefon("00234234994");
-
-		final Adresse adress = new Adresse(); 
-		adress.setStrasse("Kaiserstrasse"); 
-		adress.setHausnummer("12"); 
-		adress.setStadt("Karlsruhe"); 
-		adress.setPlz("76100"); 
-		kunde.setAdresse(adress);
-
-		final Bankdaten bank = new Bankdaten(); 
-		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer(83747446); 
-		bank.setBlz(325443567); 
-		kunde.setBankdaten(bank);
-
-		return kunde;
-	}
-	public static Kunde findKundeByVorname(String vorname) {
-		if (vorname == null) {
-			return null;
-		}
-		final Kunde kunde = new Kunde(); 
-		kunde.setId((long)98); 
-		kunde.setVorname(vorname); 
-		kunde.setNachname("Jankowoi"); 
-		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		Date geburt = new Date(); 
+		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
 
@@ -183,10 +148,36 @@ public class Mock {
 		return kunde;
 	}
 	
+	public static Kunde findKundeByVornamen(String vorname) {
+		if (vorname == null) {
+			return null;
+		}
+		final Kunde kunde = new Kunde(); 
+		kunde.setId((long)98); 
+		kunde.setVorname(vorname); 
+		kunde.setNachname("Jankowoi"); 
+		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
+		Date geburt = new Date(); 
+		kunde.setGeburtstag(geburt); 
+		kunde.setTelefon("00234234994");
+
+		final Adresse adress = new Adresse(); 
+		adress.setStrasse("Kaiserstrasse"); 
+		adress.setHausnummer("12"); 
+		adress.setStadt("Karlsruhe"); 
+		adress.setPlz("76100"); 
+		kunde.setAdresse(adress);
+
+		final Bankdaten bank = new Bankdaten(); 
+		bank.setBankname("Sparkasse Ettlingen"); 
+		bank.setKontonummer(83747446); 
+		bank.setBlz(325443567); 
+		kunde.setBankdaten(bank);
+
+		return kunde;
+	}
 	
-
 	public static Kunde createKunde(Kunde kunde) {
-
 		final Kunde kund = new Kunde();
 		kund.setId(kunde.getId());
 		kund.setVorname(kunde.getVorname());
@@ -209,11 +200,15 @@ public class Mock {
 		bank.setBlz(kunde.getBankdaten().getBlz());
 		kund.setBankdaten(bank);
 
-		System.out.println("Der folge Kunde wurde erstellt" + kund);
+		System.out.println("Erstellter Kunde: " + kund);
 		return kund;
 	}
 
 	public static void updateKunde(Kunde kunde) {
-		System.out.println("Kunde mit ID = " + kunde + "wurde aktualliert");
+		System.out.println("Aktualisierter Kunde: " + kunde);
+	}
+	
+	public static void deleteKunde(Long id) {
+		System.out.println("Kunde mit ID = " + id + "geloescht");
 	}
 }
