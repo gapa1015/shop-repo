@@ -2,7 +2,7 @@ package shop.artikelverwaltung.domain;
 
 import java.util.List;
 
-import shop.kundenverwaltung.domain.Adresse;
+//import shop.kundenverwaltung.domain.Adresse;
 
 public class Lieferant {
 
@@ -75,17 +75,20 @@ public class Lieferant {
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		}
+		else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		}
+		else if (!name.equals(other.name))
 			return false;
 		if (raeder == null) {
 			if (other.raeder != null)
 				return false;
-		} else if (!raeder.equals(other.raeder))
+		}
+		else if (!raeder.equals(other.raeder))
 			return false;
 		return true;
 	}

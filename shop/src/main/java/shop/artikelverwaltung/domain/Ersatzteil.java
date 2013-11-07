@@ -39,7 +39,8 @@ public class Ersatzteil extends Artikel {
 		if (kompartibel == null) {
 			if (other.kompartibel != null)
 				return false;
-		} else if (!kompartibel.equals(other.kompartibel))
+		}
+		else if (!kompartibel.equals(other.kompartibel))
 			return false;
 		return true;
 	}
