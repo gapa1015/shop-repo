@@ -10,15 +10,15 @@ import shop.kundenverwaltung.domain.Adresse;
 import shop.kundenverwaltung.domain.Bankdaten;
 import shop.kundenverwaltung.domain.Kunde;
 
-public final class Mock {
-	private static final int MAX_ID=99;
+public class Mock {
+	private static final int MAX_ID = 99;
 
 	public static Bestellung findeBestellungById(Long id) {
 		if (id > MAX_ID) {
 			return null;
 		}
 		
-		final Kunde kunde = findKundeById(id+1);
+		final Kunde kunde = findKundeById(id + 1);
 		final Date date = new Date();
 
 		final Bestellung bestellung = new Bestellung();
@@ -36,33 +36,37 @@ public final class Mock {
 		bestellung.setKunde(bestellung.getKunde());
 		bestellung.setBestelldatum(bestellung.getBestelldatum());
 		
-		System.out.println("Erstellte Bestellung: "+bestellung);
+		System.out.println("Erstellte Bestellung: " + bestellung);
 		return bestellung;
 	}
 
 	public static void updateBestellung(Bestellung bestellung) {
-		System.out.println("Aktualisierte Bestellung: "+bestellung);
+		System.out.println("Aktualisierte Bestellung: " + bestellung);
 	}
 
 	public static void deleteBestellung(Long id) {
-		System.out.println("Bestellung mit ID="+id+" geloescht");
+		System.out.println("Bestellung mit ID=" + id + " geloescht");
 	}
 
 	public static Rad findRadById(Long id) {
+		final int preis = 150;
+		final int baujahr = 2012;
+		final int zoll = 28;
+		
 		final Lieferant lieferant = new Lieferant();
-		lieferant.setId(id+1);
+		lieferant.setId(id + 1);
 		lieferant.setName("Franz");
 
 		final Hersteller hersteller = new Hersteller();
-		hersteller.setId(id+2);
+		hersteller.setId(id + 2);
 		hersteller.setName("Velo GmbH");
 		
 		final Rad rad = new Rad();
 		rad.setId(id);
 		rad.setName("City-Bike");
-		rad.setPreis(150);
-		rad.setBaujahr(2013);
-		rad.setZoll(28);
+		rad.setPreis(preis);
+		rad.setBaujahr(baujahr);
+		rad.setZoll(zoll);
 		rad.setHersteller(null);
 		rad.setLieferant(null);
 
@@ -70,8 +74,10 @@ public final class Mock {
 	}
 
 	public static Rad createRad(Rad rad) {
+		final long id = 10;
+		
 		final Rad radx = new Rad();
-		radx.setId((long) 10);
+		radx.setId(id);
 		radx.setName(rad.getName());
 		radx.setPreis(rad.getPreis());
 		radx.setZoll(rad.getZoll());
@@ -79,24 +85,28 @@ public final class Mock {
 		radx.setHersteller(rad.getHersteller());
 		radx.setLieferant(rad.getLieferant());
 
-		System.out.println("Erstelltes Rad: "+rad);
+		System.out.println("Erstelltes Rad: " + rad);
 		return rad;
 	}
 
 	public static void updateRad(Rad rad) {
-		System.out.println("Aktualisiertes Rad: "+rad);
+		System.out.println("Aktualisiertes Rad: " + rad);
 	}
 
 	public static void deleteRad(Long id) {
-		System.out.println("Rad mit ID = "+id+"geloescht");
+		System.out.println("Rad mit ID = " + id + "geloescht");
 	}
 								
 	public static Kunde findKundeById(Long id) {
 		if (id > MAX_ID) {
 			return null;
 		}
+		final int kontonr = 83747446;
+		final int blz = 325443567;
+		
 		final Kunde kunde = new Kunde(); 
-		kunde.setId(id); kunde.setVorname("Andreas"); 
+		kunde.setId(id); 
+		kunde.setVorname("Andreas"); 
 		kunde.setNachname("Jankowoi"); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
 		final Date geburt = new Date(); 
@@ -112,8 +122,8 @@ public final class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer(83747446); 
-		bank.setBlz(325443567); 
+		bank.setKontonummer(kontonr); 
+		bank.setBlz(blz); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
@@ -123,12 +133,16 @@ public final class Mock {
 		if (nachname == null) {
 			return null;
 		}
+		final long id = 98;
+		final int kontonr = 83747446;
+		final int blz = 325443567;
+		
 		final Kunde kunde = new Kunde(); 
-		kunde.setId((long)98); 
+		kunde.setId(id); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname(nachname); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		Date geburt = new Date(); 
+		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
 
@@ -141,8 +155,8 @@ public final class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer(83747446); 
-		bank.setBlz(325443567); 
+		bank.setKontonummer(kontonr); 
+		bank.setBlz(blz); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
@@ -152,12 +166,16 @@ public final class Mock {
 		if (vorname == null) {
 			return null;
 		}
+		final long id = 98;
+		final int kontonr = 83747446;
+		final int blz = 325443567;
+		
 		final Kunde kunde = new Kunde(); 
-		kunde.setId((long)98); 
+		kunde.setId(id); 
 		kunde.setVorname(vorname); 
 		kunde.setNachname("Jankowoi"); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		Date geburt = new Date(); 
+		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
 
@@ -170,8 +188,8 @@ public final class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer(83747446); 
-		bank.setBlz(325443567); 
+		bank.setKontonummer(kontonr); 
+		bank.setBlz(blz); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
@@ -183,7 +201,7 @@ public final class Mock {
 		kund.setVorname(kunde.getVorname());
 		kund.setNachname(kunde.getNachname());
 		kund.setEmail(kunde.getEmail());
-		Date geburt = new Date();
+		final Date geburt = new Date();
 		kund.setGeburtstag(geburt);
 		kund.setTelefon(kunde.getTelefon());
 
