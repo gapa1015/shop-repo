@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Ersatzteil extends Artikel {
 	private List<Rad> kompartibel;
-	
-		public List<Rad> getKompartibel() {
+
+	public List<Rad> getKompartibel() {
 		return kompartibel;
 	}
 
@@ -45,5 +45,4 @@ public class Ersatzteil extends Artikel {
 		return true;
 	}
 
-	
 }
