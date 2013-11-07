@@ -90,6 +90,74 @@
 				-->
 			</properties>
 		</developer>
+		<developer>
+			<id>Patrick.Gabor</id>
+			<name>Patrick Gabor</name>
+			<email>gapa1015@HS-Karlsruhe.de</email>
+			<url>http://www.iwi.hs-karlsruhe.de</url>
+			<organization>Hochschule Karlsruhe</organization>
+			<organizationUrl>http://www.iwi.hs-karlsruhe.de</organizationUrl>
+			<roles>
+				<role>Student</role>
+			</roles>
+			<timezone>+1</timezone>     <!-- relativ zu GMT -->
+			<properties>
+				<!--
+				<picUrl>http://my.host.com/my/pic.gif</picUrl>
+				-->
+			</properties>
+		</developer>
+		<developer>
+			<id>Andreas.Jankowoi</id>
+			<name>Andreas Jankowoi</name>
+			<email>jaan1011@HS-Karlsruhe.de</email>
+			<url>http://www.iwi.hs-karlsruhe.de</url>
+			<organization>Hochschule Karlsruhe</organization>
+			<organizationUrl>http://www.iwi.hs-karlsruhe.de</organizationUrl>
+			<roles>
+				<role>Student</role>
+			</roles>
+			<timezone>+1</timezone>     <!-- relativ zu GMT -->
+			<properties>
+				<!--
+				<picUrl>http://my.host.com/my/pic.gif</picUrl>
+				-->
+			</properties>
+		</developer>
+		<developer>
+			<id>Daniel.Hauth</id>
+			<name>Daniel Hauth</name>
+			<email>hada1020@HS-Karlsruhe.de</email>
+			<url>http://www.iwi.hs-karlsruhe.de</url>
+			<organization>Hochschule Karlsruhe</organization>
+			<organizationUrl>http://www.iwi.hs-karlsruhe.de</organizationUrl>
+			<roles>
+				<role>Student</role>
+			</roles>
+			<timezone>+1</timezone>     <!-- relativ zu GMT -->
+			<properties>
+				<!--
+				<picUrl>http://my.host.com/my/pic.gif</picUrl>
+				-->
+			</properties>
+		</developer>
+		<developer>
+			<id>Tilman.Holzschuh</id>
+			<name>Tilman Holzschuh</name>
+			<email>hoti1012@HS-Karlsruhe.de</email>
+			<url>http://www.iwi.hs-karlsruhe.de</url>
+			<organization>Hochschule Karlsruhe</organization>
+			<organizationUrl>http://www.iwi.hs-karlsruhe.de</organizationUrl>
+			<roles>
+				<role>Student</role>
+			</roles>
+			<timezone>+1</timezone>     <!-- relativ zu GMT -->
+			<properties>
+				<!--
+				<picUrl>http://my.host.com/my/pic.gif</picUrl>
+				-->
+			</properties>
+		</developer>
 	</developers>
 	
 	<mailingLists>

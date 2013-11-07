@@ -68,9 +68,9 @@ public class KundeResource {
 	}
 		
 		@GET
-		public Response findKundeByVorname(@QueryParam("vorname") String vorname) {
-			final Kunde kunde = Mock.findKundeByVorname(vorname);
-			if (kunde == null) {
+		public Response findKundeByVornamen(@QueryParam("vorname") String vorname) {
+			final Kunde kunde = Mock.findKundeByVornamen(vorname);
+			if (vorname == null) {
 				throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
 			}
 			
@@ -83,7 +83,7 @@ public class KundeResource {
 		@GET
 		public Response findKundeByNachname(@QueryParam("nachname") String nachname) {
 			final Kunde kunde = Mock.findKundeByNachname(nachname);
-			if (kunde == null) {
+			if (nachname == null) {
 				throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
 			}
 			
