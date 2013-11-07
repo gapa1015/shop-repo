@@ -43,7 +43,7 @@ public class Rad extends Artikel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Rad other = (Rad) obj;
+		final Rad other = (Rad) obj;
 		if (baujahr != other.baujahr)
 			return false;
 		if (zoll != other.zoll)

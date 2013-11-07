@@ -64,7 +64,7 @@ public abstract class Artikel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Artikel other = (Artikel) obj;
+		final Artikel other = (Artikel) obj;
 		if (hersteller == null) {
 			if (other.hersteller != null)
 				return false;

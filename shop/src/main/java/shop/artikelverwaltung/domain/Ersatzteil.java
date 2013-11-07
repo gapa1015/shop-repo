@@ -35,7 +35,7 @@ public class Ersatzteil extends Artikel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ersatzteil other = (Ersatzteil) obj;
+		final Ersatzteil other = (Ersatzteil) obj;
 		if (kompartibel == null) {
 			if (other.kompartibel != null)
 				return false;

@@ -65,7 +65,7 @@ public class Hersteller {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Hersteller other = (Hersteller) obj;
+		final Hersteller other = (Hersteller) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

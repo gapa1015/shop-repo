@@ -71,7 +71,7 @@ public class Lieferant {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Lieferant other = (Lieferant) obj;
+		final Lieferant other = (Lieferant) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
