@@ -45,7 +45,8 @@ public class Bankdaten {
 		if (bankname == null) {
 			if (other.bankname != null)
 				return false;
-		} else if (!bankname.equals(other.bankname))
+		}
+		else if (!bankname.equals(other.bankname))
 			return false;
 		if (blz != other.blz)
 			return false;
