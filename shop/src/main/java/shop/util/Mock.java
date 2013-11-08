@@ -1,6 +1,8 @@
 package shop.util;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import shop.artikelverwaltung.domain.Hersteller;
 import shop.artikelverwaltung.domain.Lieferant;
@@ -12,6 +14,7 @@ import shop.kundenverwaltung.domain.Kunde;
 
 public class Mock {
 	private static final int MAX_ID = 99;
+	private static final int MAX_BESTELLUNGEN = 4;
 
 	public static Bestellung findeBestellungById(Long id) {
 		if (id > MAX_ID) {
@@ -160,6 +163,19 @@ public class Mock {
 		kunde.setBankdaten(bank);
 
 		return kunde;
+	}
+	
+	public static List<Bestellung> findBestellungenByKunde(Kunde kunde) {
+		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
+		final int anzahl = kunde.getId().intValue() % MAX_BESTELLUNGEN + 1;  // 1, 2, 3 oder 4 Bestellungen
+		final List<Bestellung> bestellungen = new ArrayList<>(anzahl);
+		for (int i = 1; i <= anzahl; i++) {
+			final Bestellung bestellung = findeBestellungById(Long.valueOf(i));
+			bestellung.setKunde(kunde);
+			bestellungen.add(bestellung);			
+		}
+		
+		return bestellungen;
 	}
 	
 	public static Kunde findKundeByVornamen(String vorname) {

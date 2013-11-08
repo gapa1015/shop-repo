@@ -1,11 +1,13 @@
 package shop.kundenverwaltung.rest;
 
+import static shop.util.Constants.FIRST_LINK;
+import static shop.util.Constants.LAST_LINK;
+import static shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
-import static shop.util.Constants.SELF_LINK;
-
 import java.net.URI;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
@@ -19,10 +21,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import shop.bestellverwaltung.domain.Bestellung;
+import shop.bestellverwaltung.rest.BestellungResource;
 import shop.kundenverwaltung.domain.Kunde;
 import shop.util.Mock;
 import shop.util.UriHelper;
@@ -38,6 +43,9 @@ public class KundeResource {
 
 	@Inject
 	private UriHelper uriHelper;
+	
+	@Inject
+	private BestellungResource bestellungResource;
 
 	@GET
 	@Path("{id:[1-9][0-9]*}")
@@ -96,6 +104,46 @@ public class KundeResource {
 				kunde.getId(), uriInfo);
 	}
 
+	@GET
+	@Path("{id:[1-9][0-9]*}/bestellungen")
+	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
+		// TODO Anwendungskern statt Mock, Verwendung von Locale
+		final Kunde kunde = Mock.findKundeById(kundeId);
+		final List<Bestellung> bestellungen = Mock.findBestellungenByKunde(kunde);
+		if (bestellungen.isEmpty()) {
+			throw new NotFoundException("Zur ID " + kundeId + " wurden keine Bestellungen gefunden");
+		}
+		
+		for (Bestellung bestellung : bestellungen) {
+			bestellungResource.setStructuralLinks(bestellung, uriInfo);
+		}
+		
+		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen){})
+                       .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
+                       .build();
+	}
+	
+	private Link[] getTransitionalLinksBestellungen(List<Bestellung> bestellungen, Kunde kunde, UriInfo uriInfo) {
+		if (bestellungen == null || bestellungen.isEmpty()) {
+			return new Link[0];
+		}
+		
+		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
+                              .rel(SELF_LINK)
+                              .build();
+		
+		final Link first = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(0), uriInfo))
+	                           .rel(FIRST_LINK)
+	                           .build();
+		final int lastPos = bestellungen.size() - 1;
+		
+		final Link last = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(lastPos), uriInfo))
+                              .rel(LAST_LINK)
+                              .build();
+		
+		return new Link[] { self, first, last };
+	}
+	
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces

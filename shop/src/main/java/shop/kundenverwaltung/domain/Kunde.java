@@ -1,5 +1,6 @@
 package shop.kundenverwaltung.domain;
 
+import java.net.URI;
 import java.util.Date;
 
 public class Kunde {
@@ -11,6 +12,8 @@ public class Kunde {
 	private String telefon;
 	private String email;
 	private Bankdaten bankdaten;
+	
+	private URI bestellungenUri;
 
 	public Long getId() {
 		return id;
@@ -74,6 +77,14 @@ public class Kunde {
 
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+
+	public URI getBestellungenUri() {
+		return bestellungenUri;
+	}
+
+	public void setBestellungenUri(URI bestellungenUri) {
+		this.bestellungenUri = bestellungenUri;
 	}
 
 	@Override
