@@ -107,7 +107,6 @@ public class KundeResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
-		// TODO Anwendungskern statt Mock, Verwendung von Locale
 		final Kunde kunde = Mock.findKundeById(kundeId);
 		final List<Bestellung> bestellungen = Mock.findBestellungenByKunde(kunde);
 		if (bestellungen.isEmpty()) {
