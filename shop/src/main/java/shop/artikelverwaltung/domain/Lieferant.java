@@ -2,13 +2,23 @@ package shop.artikelverwaltung.domain;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 //import shop.kundenverwaltung.domain.Adresse;
 
 public class Lieferant {
 
+	@NotEmpty
 	private Long id;
+
+	@NotNull
+	@Size(min = 2)
 	private String name;
-//	private Adresse adresse;
+
+	// private Adresse adresse;
 	private List<Rad> raeder;
 
 	public Long getId() {
@@ -39,13 +49,13 @@ public class Lieferant {
 		raeder.add(rad);
 	}
 
-//	public Adresse getAdresse() {
-//		return adresse;
-//	}
-//
-//	public void setAdresse(Adresse adresse) {
-//		this.adresse = adresse;
-//	}
+	// public Adresse getAdresse() {
+	// return adresse;
+	// }
+	//
+	// public void setAdresse(Adresse adresse) {
+	// this.adresse = adresse;
+	// }
 
 	@Override
 	public String toString() {
@@ -75,20 +85,17 @@ public class Lieferant {
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		}
-		else if (!id.equals(other.id))
+		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		}
-		else if (!name.equals(other.name))
+		} else if (!name.equals(other.name))
 			return false;
 		if (raeder == null) {
 			if (other.raeder != null)
 				return false;
-		}
-		else if (!raeder.equals(other.raeder))
+		} else if (!raeder.equals(other.raeder))
 			return false;
 		return true;
 	}

@@ -1,11 +1,29 @@
 package shop.artikelverwaltung.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public abstract class Artikel {
 
+	@NotEmpty
 	private Long id;
+
+	@Size(min = 2)
+	@NotNull
 	private String name;
+
+	@NotNull
 	private int preis;
+
+	@NotNull
+	@Pattern(regexp = "[A-Z] [a-z]+")
 	private Hersteller hersteller;
+
+	@NotNull
+	@Pattern(regexp = "[A-Z] [a-z]+")
 	private Lieferant lieferant;
 
 	public Long getId() {
@@ -81,31 +99,26 @@ public abstract class Artikel {
 		if (hersteller == null) {
 			if (other.hersteller != null)
 				return false;
-		} 
-		else if (!hersteller.equals(other.hersteller))
+		} else if (!hersteller.equals(other.hersteller))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} 
-		else if (!id.equals(other.id))
+		} else if (!id.equals(other.id))
 			return false;
 		if (lieferant == null) {
 			if (other.lieferant != null)
 				return false;
-		} 
-		else if (!lieferant.equals(other.lieferant))
+		} else if (!lieferant.equals(other.lieferant))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} 
-		else if (!name.equals(other.name))
+		} else if (!name.equals(other.name))
 			return false;
 		if (preis != other.preis)
 			return false;
 		return true;
 	}
 
-	
 }
