@@ -3,6 +3,7 @@ package shop.artikelverwaltung.domain;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,6 +17,7 @@ public class Lieferant {
 
 	@NotNull
 	@Size(min = 2)
+	@Pattern(regexp = "[A-Z] [a-z]+")
 	private String name;
 
 	// private Adresse adresse;

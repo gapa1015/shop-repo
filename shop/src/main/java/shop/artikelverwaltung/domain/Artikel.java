@@ -19,11 +19,9 @@ public abstract class Artikel {
 	private int preis;
 
 	@NotNull
-	@Pattern(regexp = "[A-Z] [a-z]+")
 	private Hersteller hersteller;
 
 	@NotNull
-	@Pattern(regexp = "[A-Z] [a-z]+")
 	private Lieferant lieferant;
 
 	public Long getId() {
