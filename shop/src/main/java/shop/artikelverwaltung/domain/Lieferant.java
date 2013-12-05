@@ -6,18 +6,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
 
 //import shop.kundenverwaltung.domain.Adresse;
 
 public class Lieferant {
 
-	@NotEmpty
 	private Long id;
 
-	@NotNull
-	@Size(min = 2)
-	@Pattern(regexp = "[A-Z] [a-z]+")
+	@NotNull (message = "{lieferant.name.notNull}")
+	@Size(min = 2, message = "{lieferant.name.size}")
+	@Pattern(regexp = "[A-Z] [a-z]+", message = "{lieferant.name.pattern}")
 	private String name;
 
 	// private Adresse adresse;
