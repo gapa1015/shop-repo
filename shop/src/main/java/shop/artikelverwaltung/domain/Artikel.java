@@ -9,7 +9,7 @@ public abstract class Artikel {
 
 	@NotEmpty
 	private Long id;
-
+	
 	@Size(min = 2)
 	@NotNull
 	private String name;
