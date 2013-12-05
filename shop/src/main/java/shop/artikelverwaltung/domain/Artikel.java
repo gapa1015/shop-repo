@@ -7,14 +7,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public abstract class Artikel {
 
-	@NotEmpty
 	private Long id;
 	
-	@Size(min = 2)
-	@NotNull
+	@Size(min = 2,message = "{artikel.name.size}" )
+	@NotNull (message = "{artikel.name.notNull}")
 	private String name;
 
-	@NotNull
+	@NotNull (message = "{artikel.preis.notNull}")
 	private int preis;
 
 	@NotNull
