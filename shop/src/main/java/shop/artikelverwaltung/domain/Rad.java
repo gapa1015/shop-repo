@@ -12,7 +12,7 @@ public class Rad extends Artikel {
 	@NotNull(message = "{rad.zoll.notNull}")
 	private int zoll;
 
-	@Past
+	@Past (message = "{rad.baujahr.notNull}")
 	private int baujahr;
 
 	public int getZoll() {

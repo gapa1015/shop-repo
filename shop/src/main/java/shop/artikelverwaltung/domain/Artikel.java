@@ -3,7 +3,6 @@ package shop.artikelverwaltung.domain;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
 
 public abstract class Artikel {
 
@@ -16,10 +15,10 @@ public abstract class Artikel {
 	@NotNull (message = "{artikel.preis.notNull}")
 	private int preis;
 
-	@NotNull
+	@NotNull (message = "{artikel.hersteller.notNull}")
 	private Hersteller hersteller;
 
-	@NotNull
+	@NotNull (message = "{artikel.lieferant.notNull}")
 	private Lieferant lieferant;
 
 	public Long getId() {
