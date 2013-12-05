@@ -10,7 +10,7 @@ public class Rad extends Artikel {
 
 	@Min(12)
 	@Max(28)
-	@NotNull
+	@NotNull(message = "{rad.zoll.notNull}")
 	@Pattern(regexp = "\\d{2}")
 	private int zoll;
 
