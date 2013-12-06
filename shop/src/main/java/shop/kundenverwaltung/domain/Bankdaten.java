@@ -1,36 +1,52 @@
 package shop.kundenverwaltung.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class Bankdaten {
 	
+	@NotNull
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
 	private String bankname;
-	private int blz;
-	private int kontonummer;
+	
+	@NotNull
+	@Pattern(regexp= "\\d{8} [0-9]+")
+	private String blz;
+	
+	@NotNull
+	@Pattern(regexp= "[0-9]+")
+	@Size(min=8 , max =10)
+	private String kontonummer;
+	
 	public String getBankname() {
 		return bankname;
 	}
 	public void setBankname(String bankname) {
 		this.bankname = bankname;
 	}
-	public int getBlz() {
+	public String getBlz() {
 		return blz;
 	}
-	public void setBlz(int blz) {
+	public void setBlz(String blz) {
 		this.blz = blz;
 	}
-	public int getKontonummer() {
+	public String getKontonummer() {
 		return kontonummer;
 	}
-	public void setKontonummer(int kontonummer) {
+	public void setKontonummer(String kontonummer) {
 		this.kontonummer = kontonummer;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((bankname == null) ? 0 : bankname.hashCode());
-		result = prime * result + blz;
-		result = prime * result + kontonummer;
+		result = prime * result + ((blz == null) ? 0 : blz.hashCode());
+		result = prime * result
+				+ ((kontonummer == null) ? 0 : kontonummer.hashCode());
 		return result;
 	}
 	@Override
@@ -47,9 +63,15 @@ public class Bankdaten {
 				return false;
 		} else if (!bankname.equals(other.bankname))
 			return false;
-		if (blz != other.blz)
+		if (blz == null) {
+			if (other.blz != null)
+				return false;
+		} else if (!blz.equals(other.blz))
 			return false;
-		if (kontonummer != other.kontonummer)
+		if (kontonummer == null) {
+			if (other.kontonummer != null)
+				return false;
+		} else if (!kontonummer.equals(other.kontonummer))
 			return false;
 		return true;
 	}

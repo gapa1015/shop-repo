@@ -1,10 +1,25 @@
 package shop.kundenverwaltung.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class Adresse {
 	
+	@NotNull
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
 	private String strasse;
+	
+	@NotNull
+	@Size(max=6)
 	private String hausnummer;
+	
+	@NotNull
+	@Pattern(regexp= "\\d{5} [0-9]+")
 	private String plz;
+	
+	@NotNull
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
 	private String stadt;
 	
 	public String getStrasse() {

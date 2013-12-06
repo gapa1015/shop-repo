@@ -1,19 +1,51 @@
 package shop.kundenverwaltung.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
 
 
 
 
-public class Kunde {
+
+public class Kunde implements Serializable{
+	
+	
 	private Long id;
+	
+	@NotNull
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
 	private String vorname;
+	
+	@NotNull
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
 	private String nachname;
+	
+	@NotNull
+	@Valid
 	private Adresse adresse;
+	
+	@NotNull
+	@Past
 	private Date geburtstag;
+	
+	@NotNull
+	@Pattern(regexp= "[0-9]+")
 	private String telefon;
+	
+	@NotNull
+	@Email
+	@Pattern(regexp ="[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
 	private String email;
+	
+	@NotNull
+	@Valid
 	private Bankdaten  bankdaten;
 	
 	public Long getId() {
