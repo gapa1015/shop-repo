@@ -8,7 +8,7 @@ import shop.artikelverwaltung.domain.Rad;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.kundenverwaltung.domain.Adresse;
 import shop.kundenverwaltung.domain.Bankdaten;
-import shop.kundenverwaltung.domain.Kunde;
+import shop.kundenverwaltung.domain.AbstractKunde;
 
 public class Mock {
 	private static final int MAX_ID = 99;
@@ -108,11 +108,11 @@ public class Mock {
 
 	}
 
-	public static Kunde findKundeById(Long id) {
+	public static AbstractKunde findKundeById(Long id) {
 		if (id > MAX_ID) {
 			return null;
 		}
-		final Kunde kunde = new Kunde(); 
+		final AbstractKunde kunde = new AbstractKunde(); 
 		kunde.setId(id); kunde.setVorname("Andreas"); 
 		kunde.setNachname("Jankowoi"); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
@@ -135,11 +135,11 @@ public class Mock {
 
 		return kunde;
 	}
-	public static Kunde findKundeByVorname(String vorname) {
+	public static AbstractKunde findKundeByVorname(String vorname) {
 		if (vorname == null) {
 			return null;
 		}
-		final Kunde kunde = new Kunde(); 
+		final AbstractKunde kunde = new AbstractKunde(); 
 		kunde.setId((long)98); 
 		kunde.setVorname(vorname); 
 		kunde.setNachname("Jankowoi"); 
@@ -164,11 +164,11 @@ public class Mock {
 		return kunde;
 	}
 	
-	public static Kunde findKundeByNachname(String nachname) {
+	public static AbstractKunde findKundeByNachname(String nachname) {
 		if (nachname == null) {
 			return null;
 		}
-		final Kunde kunde = new Kunde(); 
+		final AbstractKunde kunde = new AbstractKunde(); 
 		kunde.setId((long)98); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname(nachname); 
@@ -195,9 +195,9 @@ public class Mock {
 	
 	
 
-	public static Kunde createKunde(Kunde kunde) {
+	public static AbstractKunde createKunde(AbstractKunde kunde) {
 
-		final Kunde kund = new Kunde();
+		final AbstractKunde kund = new AbstractKunde();
 		kund.setId(kunde.getId());
 		kund.setVorname(kunde.getVorname());
 		kund.setNachname(kunde.getNachname());
@@ -223,7 +223,7 @@ public class Mock {
 		return kund;
 	}
 
-	public static void updateKunde(Kunde kunde) {
+	public static void updateKunde(AbstractKunde kunde) {
 		System.out.println("Kunde mit ID = " + kunde + "wurde aktualliert");
 	}
 }

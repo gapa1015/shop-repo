@@ -1,21 +1,35 @@
 package shop.kundenverwaltung.domain;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Date;
+import java.util.List;
 
+import javax.enterprise.context.Dependent;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonSubTypes.Type;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.hibernate.validator.constraints.Email;
 
+import shop.bestellverwaltung.domain.Bestellung;
 
 
+@XmlRootElement
+@XmlSeeAlso({ Firmenkunde.class, Privatkunde.class })
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+                @Type(value = Privatkunde.class, name = "P"),
+                @Type(value = Firmenkunde.class, name = "F") })
 
-
-public class Kunde implements Serializable{
-	
+public abstract class AbstractKunde implements Serializable{
 	
 	private Long id;
 	
@@ -47,6 +61,12 @@ public class Kunde implements Serializable{
 	@NotNull
 	@Valid
 	private Bankdaten  bankdaten;
+	
+	@XmlTransient
+	private List<Bestellung> bestellungen;
+	
+	private URI bestellungUri;
+	
 	
 	public Long getId() {
 		return id;
@@ -103,6 +123,10 @@ public class Kunde implements Serializable{
 		result = prime * result + ((adresse == null) ? 0 : adresse.hashCode());
 		result = prime * result
 				+ ((bankdaten == null) ? 0 : bankdaten.hashCode());
+		result = prime * result
+				+ ((bestellungUri == null) ? 0 : bestellungUri.hashCode());
+		result = prime * result
+				+ ((bestellungen == null) ? 0 : bestellungen.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result
 				+ ((geburtstag == null) ? 0 : geburtstag.hashCode());
@@ -121,7 +145,7 @@ public class Kunde implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Kunde other = (Kunde) obj;
+		AbstractKunde other = (AbstractKunde) obj;
 		if (adresse == null) {
 			if (other.adresse != null)
 				return false;
@@ -131,6 +155,16 @@ public class Kunde implements Serializable{
 			if (other.bankdaten != null)
 				return false;
 		} else if (!bankdaten.equals(other.bankdaten))
+			return false;
+		if (bestellungUri == null) {
+			if (other.bestellungUri != null)
+				return false;
+		} else if (!bestellungUri.equals(other.bestellungUri))
+			return false;
+		if (bestellungen == null) {
+			if (other.bestellungen != null)
+				return false;
+		} else if (!bestellungen.equals(other.bestellungen))
 			return false;
 		if (email == null) {
 			if (other.email != null)
@@ -169,7 +203,20 @@ public class Kunde implements Serializable{
 		return "Kunde [id=" + id + ", vorname=" + vorname + ", nachname="
 				+ nachname + ", adresse=" + adresse + ", geburtstag="
 				+ geburtstag + ", telefon=" + telefon + ", email=" + email
-				+ ", bankdaten=" + bankdaten + "]";
+				+ ", bankdaten=" + bankdaten + ", bestellungen=" + bestellungen
+				+ ", bestellungUri=" + bestellungUri + "]";
+	}
+	public List<Bestellung> getBestellungen() {
+		return bestellungen;
+	}
+	public void setBestellungen(List<Bestellung> bestellungen) {
+		this.bestellungen = bestellungen;
+	}
+	public URI getBestellungUri() {
+		return bestellungUri;
+	}
+	public void setBestellungUri(URI bestellungUri) {
+		this.bestellungUri = bestellungUri;
 	}
 
 }

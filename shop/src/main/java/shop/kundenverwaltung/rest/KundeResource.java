@@ -23,7 +23,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import shop.kundenverwaltung.domain.Kunde;
+import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.Mock;
 import shop.util.UriHelper;
 
@@ -42,7 +42,7 @@ public class KundeResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findKundeById(@PathParam("id") Long id) {
-		final Kunde kunde = Mock.findKundeById(id);
+		final AbstractKunde kunde = Mock.findKundeById(id);
 		if (kunde == null) {
 			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
 		}
@@ -53,11 +53,11 @@ public class KundeResource {
 					   .build();
 	}
 	
-   public void setStructuralLinks(Kunde kunde, UriInfo uriInfo) {
+   public void setStructuralLinks(AbstractKunde kunde, UriInfo uriInfo) {
 		
 	}
 	
-	private Link[] getTransitionalLinks(Kunde kunde, UriInfo uriInfo) {
+	private Link[] getTransitionalLinks(AbstractKunde kunde, UriInfo uriInfo) {
 		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
 							  .rel(SELF_LINK)
 							  .build();
@@ -68,7 +68,7 @@ public class KundeResource {
 		
 		@GET
 		public Response findKundeByVorname(@QueryParam("vorname") String vorname) {
-			final Kunde kunde = Mock.findKundeByVorname(vorname);
+			final AbstractKunde kunde = Mock.findKundeByVorname(vorname);
 			if (kunde == null) {
 				throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
 			}
@@ -81,7 +81,7 @@ public class KundeResource {
 		
 		@GET
 		public Response findKundeByNachname(@QueryParam("nachname") String nachname) {
-			final Kunde kunde = Mock.findKundeByNachname(nachname);
+			final AbstractKunde kunde = Mock.findKundeByNachname(nachname);
 			if (kunde == null) {
 				throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
 			}
@@ -93,14 +93,14 @@ public class KundeResource {
 	}
 		
 	
-	public URI getUriKunde(Kunde kunde, UriInfo uriInfo) {
+	public URI getUriKunde(AbstractKunde kunde, UriInfo uriInfo) {
 		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
 	}	
 	
 	@POST
 	@Consumes( {APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
 	@Produces
-	public Response createKunde(Kunde kunde) {
+	public Response createKunde(AbstractKunde kunde) {
 		kunde = Mock.createKunde(kunde);
 		return Response.created(getUriKunde(kunde, uriInfo))
 		.build();
@@ -109,7 +109,7 @@ public class KundeResource {
 	@PUT
 	@Produces({ APPLICATION_JSON, APPLICATION_XML,TEXT_XML})
 	@Consumes
-	public void updateKunde(Kunde kunde) {
+	public void updateKunde(AbstractKunde kunde) {
 		Mock.updateKunde(kunde);
 	}
 	

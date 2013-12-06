@@ -1,10 +1,13 @@
 package shop.kundenverwaltung.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
-public class Bankdaten {
+public class Bankdaten implements Serializable {
 	
 	@NotNull
 	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
@@ -18,6 +21,9 @@ public class Bankdaten {
 	@Pattern(regexp= "[0-9]+")
 	@Size(min=8 , max =10)
 	private String kontonummer;
+	
+	@XmlTransient
+	private AbstractKunde kunde;
 	
 	public String getBankname() {
 		return bankname;
@@ -47,6 +53,7 @@ public class Bankdaten {
 		result = prime * result + ((blz == null) ? 0 : blz.hashCode());
 		result = prime * result
 				+ ((kontonummer == null) ? 0 : kontonummer.hashCode());
+		result = prime * result + ((kunde == null) ? 0 : kunde.hashCode());
 		return result;
 	}
 	@Override
@@ -73,12 +80,23 @@ public class Bankdaten {
 				return false;
 		} else if (!kontonummer.equals(other.kontonummer))
 			return false;
+		if (kunde == null) {
+			if (other.kunde != null)
+				return false;
+		} else if (!kunde.equals(other.kunde))
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		return "Bankdaten [bankname=" + bankname + ", blz=" + blz
-				+ ", kontonummer=" + kontonummer + "]";
+				+ ", kontonummer=" + kontonummer + ", kunde=" + kunde + "]";
+	}
+	public AbstractKunde getKunde() {
+		return kunde;
+	}
+	public void setKunde(AbstractKunde kunde) {
+		this.kunde = kunde;
 	}
 	
 

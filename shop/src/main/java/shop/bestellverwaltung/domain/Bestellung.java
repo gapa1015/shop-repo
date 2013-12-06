@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 
 
-import shop.kundenverwaltung.domain.Kunde;
+import shop.kundenverwaltung.domain.AbstractKunde;
 
 @XmlRootElement
 public class Bestellung {
@@ -18,7 +18,7 @@ public class Bestellung {
 	private Date bestelldatum;
 	
 	@XmlTransient
-	private Kunde kunde;
+	private AbstractKunde kunde;
 	
 	private URI kundeURI;
 
@@ -46,11 +46,11 @@ public class Bestellung {
 		this.bestelldatum = bestelldatum;
 	}
 
-	public Kunde getKunde() {
+	public AbstractKunde getKunde() {
 		return kunde;
 	}
 
-	public void setKunde(Kunde kunde) {
+	public void setKunde(AbstractKunde kunde) {
 		this.kunde = kunde;
 	}
 
