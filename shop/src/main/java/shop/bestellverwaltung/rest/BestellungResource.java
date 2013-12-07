@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import shop.bestellverwaltung.domain.Bestellung;
-import shop.kundenverwaltung.domain.Kunde;
+import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.rest.KundeResource;
 import shop.util.Mock;
 import shop.util.UriHelper;
@@ -59,7 +59,7 @@ public class BestellungResource {
 	}
 	
 	public void setStructuralLinks(Bestellung bestellung, UriInfo uriInfo) {
-		final Kunde kunde = bestellung.getKunde();
+		final AbstractKunde kunde = bestellung.getKunde();
 		if (kunde != null) {
 			final URI kundeUri = kundeResource.getUriKunde(bestellung.getKunde(), uriInfo);
 			bestellung.setKundeURI(kundeUri);

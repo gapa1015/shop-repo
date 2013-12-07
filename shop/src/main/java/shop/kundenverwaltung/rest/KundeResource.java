@@ -28,7 +28,7 @@ import javax.ws.rs.core.UriInfo;
 
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.bestellverwaltung.rest.BestellungResource;
-import shop.kundenverwaltung.domain.Kunde;
+import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.Mock;
 import shop.util.UriHelper;
 
@@ -50,7 +50,8 @@ public class KundeResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findKundeById(@PathParam("id") Long id) {
-		final Kunde kunde = Mock.findKundeById(id);
+
+		final AbstractKunde kunde = Mock.findKundeById(id);
 
 		if (kunde == null) {
 			throw new NotFoundException("Kein Kunde mit der ID " + id
@@ -62,52 +63,58 @@ public class KundeResource {
 				.build();
 	}
 
-	public void setStructuralLinks(Kunde kunde, UriInfo uriInfo) {
 
-	}
 
-	private Link[] getTransitionalLinks(Kunde kunde, UriInfo uriInfo) {
+	
+	public void setStructuralLinks(AbstractKunde kunde, UriInfo uriInfo) {
+		}
+		
+	
+	private Link[] getTransitionalLinks(AbstractKunde kunde, UriInfo uriInfo) {
+
 		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
 				.rel(SELF_LINK).build();
 		return new Link[] {self};
 
 	}
+   
+   
+		
+		@GET
+		public Response findKundeByVorname(@QueryParam("vorname") String vorname) {
+			final AbstractKunde kunde = Mock.findKundeByVorname(vorname);
+			if (kunde == null) {
+				throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
+			}
+			
+			setStructuralLinks(kunde,uriInfo);
+			return Response.ok(kunde)
+						   .links(getTransitionalLinks(kunde, uriInfo))
+						   .build();
 
-	@GET
-	public Response findKundeByVornamen(@QueryParam("vorname") String vorname) {
-		final Kunde kunde = Mock.findKundeByVornamen(vorname);
-		if (vorname == null) {
-			throw new NotFoundException("Kein Kunde mit folgenden Vorname "
-					+ vorname + " gefunden.");
-		}
-
-		setStructuralLinks(kunde, uriInfo);
-		return Response.ok(kunde).links(getTransitionalLinks(kunde, uriInfo))
-				.build();
 	}
 
-	@GET
-	public Response findKundeByNachname(@QueryParam("nachname") String nachname) {
-		final Kunde kunde = Mock.findKundeByNachname(nachname);
-		if (nachname == null) {
-			throw new NotFoundException("Kein Kunde mit folgenden Name "
-					+ nachname + " gefunden.");
-		}
+		
+		@GET
+		public Response findKundeByNachname(@QueryParam("nachname") String nachname) {
+			final AbstractKunde kunde = Mock.findKundeByNachname(nachname);
+			if (kunde == null) {
+				throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
+			}
+			
+			setStructuralLinks(kunde,uriInfo);
+			return Response.ok(kunde)
+						   .links(getTransitionalLinks(kunde, uriInfo))
+						   .build();
 
-		setStructuralLinks(kunde, uriInfo);
-		return Response.ok(kunde).links(getTransitionalLinks(kunde, uriInfo))
-				.build();
 	}
 
-	public URI getUriKunde(Kunde kunde, UriInfo uriInfo) {
-		return uriHelper.getURI(KundeResource.class, "findKundeById",
-				kunde.getId(), uriInfo);
-	}
+
 
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
-		final Kunde kunde = Mock.findKundeById(kundeId);
+		final AbstractKunde kunde = Mock.findKundeById(kundeId);
 		final List<Bestellung> bestellungen = Mock.findBestellungenByKunde(kunde);
 		if (bestellungen.isEmpty()) {
 			throw new NotFoundException("Zur ID " + kundeId + " wurden keine Bestellungen gefunden");
@@ -122,7 +129,7 @@ public class KundeResource {
                        .build();
 	}
 	
-	private Link[] getTransitionalLinksBestellungen(List<Bestellung> bestellungen, Kunde kunde, UriInfo uriInfo) {
+	private Link[] getTransitionalLinksBestellungen(List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
 		if (bestellungen == null || bestellungen.isEmpty()) {
 			return new Link[0];
 		}
@@ -142,11 +149,18 @@ public class KundeResource {
 		
 		return new Link[] {self, first, last};
 	}
+
+		
+	
+	public URI getUriKunde(AbstractKunde kunde, UriInfo uriInfo) {
+		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
+	}	
+
 	
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public Response createKunde(Kunde kunde) {
+	public Response createKunde(AbstractKunde kunde) {
 		kunde = Mock.createKunde(kunde);
 		return Response.created(getUriKunde(kunde, uriInfo)).build();
 	}
@@ -154,7 +168,7 @@ public class KundeResource {
 	@PUT
 	@Produces({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Consumes
-	public void updateKunde(Kunde kunde) {
+	public void updateKunde(AbstractKunde kunde) {
 		Mock.updateKunde(kunde);
 	}
 

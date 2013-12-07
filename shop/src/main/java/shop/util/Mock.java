@@ -10,7 +10,8 @@ import shop.artikelverwaltung.domain.Rad;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.kundenverwaltung.domain.Adresse;
 import shop.kundenverwaltung.domain.Bankdaten;
-import shop.kundenverwaltung.domain.Kunde;
+import shop.kundenverwaltung.domain.AbstractKunde;
+import shop.kundenverwaltung.domain.Privatkunde;
 
 public class Mock {
 	private static final int MAX_ID = 99;
@@ -21,7 +22,7 @@ public class Mock {
 			return null;
 		}
 		
-		final Kunde kunde = findKundeById(id + 1);
+		final AbstractKunde kunde = findKundeById(id + 1);
 		final Date date = new Date();
 
 		final Bestellung bestellung = new Bestellung();
@@ -99,15 +100,20 @@ public class Mock {
 	public static void deleteRad(Long id) {
 		System.out.println("Rad mit ID = " + id + "geloescht");
 	}
-								
-	public static Kunde findKundeById(Long id) {
+
+	public static void deleteKunde(Long id) {
+
+		System.out.println("Kunde mit ID= " + id + "wurde geloescht");
+
+	}
+
+	public static AbstractKunde findKundeById(Long id) {
+
 		if (id > MAX_ID) {
 			return null;
 		}
-		final int kontonr = 83747446;
-		final int blz = 325443567;
 		
-		final Kunde kunde = new Kunde(); 
+		final AbstractKunde kunde = new Privatkunde(); 
 		kunde.setId(id); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname("Jankowoi"); 
@@ -125,23 +131,48 @@ public class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer(kontonr); 
-		bank.setBlz(blz); 
+		bank.setKontonummer("83747446"); 
+		bank.setBlz("325443567"); 
+		kunde.setBankdaten(bank);
+
+		return kunde;
+	}
+	public static AbstractKunde findKundeByVorname(String vorname) {
+		if (vorname == null) {
+			return null;
+		}
+		final AbstractKunde kunde = new Privatkunde(); 
+		kunde.setId((long)98); 
+		kunde.setVorname(vorname); 
+		kunde.setNachname("Jankowoi"); 
+		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
+		Date geburt = new Date(); 
+		kunde.setGeburtstag(geburt); 
+		kunde.setTelefon("00234234994");
+
+		final Adresse adress = new Adresse(); 
+		adress.setStrasse("Kaiserstrasse"); 
+		adress.setHausnummer("12"); 
+		adress.setStadt("Karlsruhe"); 
+		adress.setPlz("76100"); 
+		kunde.setAdresse(adress);
+
+		final Bankdaten bank = new Bankdaten(); 
+		bank.setBankname("Sparkasse Ettlingen"); 
+		bank.setKontonummer("83747446"); 
+		bank.setBlz("325443567"); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
 	}
 	
-	public static Kunde findKundeByNachname(String nachname) {
+	public static AbstractKunde findKundeByNachname(String nachname) {
 		if (nachname == null) {
 			return null;
 		}
-		final long id = 98;
-		final int kontonr = 83747446;
-		final int blz = 325443567;
 		
-		final Kunde kunde = new Kunde(); 
-		kunde.setId(id); 
+		final AbstractKunde kunde = new Privatkunde(); 
+		kunde.setId((long)98); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname(nachname); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
@@ -158,14 +189,14 @@ public class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer(kontonr); 
-		bank.setBlz(blz); 
+		bank.setKontonummer("83747446"); 
+		bank.setBlz("325443567"); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
 	}
 	
-	public static List<Bestellung> findBestellungenByKunde(Kunde kunde) {
+	public static List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
 		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
 		final int anzahl = kunde.getId().intValue() % MAX_BESTELLUNGEN + 1;  // 1, 2, 3 oder 4 Bestellungen
 		final List<Bestellung> bestellungen = new ArrayList<>(anzahl);
@@ -178,41 +209,10 @@ public class Mock {
 		return bestellungen;
 	}
 	
-	public static Kunde findKundeByVornamen(String vorname) {
-		if (vorname == null) {
-			return null;
-		}
-		final long id = 98;
-		final int kontonr = 83747446;
-		final int blz = 325443567;
+	public static AbstractKunde createKunde(AbstractKunde kunde) {
+
+		final AbstractKunde kund = new Privatkunde();
 		
-		final Kunde kunde = new Kunde(); 
-		kunde.setId(id); 
-		kunde.setVorname(vorname); 
-		kunde.setNachname("Jankowoi"); 
-		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		final Date geburt = new Date(); 
-		kunde.setGeburtstag(geburt); 
-		kunde.setTelefon("00234234994");
-
-		final Adresse adress = new Adresse(); 
-		adress.setStrasse("Kaiserstrasse"); 
-		adress.setHausnummer("12"); 
-		adress.setStadt("Karlsruhe"); 
-		adress.setPlz("76100"); 
-		kunde.setAdresse(adress);
-
-		final Bankdaten bank = new Bankdaten(); 
-		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer(kontonr); 
-		bank.setBlz(blz); 
-		kunde.setBankdaten(bank);
-
-		return kunde;
-	}
-	
-	public static Kunde createKunde(Kunde kunde) {
-		final Kunde kund = new Kunde();
 		kund.setId(kunde.getId());
 		kund.setVorname(kunde.getVorname());
 		kund.setNachname(kunde.getNachname());
@@ -238,11 +238,8 @@ public class Mock {
 		return kund;
 	}
 
-	public static void updateKunde(Kunde kunde) {
-		System.out.println("Aktualisierter Kunde: " + kunde);
-	}
-	
-	public static void deleteKunde(Long id) {
-		System.out.println("Kunde mit ID = " + id + "geloescht");
+		public static void updateKunde(AbstractKunde kunde) {
+		System.out.println("Kunde mit ID = " + kunde + "wurde aktualliert");
+
 	}
 }

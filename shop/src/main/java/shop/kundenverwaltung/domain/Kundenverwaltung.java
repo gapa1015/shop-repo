@@ -8,60 +8,60 @@ public class Kundenverwaltung {
 	
 	
 
-	public List<Kunde> findAllKunde() {
+	public List<AbstractKunde> findAllKunde() {
 		return null;
 	}
 	
-	public List<Kunde> findKundeByTitel() {
+	public List<AbstractKunde> findKundeByTitel() {
 		return null;
 	
 	}
 	
-	public Kunde findKundeById() {
+	public AbstractKunde findKundeById() {
 		return null;
 		
 	}
 
-	public Kunde findKundeByName() {
+	public AbstractKunde findKundeByName() {
 		return null;
 		
 	}
 
-	public List<Kunde> findKundeByStadt() {
+	public List<AbstractKunde> findKundeByStadt() {
 		return null;
 		
 	}
 
 
-	public List<Kunde> findKundeByVorname() {
+	public List<AbstractKunde> findKundeByVorname() {
 		return null;
 	
 	}
 
-	public List<Kunde> findKundeByGeburtstag() {
+	public List<AbstractKunde> findKundeByGeburtstag() {
 		return null;
 	
 	}
-	public List<Kunde> findKundeByStrasse() {
+	public List<AbstractKunde> findKundeByStrasse() {
 		return null;
 	
 	}
-	public List<Kunde> findKundeByPlz() {
+	public List<AbstractKunde> findKundeByPlz() {
 		return null;
 	
 	}
 
-	public Kunde createKunde() {
+	public AbstractKunde createKunde() {
 		return null;
 		
 	}
 
-	public Kunde updateKunde(Kunde kunde) {
+	public AbstractKunde updateKunde(AbstractKunde kunde) {
 		return kunde;
 	
 	}
 
-	public void deleteKunde(Kunde kunde) {
+	public void deleteKunde(AbstractKunde kunde) {
 	
 	}
 
