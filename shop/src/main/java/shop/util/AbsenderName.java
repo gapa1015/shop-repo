@@ -15,5 +15,5 @@ import javax.inject.Qualifier;
 @Target({FIELD,METHOD})
 @Retention(RUNTIME)
 @Documented
-public @interface AbsenderMail{}
+public @interface AbsenderName{}
 

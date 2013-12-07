@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
