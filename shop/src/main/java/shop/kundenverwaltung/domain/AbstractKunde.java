@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
@@ -32,32 +33,34 @@ public abstract class AbstractKunde implements Serializable{
 	
 	private Long id;
 	
-	@NotNull
-	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
+	@NotNull(message="AbstractKunde.vorname.notnull")
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+" ,message="AbstractKunde.vorname.pattern")
+	@Size(min=2, max=32,message="AbstractKunde.vorname.size")
 	private String vorname;
 	
-	@NotNull
-	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
+	@NotNull(message="AbstractKunde.nachname.notnull")
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+" ,message="AbstractKunde.nachname.pattern")
+	@Size(min=2, max=32,message="AbstractKunde.nachname.size")
 	private String nachname;
 	
-	@NotNull
+	@NotNull(message="AbstractKunde.adresse.notnull")
 	@Valid
 	private Adresse adresse;
 	
-	@NotNull
+	@NotNull(message="AbstractKunde.geburtstag.notnull")
 	@Past
 	private Date geburtstag;
 	
-	@NotNull
-	@Pattern(regexp= "[0-9]+")
+	@NotNull(message="AbstractKunde.telefon.notnull")
+	@Pattern(regexp= "[0-9]+",message="AbstractKunde.telefon.pattern")
 	private String telefon;
 	
-	@NotNull
+	@NotNull(message="AbstractKunde.email.notnull")
 	@Email
 	@Pattern(regexp ="[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
 	private String email;
 	
-	@NotNull
+	@NotNull(message="AbstractKunde.bankdaten.notnull")
 	@Valid
 	private Bankdaten  bankdaten;
 	

@@ -9,17 +9,17 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Bankdaten implements Serializable {
 	
-	@NotNull
-	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
+	@NotNull(message="Bank.bankname.notnull")
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+", message="Bank.bankname.pattern")
 	private String bankname;
 	
-	@NotNull
-	@Pattern(regexp= "\\d{8} [0-9]+")
+	@NotNull(message="Bank.blz.notnull")
+	@Pattern(regexp= "\\d{8} [0-9]+", message = "Bank.blz.pattern")
 	private String blz;
 	
-	@NotNull
-	@Pattern(regexp= "[0-9]+")
-	@Size(min=8 , max =10)
+	@NotNull(message="Bank.kontonummer.notnull")
+	@Pattern(regexp= "[0-9]+" ,message = "Bank.kontonummer.pattern")
+	@Size(min=8 , max =10, message = "Bank.kontonummer.size")
 	private String kontonummer;
 	
 	@XmlTransient

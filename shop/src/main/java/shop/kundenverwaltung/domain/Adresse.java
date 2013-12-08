@@ -7,22 +7,24 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Adresse implements Serializable {
 	
-	@NotNull
-	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
+	@NotNull(message="Adresse.strasse.notnull")
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+",message="Adresse.strasse.pattern")
 	private String strasse;
 	
-	@NotNull
-	@Size(max=6)
+	@NotEmpty(message="Adresse.haus)nummer.notempty")
+	@Size(max=6, message="Adresse.hausnummer.size")
 	private String hausnummer;
 	
-	@NotNull
-	@Pattern(regexp= "\\d{5} [0-9]+")
+	@NotNull(message="Adresse.plz.notnull")
+	@Pattern(regexp= "\\d{5} [0-9]+", message="Adresse.plz.pattern")
 	private String plz;
 	
-	@NotNull
-	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+")
+	@NotNull(message="Adresse.stadt.notnull")
+	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+",message="Adresse.stadt.pattern")
 	private String stadt;
 	
 	@XmlTransient
