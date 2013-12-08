@@ -6,6 +6,7 @@ import static shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
+
 import java.net.URI;
 import java.util.List;
 
@@ -30,7 +31,7 @@ import shop.bestellverwaltung.domain.Bestellung;
 import shop.bestellverwaltung.rest.BestellungResource;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.Mock;
-import shop.util.UriHelper;
+import shop.util.rest.UriHelper;
 
 @Path("/kunden")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75",

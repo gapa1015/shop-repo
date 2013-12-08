@@ -7,9 +7,9 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.net.URI;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -21,16 +21,17 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import shop.bestellverwaltung.service.BestellungService;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.rest.KundeResource;
 import shop.util.Mock;
-import shop.util.UriHelper;
-import shop.util.NotFoundException;
+import shop.util.rest.UriHelper;
 
 @Path("/bestellungen")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
+@RequestScoped
 public class BestellungResource {
 	@Context
 	private UriInfo uriInfo;
@@ -41,14 +42,14 @@ public class BestellungResource {
 	@Inject
 	private KundeResource kundeResource;
 	
+	@Inject
+	private BestellungService bs;
+	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findBestellungById(@PathParam("id") Long id) {
-		final Bestellung bestellung = Mock.findeBestellungById(id);
-		if (bestellung == null) {
-			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");
-		}
-		
+		final Bestellung bestellung = bs.findBestellungById(id);
+
 		setStructuralLinks(bestellung, uriInfo);
 		
 		final Response response = Response.ok(bestellung)
@@ -91,12 +92,5 @@ public class BestellungResource {
 	@Produces
 	public void updateBestellung(Bestellung bestellung) {
 		Mock.updateBestellung(bestellung);
-	}
-	
-	@DELETE
-	@Path("{id:[1-9][0-9]*}")
-	@Produces
-	public void deleteBestellung(@PathParam("id") Long id) {
-		Mock.deleteBestellung(id);
 	}
 }
