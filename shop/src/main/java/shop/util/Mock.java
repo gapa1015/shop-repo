@@ -44,12 +44,9 @@ public class Mock {
 		return bestellung;
 	}
 
-	public static void updateBestellung(Bestellung bestellung) {
+	public static Bestellung updateBestellung(Bestellung bestellung) {
 		System.out.println("Aktualisierte Bestellung: " + bestellung);
-	}
-
-	public static void deleteBestellung(Long id) {
-		System.out.println("Bestellung mit ID=" + id + " geloescht");
+		return bestellung;
 	}
 
 	public static Rad findRadById(Long id) {

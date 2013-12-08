@@ -30,16 +30,24 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 	}
 	
 	@Override
-	@Size(min = 1, message = "{bestellung.notFound.kunde}")
-	public List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
-		return Mock.findBestellungenByKunde(kunde);
-	}
-	
-	@Override
 	public Bestellung createBestellung(Bestellung bestellung, AbstractKunde kunde, Locale locale) {
 		bestellung = Mock.createBestellung(bestellung);
 		event.fire(bestellung);
 		
 		return bestellung;
+	}
+	
+	@Override
+	public Bestellung updateBestellung(Bestellung bestellung) {
+		bestellung = Mock.updateBestellung(bestellung);
+		event.fire(bestellung);
+		
+		return bestellung;
+	}
+	
+	@Override
+	@Size(min = 1, message = "{bestellung.notFound.kunde}")
+	public List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
+		return Mock.findBestellungenByKunde(kunde);
 	}
 }

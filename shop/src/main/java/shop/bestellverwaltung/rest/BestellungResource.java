@@ -1,6 +1,7 @@
 package shop.bestellverwaltung.rest;
 
 import static shop.util.Constants.SELF_LINK;
+import static shop.util.Constants.ADD_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import shop.bestellverwaltung.rest.BestellungResource;
 import shop.bestellverwaltung.service.BestellungService;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.kundenverwaltung.domain.AbstractKunde;
@@ -71,7 +73,12 @@ public class BestellungResource {
 		final Link self = Link.fromUri(getUriBestellung(bestellung, uriInfo))
                               .rel(SELF_LINK)
                               .build();
-		return new Link[] {self};
+		
+		final Link add = Link.fromUri(uriHelper.getURI(BestellungResource.class, uriInfo))
+                .rel(ADD_LINK)
+                .build();
+
+		return new Link[] {self, add};
 	}
 	
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {

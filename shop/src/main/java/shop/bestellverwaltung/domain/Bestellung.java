@@ -1,18 +1,18 @@
 package shop.bestellverwaltung.domain;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
-
-
 import shop.kundenverwaltung.domain.AbstractKunde;
 
 @XmlRootElement
-public class Bestellung {
+public class Bestellung implements Serializable {
+	private static final long serialVersionUID = -682441567182193572L;
+	
 	private Long id;
 	private boolean ausgeliefert;
 	private Date bestelldatum;
