@@ -1,6 +1,7 @@
 package shop.kundenverwaltung.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.ws.rs.PathParam;
@@ -13,12 +14,17 @@ import shop.util.interceptor.Log;
 @Log
 public class KundenService implements Serializable {
 	private static final long serialVersionUID = -4188395218729678116L;
-
+	
+	
 	public AbstractKunde findKundeById(Long id) {
 		if (id == null)
 			return null;
 		return Mock.findKundeById(id);
 		
+	}
+	
+	public List<AbstractKunde> findAllKunde() {
+		return Mock.findAllKunde();
 	}
 	
 	public AbstractKunde findKundebyEmail(String email) {

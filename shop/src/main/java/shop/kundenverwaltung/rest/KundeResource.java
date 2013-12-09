@@ -10,6 +10,7 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 import java.net.URI;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
@@ -39,6 +40,7 @@ import shop.util.rest.UriHelper;
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75",
 		TEXT_XML + ";qs=0.5" })
 @Consumes
+@RequestScoped
 public class KundeResource {
 
 	@Context
@@ -74,7 +76,6 @@ public class KundeResource {
 		
 	
 	@GET
-	@Path("{id:[1-9][0-9]*}")
 	public Response findKundeByEmail(@QueryParam("email") String email) {
 
 			final AbstractKunde kunde = ks.findKundebyEmail(email);
@@ -88,6 +89,20 @@ public class KundeResource {
 		return Response.ok(kunde).links(getTransitionalLinks(kunde, uriInfo))
 				.build();
 	}
+	
+	//@GET
+	//public Response findAllKunde() {
+
+	//		List <? extends AbstractKunde> kunden = ks.findAllKunde();
+
+			
+	//		if (kunden.isEmpty())
+	//		throw new Exception("Es gibt keine Kunden");
+
+		//	return Response.ok(new GenericEntity<List<AbstractKunde>>(kunden) { })
+          //          .links(getTransitionalLinks(kunden, uriInfo))
+              //      .build();
+	//}
 	
 	
 

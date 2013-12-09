@@ -150,6 +150,16 @@ public class Mock {
 
 		return kunde;
 	}
+	
+	public static List<AbstractKunde> findAllKunde() {
+		final int max = 20;
+		final List<AbstractKunde> kunden = new ArrayList<>(max);
+		for(int i=0; i < max; i++) {
+			final AbstractKunde kunde = findKundeById(Long.valueOf(i));
+			kunden.add(kunde);
+		}
+		return kunden;
+	}
 	public static AbstractKunde findKundeByVorname(String vorname) {
 		final long id = 98;
 		
