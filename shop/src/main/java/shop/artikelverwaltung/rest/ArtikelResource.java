@@ -43,11 +43,7 @@ public class ArtikelResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findRadById(@PathParam("id") Long id) {
-		final Rad rad = Mock.findRadById(id);
-		if (rad == null) {
-			throw new NotFoundException("Kein Rad mit der ID " + id
-					+ " gefunden.");
-		}
+		final Rad rad = as.findRadById(id);
 
 		return Response.ok(rad).links(getTransitionalLinks(rad, uriInfo))
 				.build();
@@ -68,7 +64,7 @@ public class ArtikelResource {
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createRad(Rad rad) {
-		rad = Mock.createRad(rad);
+		rad = as.createRad(rad);
 		return Response.created(getUriRad(rad, uriInfo)).build();
 	}
 
@@ -76,7 +72,7 @@ public class ArtikelResource {
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateRad(Rad rad) {
-		Mock.updateRad(rad);
+		as.updateRad(rad);
 	}
 
 	@DELETE
