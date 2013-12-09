@@ -60,10 +60,24 @@ public class Mock {
 		final Lieferant lieferant = new Lieferant();
 		lieferant.setId(id + 1);
 		lieferant.setName("Franz");
+		
+		final Adresse adressa = new Adresse(); 
+		adressa.setStrasse("Amalienstraße"); 
+		adressa.setHausnummer("70"); 
+		adressa.setStadt("Karlsruhe"); 
+		adressa.setPlz("76133"); 
+		lieferant.setAdresse(adressa);
 
 		final Hersteller hersteller = new Hersteller();
 		hersteller.setId(id + 2);
 		hersteller.setName("Velo GmbH");
+		
+		final Adresse adressz = new Adresse(); 
+		adressz.setStrasse("Amalienstraße"); 
+		adressz.setHausnummer("70"); 
+		adressz.setStadt("Karlsruhe"); 
+		adressz.setPlz("76133"); 
+		hersteller.setAdresse(adressz);
 		
 		final Rad rad = new Rad();
 		rad.setId(id);

@@ -1,13 +1,12 @@
 package shop.artikelverwaltung.domain;
 
-import java.util.List;
-
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import shop.kundenverwaltung.domain.Adresse;
 
-//import shop.kundenverwaltung.domain.Adresse;
 
 public class Lieferant {
 
@@ -17,9 +16,10 @@ public class Lieferant {
 	@Size(min = 2, message = "{lieferant.name.size}")
 	@Pattern(regexp = "[A-Z] [a-z]+", message = "{lieferant.name.pattern}")
 	private String name;
-
-	// private Adresse adresse;
-	private List<Rad> raeder;
+	
+	@NotNull(message="AbstractKunde.adresse.notnull")
+	@Valid
+	private Adresse adresse;
 
 	public Long getId() {
 		return id;
@@ -37,39 +37,27 @@ public class Lieferant {
 		this.name = name;
 	}
 
-	public List<Rad> getRaeder() {
-		return raeder;
+	public Adresse getAdresse() {
+	return adresse;
 	}
-
-	public void setRaeder(List<Rad> raeder) {
-		this.raeder = raeder;
+	
+	public void setAdresse(Adresse adresse) {
+	this.adresse = adresse;
 	}
-
-	public void addRad(Rad rad) {
-		raeder.add(rad);
-	}
-
-	// public Adresse getAdresse() {
-	// return adresse;
-	// }
-	//
-	// public void setAdresse(Adresse adresse) {
-	// this.adresse = adresse;
-	// }
 
 	@Override
 	public String toString() {
-		return "Lieferant [id=" + id + ", nmae=" + name + ", raeder=" + raeder
-				+ "]";
+		return "Lieferant [id=" + id + ", name=" + name + ", adresse="
+				+ adresse + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((adresse == null) ? 0 : adresse.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((raeder == null) ? 0 : raeder.hashCode());
 		return result;
 	}
 
@@ -81,7 +69,12 @@ public class Lieferant {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Lieferant other = (Lieferant) obj;
+		Lieferant other = (Lieferant) obj;
+		if (adresse == null) {
+			if (other.adresse != null)
+				return false;
+		} else if (!adresse.equals(other.adresse))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -91,11 +84,6 @@ public class Lieferant {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (raeder == null) {
-			if (other.raeder != null)
-				return false;
-		} else if (!raeder.equals(other.raeder))
 			return false;
 		return true;
 	}
