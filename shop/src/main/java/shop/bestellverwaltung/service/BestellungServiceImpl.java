@@ -13,11 +13,12 @@ import javax.validation.constraints.Size;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.util.Mock;
+import shop.util.interceptor.Log;
 
 @Dependent
+@Log
 public class BestellungServiceImpl implements BestellungService, Serializable {
-	private static final long serialVersionUID = 1446381948660654505L;
-	
+	private static final long serialVersionUID = 7643139186205745743L;
 	@Inject
 	@NeueBestellung
 	private transient Event<Bestellung> event;

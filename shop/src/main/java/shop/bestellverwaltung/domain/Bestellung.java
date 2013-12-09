@@ -11,7 +11,7 @@ import shop.kundenverwaltung.domain.AbstractKunde;
 
 @XmlRootElement
 public class Bestellung implements Serializable {
-	private static final long serialVersionUID = -682441567182193572L;
+	private static final long serialVersionUID = 4151152622765011175L;
 	
 	private Long id;
 	private boolean ausgeliefert;

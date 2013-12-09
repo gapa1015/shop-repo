@@ -97,6 +97,6 @@ public class BestellungResource {
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateBestellung(Bestellung bestellung) {
-		Mock.updateBestellung(bestellung);
+		bs.updateBestellung(bestellung);
 	}
 }
