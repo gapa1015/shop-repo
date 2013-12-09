@@ -1,4 +1,4 @@
-package shop.util;
+package shop.util.rest;
 
 import java.net.URI;
 

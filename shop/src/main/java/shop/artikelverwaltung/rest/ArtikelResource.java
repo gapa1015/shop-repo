@@ -24,7 +24,7 @@ import javax.ws.rs.core.UriInfo;
 import shop.artikelverwaltung.domain.Rad;
 import shop.artikelverwaltung.service.ArtikelService;
 import shop.util.Mock;
-import shop.util.UriHelper;
+import shop.util.rest.UriHelper;
 
 @Path("/artikel")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75",

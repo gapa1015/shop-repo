@@ -1,18 +1,18 @@
 package shop.bestellverwaltung.domain;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
-
-
 import shop.kundenverwaltung.domain.AbstractKunde;
 
 @XmlRootElement
-public class Bestellung {
+public class Bestellung implements Serializable {
+	private static final long serialVersionUID = 4151152622765011175L;
+	
 	private Long id;
 	private boolean ausgeliefert;
 	private Date bestelldatum;
@@ -38,12 +38,12 @@ public class Bestellung {
 		this.ausgeliefert = ausgeliefert;
 	}
 
-	public Date getBestelldatum() {
-		return bestelldatum;
+	public Date getBestelldatum(Date bestelldatum) {
+		return this.bestelldatum = new Date(bestelldatum.getTime());
 	}
 
 	public void setBestelldatum(Date bestelldatum) {
-		this.bestelldatum = bestelldatum;
+		this.bestelldatum = new Date(bestelldatum.getTime());
 	}
 
 	public AbstractKunde getKunde() {
