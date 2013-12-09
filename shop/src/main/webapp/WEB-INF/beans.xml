@@ -2,6 +2,13 @@
 <beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
-	   bean-discovery-mode="annotated"
+       bean-discovery-mode="annotated"
        version="1.1">
+
+ <interceptors>
+  <class>shop.util.interceptor.LogInterceptor</class>
+ </interceptors>
+ <alternatives>
+  <stereotype>shop.util.cdi.MockService</stereotype>
+ </alternatives>
 </beans>

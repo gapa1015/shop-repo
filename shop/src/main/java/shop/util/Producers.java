@@ -8,7 +8,8 @@ import javax.enterprise.inject.Produces;
 
 @ApplicationScoped
 public class Producers implements Serializable {
-	
+	private static final long serialVersionUID = -5563430104975521576L;
+
 	@Resource(name= "absenderMail")
 	@Produces
 	@AbsenderMail
@@ -16,7 +17,7 @@ public class Producers implements Serializable {
 
 	@Resource(name= "absenderName")
 	@Produces
-	@AbsenderMail
+	@AbsenderName
 	private String absenderName;
 	
 }
