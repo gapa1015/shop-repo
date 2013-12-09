@@ -142,11 +142,11 @@ public class Mock {
 			return null;
 		}
 		final AbstractKunde kunde = new Privatkunde(); 
-		kunde.setId((long)98); 
+		kunde.setId((long) 98); 
 		kunde.setVorname(vorname); 
 		kunde.setNachname("Jankowoi"); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		Date geburt = new Date(); 
+		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
 
@@ -172,7 +172,7 @@ public class Mock {
 		}
 		
 		final AbstractKunde kunde = new Privatkunde(); 
-		kunde.setId((long)98); 
+		kunde.setId((long) 98); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname(nachname); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 

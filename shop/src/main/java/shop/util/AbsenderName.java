@@ -12,8 +12,10 @@ import javax.inject.Qualifier;
 
 	
 @Qualifier
-@Target({FIELD,METHOD})
+@Target({ FIELD, METHOD })
 @Retention(RUNTIME)
 @Documented
-public @interface AbsenderName{}
+public @interface AbsenderName {
+	
+}
 

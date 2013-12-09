@@ -28,39 +28,38 @@ import shop.bestellverwaltung.domain.Bestellung;
 @JsonSubTypes({
                 @Type(value = Privatkunde.class, name = "P"),
                 @Type(value = Firmenkunde.class, name = "F") })
+public abstract class AbstractKunde implements Serializable {
 
-public abstract class AbstractKunde implements Serializable{
-	
 	private Long id;
 	
-	@NotNull(message="AbstractKunde.vorname.notnull")
-	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+" ,message="AbstractKunde.vorname.pattern")
-	@Size(min=2, max=32,message="AbstractKunde.vorname.size")
+	@NotNull(message = "AbstractKunde.vorname.notnull")
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "AbstractKunde.vorname.pattern")
+	@Size(min = 2, max = 32, message = "AbstractKunde.vorname.size")
 	private String vorname;
 	
-	@NotNull(message="AbstractKunde.nachname.notnull")
-	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+" ,message="AbstractKunde.nachname.pattern")
-	@Size(min=2, max=32,message="AbstractKunde.nachname.size")
+	@NotNull(message = "AbstractKunde.nachname.notnull")
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "AbstractKunde.nachname.pattern")
+	@Size(min = 2, max = 32, message = "AbstractKunde.nachname.size")
 	private String nachname;
 	
-	@NotNull(message="AbstractKunde.adresse.notnull")
+	@NotNull(message = "AbstractKunde.adresse.notnull")
 	@Valid
 	private Adresse adresse;
 	
-	@NotNull(message="AbstractKunde.geburtstag.notnull")
+	@NotNull(message = "AbstractKunde.geburtstag.notnull")
 	@Past
 	private Date geburtstag;
 	
-	@NotNull(message="AbstractKunde.telefon.notnull")
-	@Pattern(regexp= "[0-9]+",message="AbstractKunde.telefon.pattern")
+	@NotNull(message = "AbstractKunde.telefon.notnull")
+	@Pattern(regexp = "[0-9]+", message = "AbstractKunde.telefon.pattern")
 	private String telefon;
 	
-	@NotNull(message="AbstractKunde.email.notnull")
+	@NotNull(message = "AbstractKunde.email.notnull")
 	@Email
-	@Pattern(regexp ="[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
+	@Pattern(regexp = "[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
 	private String email;
 	
-	@NotNull(message="AbstractKunde.bankdaten.notnull")
+	@NotNull(message = "AbstractKunde.bankdaten.notnull")
 	@Valid
 	private Bankdaten  bankdaten;
 	
@@ -92,7 +91,7 @@ public abstract class AbstractKunde implements Serializable{
 		return geburtstag;
 	}
 	public void setGeburtstag(Date geburtstag) {
-		this.geburtstag = geburtstag;
+		this.geburtstag = new Date(geburtstag.getTime());
 	}
 	public String getTelefon() {
 		return telefon;
@@ -147,56 +146,66 @@ public abstract class AbstractKunde implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractKunde other = (AbstractKunde) obj;
+		final AbstractKunde other = (AbstractKunde) obj;
 		if (adresse == null) {
 			if (other.adresse != null)
 				return false;
-		} else if (!adresse.equals(other.adresse))
+		}
+		else if (!adresse.equals(other.adresse))
 			return false;
 		if (bankdaten == null) {
 			if (other.bankdaten != null)
 				return false;
-		} else if (!bankdaten.equals(other.bankdaten))
+		}
+		else if (!bankdaten.equals(other.bankdaten))
 			return false;
 		if (bestellungUri == null) {
 			if (other.bestellungUri != null)
 				return false;
-		} else if (!bestellungUri.equals(other.bestellungUri))
+		}
+		else if (!bestellungUri.equals(other.bestellungUri))
 			return false;
 		if (bestellungen == null) {
 			if (other.bestellungen != null)
 				return false;
-		} else if (!bestellungen.equals(other.bestellungen))
+		}
+		else if (!bestellungen.equals(other.bestellungen))
 			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
-		} else if (!email.equals(other.email))
+		}
+		else if (!email.equals(other.email))
 			return false;
 		if (geburtstag == null) {
 			if (other.geburtstag != null)
 				return false;
-		} else if (!geburtstag.equals(other.geburtstag))
+		}
+		else if (!geburtstag.equals(other.geburtstag))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		}
+		else if (!id.equals(other.id))
 			return false;
 		if (nachname == null) {
 			if (other.nachname != null)
 				return false;
-		} else if (!nachname.equals(other.nachname))
+		}
+		else if (!nachname.equals(other.nachname))
 			return false;
 		if (telefon == null) {
 			if (other.telefon != null)
 				return false;
-		} else if (!telefon.equals(other.telefon))
+		}
+		else if (!telefon.equals(other.telefon))
 			return false;
 		if (vorname == null) {
 			if (other.vorname != null)
 				return false;
-		} else if (!vorname.equals(other.vorname))
+		}
+		else if (!vorname.equals(other.vorname))
 			return false;
 		return true;
 	}

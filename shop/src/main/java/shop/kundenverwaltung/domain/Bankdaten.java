@@ -5,25 +5,21 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 
 public class Bankdaten implements Serializable {
 	
-	@NotNull(message="Bank.bankname.notnull")
-	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+", message="Bank.bankname.pattern")
+	@NotNull(message = "Bank.bankname.notnull")
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "Bank.bankname.pattern")
 	private String bankname;
 	
-	@NotNull(message="Bank.blz.notnull")
-	@Pattern(regexp= "\\d{8} [0-9]+", message = "Bank.blz.pattern")
+	@NotNull(message = "Bank.blz.notnull")
+	@Pattern(regexp = "\\d{8} [0-9]+", message = "Bank.blz.pattern")
 	private String blz;
 	
-	@NotNull(message="Bank.kontonummer.notnull")
-	@Pattern(regexp= "[0-9]+" ,message = "Bank.kontonummer.pattern")
-	@Size(min=8 , max =10, message = "Bank.kontonummer.size")
+	@NotNull(message = "Bank.kontonummer.notnull")
+	@Pattern(regexp = "[0-9]+", message = "Bank.kontonummer.pattern")
+	@Size(min = 8, max = 10, message = "Bank.kontonummer.size")
 	private String kontonummer;
-	
-	@XmlTransient
-	private AbstractKunde kunde;
 	
 	public String getBankname() {
 		return bankname;
@@ -53,7 +49,6 @@ public class Bankdaten implements Serializable {
 		result = prime * result + ((blz == null) ? 0 : blz.hashCode());
 		result = prime * result
 				+ ((kontonummer == null) ? 0 : kontonummer.hashCode());
-		result = prime * result + ((kunde == null) ? 0 : kunde.hashCode());
 		return result;
 	}
 	@Override
@@ -68,37 +63,26 @@ public class Bankdaten implements Serializable {
 		if (bankname == null) {
 			if (other.bankname != null)
 				return false;
-		}
+		} 
 		else if (!bankname.equals(other.bankname))
 			return false;
 		if (blz == null) {
 			if (other.blz != null)
 				return false;
-		} else if (!blz.equals(other.blz))
+		}
+		else if (!blz.equals(other.blz))
 			return false;
 		if (kontonummer == null) {
 			if (other.kontonummer != null)
 				return false;
-		} else if (!kontonummer.equals(other.kontonummer))
-			return false;
-		if (kunde == null) {
-			if (other.kunde != null)
-				return false;
-		} else if (!kunde.equals(other.kunde))
+		} 
+		else if (!kontonummer.equals(other.kontonummer))
 			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		return "Bankdaten [bankname=" + bankname + ", blz=" + blz
-				+ ", kontonummer=" + kontonummer + ", kunde=" + kunde + "]";
+				+ ", kontonummer=" + kontonummer + "]";
 	}
-	public AbstractKunde getKunde() {
-		return kunde;
-	}
-	public void setKunde(AbstractKunde kunde) {
-		this.kunde = kunde;
-	}
-	
-
 }

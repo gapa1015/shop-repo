@@ -9,12 +9,12 @@ import javax.enterprise.inject.Produces;
 @ApplicationScoped
 public class Producers implements Serializable {
 	
-	@Resource(name= "absenderMail")
+	@Resource(name = "absenderMail")
 	@Produces
 	@AbsenderMail
 	private String absenderMail;
 
-	@Resource(name= "absenderName")
+	@Resource(name = "absenderName")
 	@Produces
 	@AbsenderMail
 	private String absenderName;

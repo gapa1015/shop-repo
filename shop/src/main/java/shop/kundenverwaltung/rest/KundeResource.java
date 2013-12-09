@@ -6,6 +6,7 @@ import static shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
+
 import java.net.URI;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import javax.ws.rs.core.UriInfo;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.bestellverwaltung.rest.BestellungResource;
 import shop.kundenverwaltung.domain.AbstractKunde;
+import shop.kundenverwaltung.service.KundenService;
 import shop.util.Mock;
 import shop.util.UriHelper;
 
@@ -46,12 +48,15 @@ public class KundeResource {
 	
 	@Inject
 	private BestellungResource bestellungResource;
+	
+	@Inject
+	private KundenService ks;
 
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findKundeById(@PathParam("id") Long id) {
 
-		final AbstractKunde kunde = Mock.findKundeById(id);
+		final AbstractKunde kunde = ks.findKundeById(id);
 
 		if (kunde == null) {
 			throw new NotFoundException("Kein Kunde mit der ID " + id
@@ -63,9 +68,6 @@ public class KundeResource {
 				.build();
 	}
 
-
-
-	
 	public void setStructuralLinks(AbstractKunde kunde, UriInfo uriInfo) {
 		}
 		
@@ -87,7 +89,7 @@ public class KundeResource {
 				throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
 			}
 			
-			setStructuralLinks(kunde,uriInfo);
+			setStructuralLinks(kunde, uriInfo);
 			return Response.ok(kunde)
 						   .links(getTransitionalLinks(kunde, uriInfo))
 						   .build();
@@ -102,7 +104,7 @@ public class KundeResource {
 				throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
 			}
 			
-			setStructuralLinks(kunde,uriInfo);
+			setStructuralLinks(kunde, uriInfo);
 			return Response.ok(kunde)
 						   .links(getTransitionalLinks(kunde, uriInfo))
 						   .build();
@@ -129,7 +131,8 @@ public class KundeResource {
                        .build();
 	}
 	
-	private Link[] getTransitionalLinksBestellungen(List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
+	private Link[] getTransitionalLinksBestellungen
+	(List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
 		if (bestellungen == null || bestellungen.isEmpty()) {
 			return new Link[0];
 		}

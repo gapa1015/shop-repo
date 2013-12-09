@@ -21,7 +21,7 @@ import com.google.common.base.Splitter;
 @ApplicationScoped
 public class Messages {
 	
-	private static final String APPLICATION_MESSAGES ="/ApplicationMessages";
+	private static final String APPLICATION_MESSAGES = "/ApplicationMessages";
 	private static final List<Locale> LOCALES_DEFAULT = Arrays.asList(Locale.ENGLISH);
 	
 	@Resource(name = "locales")
@@ -31,20 +31,20 @@ public class Messages {
 	
 	private Map<Locale, ResourceBundle> bundles;
 	
-	private Map<String, ResourceBundle>bundlesLanguageStr;
+	private Map<String, ResourceBundle> bundlesLanguageStr;
 	
 	@PostConstruct
 	private void postConstruct() {
 		List<Locale>localesList;
-		if(locales==null)
-			localesList= LOCALES_DEFAULT;
+		if (locales == null)
+			localesList = LOCALES_DEFAULT;
 		else {
 			localesList = new ArrayList<>();
-			Iterable<String> localesIter = Splitter.on(',')
+			final Iterable<String> localesIter = Splitter.on(',')
 													.trimResults()
 													.omitEmptyStrings()
 													.split(locales);
-			Locale.Builder localeBuilder = new Locale.Builder();
+			final Locale.Builder localeBuilder = new Locale.Builder();
 			for (String localeStr : localesIter) {
 				localeBuilder.setLanguage(localeStr);
 				localesList.add(localeBuilder.build());
@@ -53,15 +53,15 @@ public class Messages {
 		
 		bundles = new HashMap<>();
 		bundlesLanguageStr = new HashMap<>();
-		Set<String> languages =new HashSet<>();
-		for(Locale locale : localesList) {
-			ResourceBundle bundle = ResourceBundle.getBundle(APPLICATION_MESSAGES, locale);
+		final Set<String> languages = new HashSet<>();
+		for (Locale locale : localesList) {
+			final ResourceBundle bundle = ResourceBundle.getBundle(APPLICATION_MESSAGES, locale);
 			bundles.put(locale, bundle);
 			
 			String localeStr = locale.toString();
-			if(localeStr.length() > 2) {
+			if (localeStr.length() > '2') {
 				localeStr = localeStr.substring(0, 2);
-				if(!languages.contains(localeStr)) {
+				if (!languages.contains(localeStr)) {
 					bundlesLanguageStr.put(localeStr, bundle);
 					languages.add(localeStr);
 				}
@@ -70,27 +70,27 @@ public class Messages {
 		defaultBundle = bundles.get(localesList.get(0));
 	}
 	
-	public String getMessage(HttpHeaders headers, String Key, Object... args) {
-		List<Locale> locales = headers.getAcceptableLanguages();
-		ResourceBundle bundle = getBundle(locales);
+	public String getMessage(HttpHeaders headers, String key, Object... args) {
+		final List<Locale> locales = headers.getAcceptableLanguages();
+		final ResourceBundle bundle = getBundle(locales);
 		
-		String pattern = bundle.getString(Key);
-		MessageFormat messageFormat= new MessageFormat(pattern, locales.get(0));
+		final String pattern = bundle.getString(key);
+		final MessageFormat messageFormat = new MessageFormat(pattern, locales.get(0));
 		return messageFormat.format(args);
 		
 	}
 	
 	private ResourceBundle getBundle(List<Locale>locales) {
 		ResourceBundle bundle = null;
-		for(Locale locale : locales) {
+		for (Locale locale : locales) {
 			bundle = bundles.get(locale);
-			if(bundle !=null)
+			if (bundle != null)
 				break;
 			String localeStr = locale.toString();
-			if(localeStr.length()>2) {
+			if (localeStr.length() > '2') {
 				localeStr = localeStr.substring(0, 2);
 				bundle = bundlesLanguageStr.get(localeStr);
-				if(bundle != null)
+				if (bundle != null)
 					break;
 			}
 		}
