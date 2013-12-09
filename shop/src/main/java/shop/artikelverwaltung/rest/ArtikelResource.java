@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import shop.artikelverwaltung.domain.Rad;
+import shop.artikelverwaltung.service.ArtikelService;
 import shop.util.Mock;
 import shop.util.UriHelper;
 
@@ -36,6 +37,8 @@ public class ArtikelResource {
 
 	@Inject
 	private UriHelper uriHelper;
+	
+	private ArtikelService as;
 
 	@GET
 	@Path("{id:[1-9][0-9]*}")
