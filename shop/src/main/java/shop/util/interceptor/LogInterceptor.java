@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 @Log
 @Dependent    // FIXME https://issues.jboss.org/browse/WELD-1540
 public class LogInterceptor implements Serializable {
-	private static final long serialVersionUID = 6225006198548883927L;
+	private static final long serialVersionUID = -3902286097608221L;
 	
 	private static final String COUNT = "Anzahl = ";
 	private static final int MAX_ELEM = 4;  // bei Collections wird ab 5 Elementen nur die Anzahl ausgegeben
