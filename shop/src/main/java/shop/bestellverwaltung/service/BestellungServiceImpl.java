@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.bestellverwaltung.domain.Bestellung;
-import shop.bestellverwaltung.service.NeueBestellung;
 import shop.util.Mock;
 
 @Dependent

@@ -41,11 +41,7 @@ public class ArtikelResource {
 	@Path("{id:[1-9][0-9]*}")
 	public Response findRadById(@PathParam("id") Long id) {
 		final Rad rad = Mock.findRadById(id);
-		if (rad == null) {
-			throw new NotFoundException("Kein Rad mit der ID " + id
-					+ " gefunden.");
-		}
-
+		
 		return Response.ok(rad).links(getTransitionalLinks(rad, uriInfo))
 				.build();
 	}

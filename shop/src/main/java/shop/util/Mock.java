@@ -35,10 +35,12 @@ public class Mock {
 	}
 
 	public static Bestellung createBestellung(Bestellung bestellung) {
+		final Date date = new Date();
+		
 		bestellung.setId((long) bestellung.getKunde().getNachname().length());
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(bestellung.getKunde());
-		bestellung.setBestelldatum(bestellung.getBestelldatum());
+		bestellung.setBestelldatum(date);
 		
 		System.out.println("Erstellte Bestellung: " + bestellung);
 		return bestellung;
@@ -135,15 +137,17 @@ public class Mock {
 		return kunde;
 	}
 	public static AbstractKunde findKundeByVorname(String vorname) {
+		long id = 98;
+		
 		if (vorname == null) {
 			return null;
 		}
 		final AbstractKunde kunde = new Privatkunde(); 
-		kunde.setId((long)98); 
+		kunde.setId(id); 
 		kunde.setVorname(vorname); 
 		kunde.setNachname("Jankowoi"); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		Date geburt = new Date(); 
+		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
 
@@ -164,12 +168,14 @@ public class Mock {
 	}
 	
 	public static AbstractKunde findKundeByNachname(String nachname) {
+		long id = 98;
+		
 		if (nachname == null) {
 			return null;
 		}
 		
 		final AbstractKunde kunde = new Privatkunde(); 
-		kunde.setId((long)98); 
+		kunde.setId(id); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname(nachname); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 

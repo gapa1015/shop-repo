@@ -38,12 +38,12 @@ public class Bestellung implements Serializable {
 		this.ausgeliefert = ausgeliefert;
 	}
 
-	public Date getBestelldatum() {
-		return bestelldatum;
+	public Date getBestelldatum(Date bestelldatum) {
+		return this.bestelldatum = new Date(bestelldatum.getTime());
 	}
 
 	public void setBestelldatum(Date bestelldatum) {
-		this.bestelldatum = bestelldatum;
+		this.bestelldatum = new Date(bestelldatum.getTime());
 	}
 
 	public AbstractKunde getKunde() {
