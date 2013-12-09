@@ -7,7 +7,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class Bankdaten implements Serializable {
-	
+
+	private static final long serialVersionUID = 4004266924592845222L;
+
 	@NotNull(message = "Bank.bankname.notnull")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "Bank.bankname.pattern")
 	private String bankname;

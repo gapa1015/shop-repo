@@ -3,6 +3,7 @@ package shop.kundenverwaltung.service;
 import java.io.Serializable;
 
 import javax.enterprise.context.Dependent;
+import javax.ws.rs.PathParam;
 
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.Mock;
@@ -18,6 +19,28 @@ public class KundenService implements Serializable {
 			return null;
 		return Mock.findKundeById(id);
 		
+	}
+	
+	public AbstractKunde findKundebyEmail(String email) {
+		if(email == null)
+			return null;
+		return Mock.findKundeByEmail(email);
+		
+	}
+	
+	public AbstractKunde createKunde(AbstractKunde kunde) {
+		if (kunde == null)
+			return null;
+		return Mock.createKunde(kunde);
+		
+	}
+		
+	public void updateKunde(AbstractKunde kunde) {
+		Mock.updateKunde(kunde);
+	}
+	
+	public void deleteKunde(@PathParam("id") Long id) {
+		Mock.deleteKunde(id);
 	}
 
 }

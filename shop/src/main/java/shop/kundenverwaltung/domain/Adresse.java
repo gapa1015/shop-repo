@@ -11,6 +11,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Adresse implements Serializable {
 	
+	private static final long serialVersionUID = 6370717829606891773L;
+
 	@NotNull(message = "Adresse.strasse.notnull")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "Adresse.strasse.pattern")
 	private String strasse;

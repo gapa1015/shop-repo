@@ -183,7 +183,7 @@ public class Mock {
 	}
 	
 	public static AbstractKunde findKundeByNachname(String nachname) {
-		long id = 98;
+		final long id = 98;
 		
 		if (nachname == null) {
 			return null;
@@ -195,6 +195,39 @@ public class Mock {
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname(nachname); 
 		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
+		final Date geburt = new Date(); 
+		kunde.setGeburtstag(geburt); 
+		kunde.setTelefon("00234234994");
+
+		final Adresse adress = new Adresse(); 
+		adress.setStrasse("Kaiserstrasse"); 
+		adress.setHausnummer("12"); 
+		adress.setStadt("Karlsruhe"); 
+		adress.setPlz("76100"); 
+		kunde.setAdresse(adress);
+
+		final Bankdaten bank = new Bankdaten(); 
+		bank.setBankname("Sparkasse Ettlingen"); 
+		bank.setKontonummer("83747446"); 
+		bank.setBlz("325443567"); 
+		kunde.setBankdaten(bank);
+
+		return kunde;
+	}
+	
+	public static AbstractKunde findKundeByEmail(String email) {
+		final long id = 98;
+		
+		if (email == null) {
+			return null;
+		}
+		
+		final AbstractKunde kunde = new Privatkunde(); 
+		
+		kunde.setId(id); 
+		kunde.setVorname("Andreas"); 
+		kunde.setNachname("Jankoboy"); 
+		kunde.setEmail(email); 
 		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");

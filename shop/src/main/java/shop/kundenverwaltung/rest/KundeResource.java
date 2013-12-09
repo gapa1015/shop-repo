@@ -29,6 +29,7 @@ import javax.ws.rs.core.UriInfo;
 
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.bestellverwaltung.rest.BestellungResource;
+import shop.bestellverwaltung.service.BestellungService;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.service.KundenService;
 import shop.util.Mock;
@@ -50,6 +51,9 @@ public class KundeResource {
 	private BestellungResource bestellungResource;
 	
 	@Inject
+	private BestellungService bs;
+	
+	@Inject
 	private KundenService ks;
 
 	@GET
@@ -62,11 +66,30 @@ public class KundeResource {
 			throw new NotFoundException("Kein Kunde mit der ID " + id
 					+ " gefunden.");
 		}
+		setStructuralLinks(kunde, uriInfo);
+		return Response.ok(kunde)
+					   .links(getTransitionalLinks(kunde, uriInfo))
+					   .build();
+	}
+		
+	
+	@GET
+	@Path("{id:[1-9][0-9]*}")
+	public Response findKundeByEmail(@QueryParam("email") String email) {
+
+			final AbstractKunde kunde = ks.findKundebyEmail(email);
+
+			if (kunde == null) {
+				throw new NotFoundException("Kein Kunde mit der Email " + email
+						+ " gefunden.");
+			}
 
 		setStructuralLinks(kunde, uriInfo);
 		return Response.ok(kunde).links(getTransitionalLinks(kunde, uriInfo))
 				.build();
 	}
+	
+	
 
 	public void setStructuralLinks(AbstractKunde kunde, UriInfo uriInfo) {
 		}
@@ -116,8 +139,8 @@ public class KundeResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
-		final AbstractKunde kunde = Mock.findKundeById(kundeId);
-		final List<Bestellung> bestellungen = Mock.findBestellungenByKunde(kunde);
+		final AbstractKunde kunde = ks.findKundeById(kundeId);
+		final List<Bestellung> bestellungen = bs.findBestellungenByKunde(kunde);
 		if (bestellungen.isEmpty()) {
 			throw new NotFoundException("Zur ID " + kundeId + " wurden keine Bestellungen gefunden");
 		}
@@ -164,7 +187,7 @@ public class KundeResource {
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createKunde(AbstractKunde kunde) {
-		kunde = Mock.createKunde(kunde);
+		kunde = ks.createKunde(kunde);
 		return Response.created(getUriKunde(kunde, uriInfo)).build();
 	}
 
@@ -172,14 +195,14 @@ public class KundeResource {
 	@Produces({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Consumes
 	public void updateKunde(AbstractKunde kunde) {
-		Mock.updateKunde(kunde);
+		ks.updateKunde(kunde);
 	}
 
 	@DELETE
 	@Path("{id:[1-9] [0-9]*}")
 	@Produces
 	public void deleteKunde(@PathParam("id") Long id) {
-		Mock.deleteKunde(id);
+		ks.deleteKunde(id);
 	}
 
 }

@@ -30,6 +30,8 @@ import shop.bestellverwaltung.domain.Bestellung;
                 @Type(value = Firmenkunde.class, name = "F") })
 public abstract class AbstractKunde implements Serializable {
 
+	private static final long serialVersionUID = -424504155716043120L;
+
 	private Long id;
 	
 	@NotNull(message = "AbstractKunde.vorname.notnull")
