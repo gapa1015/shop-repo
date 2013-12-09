@@ -10,7 +10,7 @@ import shop.util.Mock;
 public class ArtikelServiceImp implements ArtikelService, Serializable{
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	@NotNull(message = "{artikel.id.notNull}")
 	public Rad findRadById(Long id) {

@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -38,6 +37,7 @@ public class ArtikelResource {
 	@Inject
 	private UriHelper uriHelper;
 	
+	@Inject
 	private ArtikelService as;
 
 	@GET
@@ -45,8 +45,9 @@ public class ArtikelResource {
 	public Response findRadById(@PathParam("id") Long id) {
 		final Rad rad = as.findRadById(id);
 
-		return Response.ok(rad).links(getTransitionalLinks(rad, uriInfo))
-				.build();
+		return Response		.ok(rad)
+							.links(getTransitionalLinks(rad, uriInfo))
+							.build();
 	}
 
 	private Link[] getTransitionalLinks(Rad rad, UriInfo uriInfo) {

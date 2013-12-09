@@ -1,6 +1,7 @@
 package shop.artikelverwaltung.domain;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 
@@ -13,6 +14,7 @@ public abstract class Artikel {
 	private String name;
 
 	@NotNull (message = "{artikel.preis.notNull}")
+	@Pattern(regexp= "[1-9]+" ,message = "artikel.preis.pattern")
 	private int preis;
 
 	@NotNull (message = "{artikel.hersteller.notNull}")

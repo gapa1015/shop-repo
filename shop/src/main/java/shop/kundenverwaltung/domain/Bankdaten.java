@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Bankdaten implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@NotNull(message="Bank.bankname.notnull")
 	@Pattern(regexp ="[A-ZÄÖÜ][a-zäöü]+", message="Bank.bankname.pattern")
 	private String bankname;

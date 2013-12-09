@@ -2,7 +2,11 @@ package shop.artikelverwaltung.domain;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 public class Ersatzteil extends Artikel {
+	
+	@NotNull (message = "{ersatzteil.kompartibel.notNull}")
 	private List<Rad> kompartibel;
 
 	public List<Rad> getKompartibel() {

@@ -1,7 +1,5 @@
 package shop.artikelverwaltung.domain;
 
-import java.util.List;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
