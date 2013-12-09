@@ -9,12 +9,12 @@ public abstract class Artikel {
 
 	private Long id;
 	
-	@Size(min = 2,message = "{artikel.name.size}" )
+	@Size(min = 2, message = "{artikel.name.size}")
 	@NotNull (message = "{artikel.name.notNull}")
 	private String name;
 
 	@NotNull (message = "{artikel.preis.notNull}")
-	@Pattern(regexp= "[1-9]+" ,message = "artikel.preis.pattern")
+	@Pattern(regexp = "[1-9]+" , message = "artikel.preis.pattern")
 	private int preis;
 
 	@NotNull (message = "{artikel.hersteller.notNull}")
@@ -96,22 +96,26 @@ public abstract class Artikel {
 		if (hersteller == null) {
 			if (other.hersteller != null)
 				return false;
-		} else if (!hersteller.equals(other.hersteller))
+		} 
+		else if (!hersteller.equals(other.hersteller))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} 
+		else if (!id.equals(other.id))
 			return false;
 		if (lieferant == null) {
 			if (other.lieferant != null)
 				return false;
-		} else if (!lieferant.equals(other.lieferant))
+		} 
+		else if (!lieferant.equals(other.lieferant))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} 
+		else if (!name.equals(other.name))
 			return false;
 		if (preis != other.preis)
 			return false;

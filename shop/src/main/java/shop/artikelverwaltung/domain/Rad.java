@@ -14,7 +14,7 @@ public class Rad extends Artikel {
 	private int zoll;
 
 	@Past (message = "{rad.baujahr.notNull}")
-	@Pattern(regexp= "[1-2]???" ,message = "rad.baujahr.pattern")
+	@Pattern(regexp = "[1-2]???" , message = "rad.baujahr.pattern")
 	private int baujahr;
 
 	public int getZoll() {

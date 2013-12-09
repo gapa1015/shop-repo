@@ -10,7 +10,7 @@ import javax.enterprise.inject.Produces;
 public class Producers implements Serializable {
 	private static final long serialVersionUID = -5563430104975521576L;
 
-	@Resource(name= "absenderMail")
+	@Resource(name = "absenderMail")
 	@Produces
 	@AbsenderMail
 	private String absenderMail;

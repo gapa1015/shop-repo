@@ -11,7 +11,7 @@ import shop.util.interceptor.Log;
 
 @Dependent
 @Log
-public class ArtikelServiceImp implements ArtikelService, Serializable{
+public class ArtikelServiceImp implements ArtikelService, Serializable {
 	private static final long serialVersionUID = 3471955805910643313L;
 
 	@Override
