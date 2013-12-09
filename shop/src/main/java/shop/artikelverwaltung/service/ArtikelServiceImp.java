@@ -1,5 +1,5 @@
 package shop.artikelverwaltung.service;
 
-public class ArtikelServiceImp {
+public class ArtikelServiceImp extends ArtikelService, Serializable{
 
 }
