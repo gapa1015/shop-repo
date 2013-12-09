@@ -17,7 +17,7 @@ public class Lieferant {
 	@Pattern(regexp = "[A-Z] [a-z]+", message = "{lieferant.name.pattern}")
 	private String name;
 	
-	@NotNull(message="AbstractKunde.adresse.notnull")
+	@NotNull(message = "AbstractKunde.adresse.notnull")
 	@Valid
 	private Adresse adresse;
 
@@ -69,21 +69,24 @@ public class Lieferant {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Lieferant other = (Lieferant) obj;
+		final Lieferant other = (Lieferant) obj;
 		if (adresse == null) {
 			if (other.adresse != null)
 				return false;
-		} else if (!adresse.equals(other.adresse))
+		} 
+		else if (!adresse.equals(other.adresse))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} 
+		else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} 
+		else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

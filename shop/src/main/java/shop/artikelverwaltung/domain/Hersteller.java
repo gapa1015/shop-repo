@@ -15,10 +15,10 @@ public class Hersteller {
 
 	@Size(min = 2, message = "{hersteller.name.size}")
 	@NotNull (message = "{hersteller.name.notNull}")
-	@Pattern(regexp = "[A-Z] [a-z]+",message = "{artikel.hersteller.pattern}")
+	@Pattern(regexp = "[A-Z] [a-z]+", message = "{artikel.hersteller.pattern}")
 	private String name;
 	
-	@NotNull(message="AbstractKunde.adresse.notnull")
+	@NotNull(message = "AbstractKunde.adresse.notnull")
 	@Valid
 	private Adresse adresse;
 
@@ -64,21 +64,24 @@ public class Hersteller {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Hersteller other = (Hersteller) obj;
+		final Hersteller other = (Hersteller) obj;
 		if (adresse == null) {
 			if (other.adresse != null)
 				return false;
-		} else if (!adresse.equals(other.adresse))
+		} 
+		else if (!adresse.equals(other.adresse))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} 
+		else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} 
+		else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

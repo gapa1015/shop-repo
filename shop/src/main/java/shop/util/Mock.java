@@ -151,7 +151,7 @@ public class Mock {
 		return kunde;
 	}
 	public static AbstractKunde findKundeByVorname(String vorname) {
-		long id = 98;
+		final long id = 98;
 		
 		if (vorname == null) {
 			return null;
@@ -183,7 +183,7 @@ public class Mock {
 	}
 	
 	public static AbstractKunde findKundeByNachname(String nachname) {
-		long id = 98;
+		final long id = 98;
 		
 		if (nachname == null) {
 			return null;
