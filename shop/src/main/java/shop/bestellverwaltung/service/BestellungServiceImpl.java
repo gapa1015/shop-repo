@@ -24,7 +24,7 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 	private transient Event<Bestellung> event;
 	
 	@Override
-	@NotNull(message = "{bestellung.notFound.id}")
+	@NotNull(message = "{bestellverwaltung.bestellung.notFound.id}")
 	public Bestellung findBestellungById(Long id) {
 		return Mock.findeBestellungById(id);
 	}
@@ -46,7 +46,7 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 	}
 	
 	@Override
-	@Size(min = 1, message = "{bestellung.notFound.kunde}")
+	@Size(min = 1, message = "{bestellverwaltung.bestellung.notFound.kunde}")
 	public List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
 		return Mock.findBestellungenByKunde(kunde);
 	}

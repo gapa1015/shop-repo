@@ -27,6 +27,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import shop.bestellverwaltung.service.BestellungService;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.bestellverwaltung.rest.BestellungResource;
 import shop.kundenverwaltung.domain.AbstractKunde;
@@ -51,7 +52,10 @@ public class KundeResource {
 	
 	@Inject
 	private KundenService ks;
-
+	
+	@Inject
+	private BestellungService bs;
+	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findKundeById(@PathParam("id") Long id) {
@@ -116,14 +120,13 @@ public class KundeResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
-		final AbstractKunde kunde = Mock.findKundeById(kundeId);
-		final List<Bestellung> bestellungen = Mock.findBestellungenByKunde(kunde);
-		if (bestellungen.isEmpty()) {
-			throw new NotFoundException("Zur ID " + kundeId + " wurden keine Bestellungen gefunden");
-		}
+		final AbstractKunde kunde = ks.findKundeById(kundeId);
+		final List<Bestellung> bestellungen = bs.findBestellungenByKunde(kunde);
+		if (bestellungen != null) {
+			for (Bestellung bestellung : bestellungen) {
+				bestellungResource.setStructuralLinks(bestellung, uriInfo);
+			}
 		
-		for (Bestellung bestellung : bestellungen) {
-			bestellungResource.setStructuralLinks(bestellung, uriInfo);
 		}
 		
 		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) { })
