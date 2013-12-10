@@ -3,7 +3,9 @@ package shop.artikelverwaltung.domain;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Ersatzteil extends Artikel {
 	
 	@NotNull (message = "{ersatzteil.kompartibel.notNull}")

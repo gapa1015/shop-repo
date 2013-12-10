@@ -60,4 +60,21 @@ public class ArtikelServiceMock extends ArtikelServiceImp {
 
 		return rad;
 	}
+	
+	@Override
+	public Rad createRad(Rad rad) {
+		final long id = 10;
+		
+		final Rad radx = new Rad();
+		radx.setId(id);
+		radx.setName(rad.getName());
+		radx.setPreis(rad.getPreis());
+		radx.setZoll(rad.getZoll());
+		radx.setBaujahr(rad.getBaujahr());
+		radx.setHersteller(rad.getHersteller());
+		radx.setLieferant(rad.getLieferant());
+
+		return rad;
+	}
+
 }

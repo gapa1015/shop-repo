@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 
 import shop.kundenverwaltung.domain.Adresse;
 
-
 public class Hersteller {
 
 	

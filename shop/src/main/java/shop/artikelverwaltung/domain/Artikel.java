@@ -3,8 +3,19 @@ package shop.artikelverwaltung.domain;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 
+@XmlRootElement
+@XmlSeeAlso({ Ersatzteil.class, Rad.class })
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+                @Type(value = Ersatzteil.class, name = "Ersatzteil"),
+                @Type(value = Rad.class, name = "Rad") })
 public abstract class Artikel {
 
 	private Long id;

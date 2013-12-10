@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.PathParam;
 
