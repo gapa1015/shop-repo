@@ -106,7 +106,6 @@ public class Mock {
 		radx.setHersteller(rad.getHersteller());
 		radx.setLieferant(rad.getLieferant());
 
-		System.out.println("Erstelltes Rad: " + rad);
 		return rad;
 	}
 
@@ -155,15 +154,16 @@ public class Mock {
 		return kunde;
 	}
 	
-	public static List<AbstractKunde> findAllKunde() {
-		final int max = 20;
-		final List<AbstractKunde> kunden = new ArrayList<>(max);
-		for(int i=0; i < max; i++) {
-			final AbstractKunde kunde = findKundeById(Long.valueOf(i));
-			kunden.add(kunde);
-		}
-		return kunden;
-	}
+    public static List<AbstractKunde> findAllKunden() {
+        final int anzahl = 3;
+        final List<AbstractKunde> kundeList = new ArrayList<>(anzahl);
+        for (int i = 1; i <= anzahl; i++) {
+                final AbstractKunde kunde = findKundeById((long)i);
+                kundeList.add(kunde);
+        }
+        return kundeList;
+}
+    
 	public static AbstractKunde findKundeByVorname(String vorname) {
 		final long id = 98;
 		
@@ -196,37 +196,15 @@ public class Mock {
 		return kunde;
 	}
 	
-	public static AbstractKunde findKundeByNachname(String nachname) {
-		final long id = 98;
-		
-		if (nachname == null) {
-			return null;
+	public static List<AbstractKunde> findKundenByNachname(String nachname) {
+		final int anzahl = nachname.length();
+		final List<AbstractKunde> kunden = new ArrayList<>(anzahl);
+		for (int i = 1; i <= anzahl; i++) {
+			final AbstractKunde kunde = findKundeById(Long.valueOf(i));
+			kunde.setNachname(nachname);
+			kunden.add(kunde);			
 		}
-		
-		final AbstractKunde kunde = new Privatkunde(); 
-		
-		kunde.setId(id); 
-		kunde.setVorname("Andreas"); 
-		kunde.setNachname(nachname); 
-		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		final Date geburt = new Date(); 
-		kunde.setGeburtstag(geburt); 
-		kunde.setTelefon("00234234994");
-
-		final Adresse adress = new Adresse(); 
-		adress.setStrasse("Kaiserstrasse"); 
-		adress.setHausnummer("12"); 
-		adress.setStadt("Karlsruhe"); 
-		adress.setPlz("76100"); 
-		kunde.setAdresse(adress);
-
-		final Bankdaten bank = new Bankdaten(); 
-		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("83747446"); 
-		bank.setBlz("325443567"); 
-		kunde.setBankdaten(bank);
-
-		return kunde;
+		return kunden;
 	}
 	
 	public static AbstractKunde findKundeByEmail(String email) {

@@ -3,6 +3,7 @@ package shop.artikelverwaltung.service;
 import java.io.Serializable;
 
 import javax.enterprise.context.Dependent;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import shop.artikelverwaltung.domain.Rad;
@@ -21,7 +22,7 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	 }
 
 	@Override
-	public Rad createRad(Rad rad) {
+	public Rad createRad(@Valid Rad rad) {
 		return 	Mock.createRad(rad);
 	}
 

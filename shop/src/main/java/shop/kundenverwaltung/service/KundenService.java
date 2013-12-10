@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.PathParam;
 
 import shop.kundenverwaltung.domain.AbstractKunde;
@@ -15,7 +16,7 @@ import shop.util.interceptor.Log;
 public class KundenService implements Serializable {
 	private static final long serialVersionUID = -4188395218729678116L;
 	
-	
+	@NotNull(message = "{kundenverwaltung.kunde.notFound.id}")
 	public AbstractKunde findKundeById(Long id) {
 		if (id == null)
 			return null;
@@ -24,9 +25,10 @@ public class KundenService implements Serializable {
 	}
 	
 	public List<AbstractKunde> findAllKunde() {
-		return Mock.findAllKunde();
+		return Mock.findAllKunden();
 	}
 	
+	@NotNull(message = "{kundenverwaltung.kunde.notFound.email}")
 	public AbstractKunde findKundebyEmail(String email) {
 		if(email == null)
 			return null;
@@ -34,11 +36,18 @@ public class KundenService implements Serializable {
 		
 	}
 	
+	@NotNull(message = "{kundenverwaltung.kunde.notFound.nachname}")
+	public List<? extends AbstractKunde> findKundenByNachname(String nachname) {
+		if(nachname == null)
+			return null;
+		return Mock.findKundenByNachname(nachname);
+	}
+
 	public AbstractKunde createKunde(AbstractKunde kunde) {
 		if (kunde == null)
 			return null;
+	
 		return Mock.createKunde(kunde);
-		
 	}
 		
 	public void updateKunde(AbstractKunde kunde) {
@@ -48,5 +57,4 @@ public class KundenService implements Serializable {
 	public void deleteKunde(@PathParam("id") Long id) {
 		Mock.deleteKunde(id);
 	}
-
 }

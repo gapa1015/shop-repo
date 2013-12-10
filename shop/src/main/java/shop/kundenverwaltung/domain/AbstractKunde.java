@@ -57,7 +57,7 @@ public abstract class AbstractKunde implements Serializable {
 	private String telefon;
 	
 	@NotNull(message = "AbstractKunde.email.notnull")
-	@Email
+	@Email(message = "{kunde.email.pattern}")
 	@Pattern(regexp = "[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
 	private String email;
 	
