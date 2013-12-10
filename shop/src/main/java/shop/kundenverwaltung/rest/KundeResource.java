@@ -1,14 +1,11 @@
 package shop.kundenverwaltung.rest;
 
-import static shop.util.Constants.FIRST_LINK;
-import static shop.util.Constants.LAST_LINK;
 import static shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,14 +20,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import shop.bestellverwaltung.domain.Bestellung;
-import shop.bestellverwaltung.rest.BestellungResource;
-import shop.bestellverwaltung.service.BestellungService;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.service.KundenService;
 import shop.util.Mock;
@@ -50,14 +43,8 @@ public class KundeResource {
 	private UriHelper uriHelper;
 	
 	@Inject
-	private BestellungResource bestellungResource;
-	
-	@Inject
-	private BestellungService bs;
-	
-	@Inject
 	private KundenService ks;
-
+	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findKundeById(@PathParam("id") Long id) {
@@ -74,7 +61,6 @@ public class KundeResource {
 					   .build();
 	}
 		
-	
 	@GET
 	public Response findKundeByEmail(@QueryParam("email") String email) {
 
@@ -118,85 +104,35 @@ public class KundeResource {
 
 	}
    
-   
-		
-		@GET
-		public Response findKundeByVorname(@QueryParam("vorname") String vorname) {
-			final AbstractKunde kunde = Mock.findKundeByVorname(vorname);
-			if (kunde == null) {
-				throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
-			}
-			
-			setStructuralLinks(kunde, uriInfo);
-			return Response.ok(kunde)
-						   .links(getTransitionalLinks(kunde, uriInfo))
-						   .build();
-
-	}
-
-		
-		@GET
-		public Response findKundeByNachname(@QueryParam("nachname") String nachname) {
-			final AbstractKunde kunde = Mock.findKundeByNachname(nachname);
-			if (kunde == null) {
-				throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
-			}
-			
-			setStructuralLinks(kunde, uriInfo);
-			return Response.ok(kunde)
-						   .links(getTransitionalLinks(kunde, uriInfo))
-						   .build();
-
-	}
-
-
-
 	@GET
-	@Path("{id:[1-9][0-9]*}/bestellungen")
-	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
-		final AbstractKunde kunde = ks.findKundeById(kundeId);
-		final List<Bestellung> bestellungen = bs.findBestellungenByKunde(kunde);
-		if (bestellungen.isEmpty()) {
-			throw new NotFoundException("Zur ID " + kundeId + " wurden keine Bestellungen gefunden");
+	public Response findKundeByVorname(@QueryParam("vorname") String vorname) {
+		final AbstractKunde kunde = Mock.findKundeByVorname(vorname);
+		if (kunde == null) {
+			throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
 		}
-		
-		for (Bestellung bestellung : bestellungen) {
-			bestellungResource.setStructuralLinks(bestellung, uriInfo);
-		}
-		
-		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) { })
-                       .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
-                       .build();
+			
+		setStructuralLinks(kunde, uriInfo);
+		return Response.ok(kunde)
+					   .links(getTransitionalLinks(kunde, uriInfo))
+					   .build();
 	}
-	
-	private Link[] getTransitionalLinksBestellungen (
-		List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
-			if (bestellungen == null || bestellungen.isEmpty()) {
-				return new Link[0];
+		
+	@GET
+	public Response findKundeByNachname(@QueryParam("nachname") String nachname) {
+		final AbstractKunde kunde = Mock.findKundeByNachname(nachname);
+		if (kunde == null) {
+			throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
 		}
-		
-		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
-                              .rel(SELF_LINK)
-                              .build();
-		
-		final Link first = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(0), uriInfo))
-	                           .rel(FIRST_LINK)
-	                           .build();
-		final int lastPos = bestellungen.size() - 1;
-		
-		final Link last = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(lastPos), uriInfo))
-                              .rel(LAST_LINK)
-                              .build();
-		
-		return new Link[] {self, first, last};
+			
+		setStructuralLinks(kunde, uriInfo);
+		return Response.ok(kunde)
+					   .links(getTransitionalLinks(kunde, uriInfo))
+					   .build();
 	}
-
-		
 	
 	public URI getUriKunde(AbstractKunde kunde, UriInfo uriInfo) {
 		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
 	}	
-
 	
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
@@ -219,5 +155,4 @@ public class KundeResource {
 	public void deleteKunde(@PathParam("id") Long id) {
 		ks.deleteKunde(id);
 	}
-
 }

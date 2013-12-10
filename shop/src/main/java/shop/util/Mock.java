@@ -52,6 +52,10 @@ public class Mock {
 	}
 
 	public static Rad findRadById(Long id) {
+		if (id > MAX_ID) {
+			return null;
+		}
+		
 		final int preis = 150;
 		final int baujahr = 2012;
 		final int zoll = 28;
