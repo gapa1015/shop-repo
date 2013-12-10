@@ -17,6 +17,8 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,6 +34,8 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.hibernate.validator.constraints.Email;
 
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.bestellverwaltung.rest.BestellungResource;
@@ -64,7 +68,7 @@ public class KundeResource {
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response findKundeById(@PathParam("id") Long id) {
+	public Response findKundeById(@PathParam("id")Long id) {
 		final AbstractKunde kunde = ks.findKundeById(id);
 
 		setStructuralLinks(kunde, uriInfo);
@@ -74,7 +78,11 @@ public class KundeResource {
 	}
 		
 	@GET
-	public Response findKundeByEmail(@QueryParam("email") String email) {
+	public Response findKundeByEmail(@QueryParam("email") 
+	@DefaultValue("")
+	@Email(message = "kunde.mail.pattern")
+	String email)
+	{
 			final AbstractKunde kunde = ks.findKundebyEmail(email);
 
 			if (kunde == null) {
@@ -193,7 +201,9 @@ public class KundeResource {
 	}
 		
 	@GET
-	public Response findKundenByNachname(@QueryParam("nachname") String nachname) {
+	public Response findKundenByNachname(@QueryParam("nachname") 
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "nachname.pattern")
+	String nachname) {
 		List<? extends AbstractKunde> kunden = null;
 		if (nachname != null) {
 			kunden = ks.findKundenByNachname(nachname);
@@ -222,7 +232,7 @@ public class KundeResource {
 	@PUT
 	@Produces({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Consumes
-	public void updateKunde(AbstractKunde kunde) {
+	public void updateKunde(@Valid AbstractKunde kunde) {
 		ks.updateKunde(kunde);
 	}
 

@@ -133,7 +133,7 @@ public class Mock {
 		kunde.setId(id); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname("Jankowoi"); 
-		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
+		kunde.setEmail("jaan1011@hskarlsruhe.de"); 
 		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
@@ -147,8 +147,8 @@ public class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("83747446"); 
-		bank.setBlz("325443567"); 
+		bank.setKontonummer("837474462"); 
+		bank.setBlz("32544567"); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
@@ -175,7 +175,7 @@ public class Mock {
 		kunde.setId(id); 
 		kunde.setVorname(vorname); 
 		kunde.setNachname("Jankowoi"); 
-		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
+		kunde.setEmail("jaan1011@hskarlsruhe.de"); 
 		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
@@ -189,8 +189,8 @@ public class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("83747446"); 
-		bank.setBlz("325443567"); 
+		bank.setKontonummer("837474346"); 
+		bank.setBlz("32544356"); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
@@ -233,8 +233,8 @@ public class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("83747446"); 
-		bank.setBlz("325443567"); 
+		bank.setKontonummer("887347446"); 
+		bank.setBlz("32544356"); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
@@ -253,7 +253,7 @@ public class Mock {
 		return bestellungen;
 	}
 	
-	public static AbstractKunde createKunde(AbstractKunde kunde) {
+	public static <T extends AbstractKunde> T createKunde(T kunde) {
 
 		final AbstractKunde kund = new Privatkunde();
 		
@@ -279,7 +279,7 @@ public class Mock {
 		kund.setBankdaten(bank);
 
 		System.out.println("Erstellter Kunde: " + kund);
-		return kund;
+		return kunde;
 	}
 
 		public static void updateKunde(AbstractKunde kunde) {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.PathParam;
 
@@ -43,11 +44,13 @@ public class KundenService implements Serializable {
 		return Mock.findKundenByNachname(nachname);
 	}
 
-	public AbstractKunde createKunde(AbstractKunde kunde) {
-		if (kunde == null)
-			return null;
-	
-		return Mock.createKunde(kunde);
+	public <T extends AbstractKunde> T createKunde(T kunde) {
+		if (kunde == null) {
+			return kunde;
+		}
+		kunde = Mock.createKunde(kunde);
+
+		return kunde;
 	}
 		
 	public void updateKunde(AbstractKunde kunde) {

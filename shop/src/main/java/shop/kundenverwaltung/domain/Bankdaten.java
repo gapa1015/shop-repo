@@ -11,11 +11,11 @@ public class Bankdaten implements Serializable {
 	private static final long serialVersionUID = 4004266924592845222L;
 
 	@NotNull(message = "Bank.bankname.notnull")
-	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "Bank.bankname.pattern")
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+(-[A-ZÄÖÜ][a-zäöü]+)?", message = "Bank.bankname.pattern")
 	private String bankname;
 	
 	@NotNull(message = "Bank.blz.notnull")
-	@Pattern(regexp = "\\d{8} [0-9]+", message = "Bank.blz.pattern")
+	@Pattern(regexp = "[0-9]+", message = "Bank.blz.pattern")
 	private String blz;
 	
 	@NotNull(message = "Bank.kontonummer.notnull")

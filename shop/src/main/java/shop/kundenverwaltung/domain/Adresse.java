@@ -22,7 +22,7 @@ public class Adresse implements Serializable {
 	private String hausnummer;
 	
 	@NotNull(message = "Adresse.plz.notnull")
-	@Pattern(regexp = "\\d{5} [0-9]+", message = "Adresse.plz.pattern")
+	@Pattern(regexp = "[0-9]+", message = "Adresse.plz.pattern")
 	private String plz;
 	
 	@NotNull(message = "Adresse.stadt.notnull")
