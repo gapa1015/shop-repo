@@ -15,7 +15,7 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	private static final long serialVersionUID = 3471955805910643313L;
 
 	@Override
-	@NotNull(message = "{artikelverwaltung.artikel.id.notNull}")
+	@NotNull(message = "{artikelverwaltung.artikel.notFound.id}")
 	public Rad findRadById(Long id) {
 		 return Mock.findRadById(id);
 	 }
