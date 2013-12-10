@@ -1,8 +1,12 @@
 package shop.kundenverwaltung.rest;
 
+import static shop.util.Constants.SELF_LINK;
+import static shop.util.Constants.ADD_LINK;
+import static shop.util.Constants.LIST_LINK;
+import static shop.util.Constants.REMOVE_LINK;
+import static shop.util.Constants.UPDATE_LINK;
 import static shop.util.Constants.FIRST_LINK;
 import static shop.util.Constants.LAST_LINK;
-import static shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
@@ -38,7 +42,6 @@ import shop.bestellverwaltung.rest.BestellungResource;
 import shop.bestellverwaltung.service.BestellungService;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.service.KundenService;
-import shop.util.Mock;
 import shop.util.rest.UriHelper;
 
 @Path("/kunden")
@@ -53,40 +56,33 @@ public class KundeResource {
 
 	@Inject
 	private UriHelper uriHelper;
-	
+
 	@Inject
+	private KundenService ks;
+	
+	@Inject 
 	private BestellungResource bestellungResource;
 	
 	@Inject
 	private BestellungService bs;
 	
-	@Inject
-	private KundenService ks;
-
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response findKundeById(@PathParam("id") Long id) {
-
+	public Response findKundeById(@PathParam("id")Long id) {
 		final AbstractKunde kunde = ks.findKundeById(id);
 
-		if (kunde == null) {
-			throw new NotFoundException("Kein Kunde mit der ID " + id
-					+ " gefunden.");
-		}
 		setStructuralLinks(kunde, uriInfo);
 		return Response.ok(kunde)
 					   .links(getTransitionalLinks(kunde, uriInfo))
 					   .build();
 	}
 		
-	
 	@GET
 	public Response findKundeByEmail(@QueryParam("email") 
-			@DefaultValue("")
-			@Email(message = "{kunde.email.pattern}") 
-	        String email)
+	@DefaultValue("")
+	@Email(message = "kunde.mail.pattern")
+	String email)
 	{
-
 			final AbstractKunde kunde = ks.findKundebyEmail(email);
 
 			if (kunde == null) {
@@ -99,99 +95,131 @@ public class KundeResource {
 				.build();
 	}
 	
-	
-
-	public void setStructuralLinks(AbstractKunde kunde, UriInfo uriInfo) {
+	@GET
+	public Response findAllKunde() {
+		final List<AbstractKunde> kunden = ks.findAllKunde();
+		
+		if (kunden != null) {
+			for (AbstractKunde kunde : kunden) {
+				setStructuralLinks(kunde, uriInfo);
+			}
 		}
 		
-	
-	private Link[] getTransitionalLinks(AbstractKunde kunde, UriInfo uriInfo) {
-
-		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
-				.rel(SELF_LINK).build();
-		return new Link[] {self};
-
+		return Response.ok(new GenericEntity<List<AbstractKunde>>(kunden){})
+	                   .links(getTransitionalLinksKunden(kunden, uriInfo))
+	                   .build();
 	}
-   
-   
-		
-		@GET
-		public Response findKundeByVorname(@QueryParam("vorname") String vorname) {
-			final AbstractKunde kunde = Mock.findKundeByVorname(vorname);
-			if (kunde == null) {
-				throw new NotFoundException("Kein Kunde mit folgenden Vorname " + vorname + " gefunden.");
-			}
-			
-			setStructuralLinks(kunde, uriInfo);
-			return Response.ok(kunde)
-						   .links(getTransitionalLinks(kunde, uriInfo))
-						   .build();
-
-	}
-
-		
-		@GET
-		public Response findKundeByNachname(@QueryParam("nachname") String nachname) {
-			final AbstractKunde kunde = Mock.findKundeByNachname(nachname);
-			if (kunde == null) {
-				throw new NotFoundException("Kein Kunde mit folgenden Name " + nachname + " gefunden.");
-			}
-			
-			setStructuralLinks(kunde, uriInfo);
-			return Response.ok(kunde)
-						   .links(getTransitionalLinks(kunde, uriInfo))
-						   .build();
-
-	}
-
-
 
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
 		final AbstractKunde kunde = ks.findKundeById(kundeId);
 		final List<Bestellung> bestellungen = bs.findBestellungenByKunde(kunde);
-		if (bestellungen.isEmpty()) {
-			throw new NotFoundException("Zur ID " + kundeId + " wurden keine Bestellungen gefunden");
+		
+		if (bestellungen != null) {
+			for (Bestellung bestellung : bestellungen) {
+				bestellungResource.setStructuralLinks(bestellung, uriInfo);
+			}
 		}
 		
-		for (Bestellung bestellung : bestellungen) {
-			bestellungResource.setStructuralLinks(bestellung, uriInfo);
-		}
-		
-		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) { })
+		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen){})
                        .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
                        .build();
 	}
 	
-	private Link[] getTransitionalLinksBestellungen (
-		List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
-			if (bestellungen == null || bestellungen.isEmpty()) {
-				return new Link[0];
+	public void setStructuralLinks(AbstractKunde kunde, UriInfo uriInfo) {
 		}
-		
-		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
-                              .rel(SELF_LINK)
-                              .build();
-		
-		final Link first = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(0), uriInfo))
-	                           .rel(FIRST_LINK)
-	                           .build();
-		final int lastPos = bestellungen.size() - 1;
-		
-		final Link last = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(lastPos), uriInfo))
-                              .rel(LAST_LINK)
-                              .build();
-		
-		return new Link[] {self, first, last};
-	}
-
-		
 	
 	public URI getUriKunde(AbstractKunde kunde, UriInfo uriInfo) {
 		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
-	}	
+	}
+	
+	private URI getUriBestellungen(AbstractKunde kunde, UriInfo uriInfo) {
+		return uriHelper.getURI(KundeResource.class, "findBestellungenByKundeId", kunde.getId(), uriInfo);
+	}
+	
+	private Link[] getTransitionalLinks(AbstractKunde kunde, UriInfo uriInfo) {
+		final Link self = Link.fromUri(getUriKunde(kunde, uriInfo))
+	                          .rel(SELF_LINK)
+	                          .build();
 
+		final Link list = Link.fromUri(uriHelper.getURI(KundeResource.class, uriInfo))
+		                      .rel(LIST_LINK)
+		                      .build();
+
+		final Link add = Link.fromUri(uriHelper.getURI(KundeResource.class, uriInfo))
+		                     .rel(ADD_LINK)
+		                     .build();
+		
+		final Link update = Link.fromUri(uriHelper.getURI(KundeResource.class, uriInfo))
+			                    .rel(UPDATE_LINK)
+			                    .build();
+		
+		final Link remove = Link.fromUri(uriHelper.getURI(KundeResource.class, "deleteKunde", kunde.getId(), uriInfo))
+		                        .rel(REMOVE_LINK)
+		                        .build();
+		
+		return new Link[] { self, list, add, update, remove };
+	}
+	
+	private Link[] getTransitionalLinksKunden(List<? extends AbstractKunde> kunden, UriInfo uriInfo) {
+		if (kunden == null || kunden.isEmpty()) {
+			return null;
+		}
+		
+		final Link first = Link.fromUri(getUriKunde(kunden.get(0), uriInfo))
+	                           .rel(FIRST_LINK)
+	                           .build();
+		final int lastPos = kunden.size() - 1;
+		final Link last = Link.fromUri(getUriKunde(kunden.get(lastPos), uriInfo))
+                              .rel(LAST_LINK)
+                              .build();
+		
+		return new Link[] { first, last };
+	}
+	
+	private Link[] getTransitionalLinksBestellungen(List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
+		if (bestellungen == null || bestellungen.isEmpty()) {
+			return new Link[0];
+		}
+		
+		final Link self = Link.fromUri(getUriBestellungen(kunde, uriInfo))
+                .rel(SELF_LINK)
+                .build();
+		
+		final Link first = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(0), uriInfo))
+						       .rel(FIRST_LINK)
+						       .build();
+		
+		final int lastPos = bestellungen.size() - 1;
+		
+		final Link last = Link.fromUri(bestellungResource.getUriBestellung(bestellungen.get(lastPos), uriInfo))
+						      .rel(LAST_LINK)
+						      .build();
+
+		return new Link[] { self, first, last };
+	}
+		
+	@GET
+	public Response findKundenByNachname(@QueryParam("nachname") 
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "nachname.pattern")
+	String nachname) {
+		List<? extends AbstractKunde> kunden = null;
+		if (nachname != null) {
+			kunden = ks.findKundenByNachname(nachname);
+		}
+		else {
+			kunden = ks.findAllKunde();
+		}
+		
+		for (AbstractKunde k : kunden) {
+			setStructuralLinks(k, uriInfo);
+		}
+		
+		return Response.ok(new GenericEntity<List<? extends AbstractKunde>>(kunden){})
+                       .links(getTransitionalLinksKunden(kunden, uriInfo))
+                       .build();
+	}
 	
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
@@ -214,5 +242,4 @@ public class KundeResource {
 	public void deleteKunde(@PathParam("id") Long id) {
 		ks.deleteKunde(id);
 	}
-
 }

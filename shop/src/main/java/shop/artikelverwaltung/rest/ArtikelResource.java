@@ -8,6 +8,7 @@ import static shop.util.Constants.SELF_LINK;
 import java.net.URI;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -64,7 +65,7 @@ public class ArtikelResource {
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public Response createRad(Rad rad) {
+	public Response createRad(@Valid Rad rad) {
 		rad = as.createRad(rad);
 		return Response.created(getUriRad(rad, uriInfo)).build();
 	}
@@ -72,7 +73,7 @@ public class ArtikelResource {
 	@PUT
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public void updateRad(Rad rad) {
+	public void updateRad(@Valid Rad rad) {
 		as.updateRad(rad);
 	}
 

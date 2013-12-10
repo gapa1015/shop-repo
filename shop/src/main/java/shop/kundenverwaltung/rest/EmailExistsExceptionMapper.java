@@ -10,7 +10,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
 import shop.kundenverwaltung.service.EmailExistsException;
-import shop.util.Messages;
+import shop.util.rest.Messages;
+
 
 public class EmailExistsExceptionMapper implements ExceptionMapper<EmailExistsException> {
 	

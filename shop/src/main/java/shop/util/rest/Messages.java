@@ -24,6 +24,9 @@ import com.google.common.base.Splitter;
 
 import shop.util.interceptor.Log;
 
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 @ApplicationScoped
 @Log
 public class Messages {
@@ -38,7 +41,7 @@ public class Messages {
 	private transient ResourceBundle defaultBundle;
 	
 	private transient Map<Locale, ResourceBundle> bundles;
-	private transient Map<String, ResourceBundle> bundlesLanguageStr;
+	private transient Map<String, ResourceBundle> bundlesLanguageStr;	 // z.B. "en" als Schluessel auch fuer en_US
 	
 	@PostConstruct
 	private void postConstruct() {
@@ -88,8 +91,7 @@ public class Messages {
 	}
 	
 	public String getMessage(HttpHeaders headers, String key, Object... args) {
-		final List<Locale> acceptableLocales = headers == null ? 
-				new ArrayList<Locale>(0) : headers.getAcceptableLanguages();
+		final List<Locale> acceptableLocales = headers == null ? new ArrayList<Locale>(0) : headers.getAcceptableLanguages();
 		final ResourceBundle bundle = getBundle(acceptableLocales);
 		
 		final String pattern = bundle.getString(key);
@@ -108,6 +110,7 @@ public class Messages {
 			if (bundle != null) {
 				break;
 			}
+			// wenn es z.B. "en_US" nicht gibt, dann evtl. nur "en"
 			String localeStr = locale.toString();
 			if (localeStr.length() > 2) {
 				localeStr = localeStr.substring(0, 2);
@@ -117,6 +120,7 @@ public class Messages {
 				}				
 			}
 		}
+		
 		return bundle == null ? defaultBundle : bundle;
 	}
 }

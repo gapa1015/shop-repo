@@ -52,6 +52,10 @@ public class Mock {
 	}
 
 	public static Rad findRadById(Long id) {
+		if (id > MAX_ID) {
+			return null;
+		}
+		
 		final int preis = 150;
 		final int baujahr = 2012;
 		final int zoll = 28;
@@ -102,7 +106,6 @@ public class Mock {
 		radx.setHersteller(rad.getHersteller());
 		radx.setLieferant(rad.getLieferant());
 
-		System.out.println("Erstelltes Rad: " + rad);
 		return rad;
 	}
 
@@ -130,7 +133,7 @@ public class Mock {
 		kunde.setId(id); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname("Jankowoi"); 
-		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
+		kunde.setEmail("jaan1011@hskarlsruhe.de"); 
 		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
@@ -144,22 +147,23 @@ public class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("83747446"); 
-		bank.setBlz("325443567"); 
+		bank.setKontonummer("837474462"); 
+		bank.setBlz("32544567"); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
 	}
 	
-	public static List<AbstractKunde> findAllKunde() {
-		final int max = 20;
-		final List<AbstractKunde> kunden = new ArrayList<>(max);
-		for(int i=0; i < max; i++) {
-			final AbstractKunde kunde = findKundeById(Long.valueOf(i));
-			kunden.add(kunde);
-		}
-		return kunden;
-	}
+    public static List<AbstractKunde> findAllKunden() {
+        final int anzahl = 3;
+        final List<AbstractKunde> kundeList = new ArrayList<>(anzahl);
+        for (int i = 1; i <= anzahl; i++) {
+                final AbstractKunde kunde = findKundeById((long)i);
+                kundeList.add(kunde);
+        }
+        return kundeList;
+}
+    
 	public static AbstractKunde findKundeByVorname(String vorname) {
 		final long id = 98;
 		
@@ -171,7 +175,7 @@ public class Mock {
 		kunde.setId(id); 
 		kunde.setVorname(vorname); 
 		kunde.setNachname("Jankowoi"); 
-		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
+		kunde.setEmail("jaan1011@hskarlsruhe.de"); 
 		final Date geburt = new Date(); 
 		kunde.setGeburtstag(geburt); 
 		kunde.setTelefon("00234234994");
@@ -185,44 +189,22 @@ public class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("83747446"); 
-		bank.setBlz("325443567"); 
+		bank.setKontonummer("837474346"); 
+		bank.setBlz("32544356"); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
 	}
 	
-	public static AbstractKunde findKundeByNachname(String nachname) {
-		final long id = 98;
-		
-		if (nachname == null) {
-			return null;
+	public static List<AbstractKunde> findKundenByNachname(String nachname) {
+		final int anzahl = nachname.length();
+		final List<AbstractKunde> kunden = new ArrayList<>(anzahl);
+		for (int i = 1; i <= anzahl; i++) {
+			final AbstractKunde kunde = findKundeById(Long.valueOf(i));
+			kunde.setNachname(nachname);
+			kunden.add(kunde);			
 		}
-		
-		final AbstractKunde kunde = new Privatkunde(); 
-		
-		kunde.setId(id); 
-		kunde.setVorname("Andreas"); 
-		kunde.setNachname(nachname); 
-		kunde.setEmail("jaan1011@hs-karlsruhe.de"); 
-		final Date geburt = new Date(); 
-		kunde.setGeburtstag(geburt); 
-		kunde.setTelefon("00234234994");
-
-		final Adresse adress = new Adresse(); 
-		adress.setStrasse("Kaiserstrasse"); 
-		adress.setHausnummer("12"); 
-		adress.setStadt("Karlsruhe"); 
-		adress.setPlz("76100"); 
-		kunde.setAdresse(adress);
-
-		final Bankdaten bank = new Bankdaten(); 
-		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("83747446"); 
-		bank.setBlz("325443567"); 
-		kunde.setBankdaten(bank);
-
-		return kunde;
+		return kunden;
 	}
 	
 	public static AbstractKunde findKundeByEmail(String email) {
@@ -251,8 +233,8 @@ public class Mock {
 
 		final Bankdaten bank = new Bankdaten(); 
 		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("83747446"); 
-		bank.setBlz("325443567"); 
+		bank.setKontonummer("887347446"); 
+		bank.setBlz("32544356"); 
 		kunde.setBankdaten(bank);
 
 		return kunde;
@@ -271,7 +253,7 @@ public class Mock {
 		return bestellungen;
 	}
 	
-	public static AbstractKunde createKunde(AbstractKunde kunde) {
+	public static <T extends AbstractKunde> T createKunde(T kunde) {
 
 		final AbstractKunde kund = new Privatkunde();
 		
@@ -297,7 +279,7 @@ public class Mock {
 		kund.setBankdaten(bank);
 
 		System.out.println("Erstellter Kunde: " + kund);
-		return kund;
+		return kunde;
 	}
 
 		public static void updateKunde(AbstractKunde kunde) {
