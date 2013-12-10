@@ -12,6 +12,9 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -27,6 +30,8 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.hibernate.validator.constraints.Email;
 
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.bestellverwaltung.rest.BestellungResource;
@@ -76,7 +81,11 @@ public class KundeResource {
 		
 	
 	@GET
-	public Response findKundeByEmail(@QueryParam("email") String email) {
+	public Response findKundeByEmail(@QueryParam("email") 
+			@DefaultValue("")
+			@Email(message = "{kunde.email.pattern}") 
+	        String email)
+	{
 
 			final AbstractKunde kunde = ks.findKundebyEmail(email);
 
@@ -89,20 +98,6 @@ public class KundeResource {
 		return Response.ok(kunde).links(getTransitionalLinks(kunde, uriInfo))
 				.build();
 	}
-	
-	//@GET
-	//public Response findAllKunde() {
-
-	//		List <? extends AbstractKunde> kunden = ks.findAllKunde();
-
-			
-	//		if (kunden.isEmpty())
-	//		throw new Exception("Es gibt keine Kunden");
-
-		//	return Response.ok(new GenericEntity<List<AbstractKunde>>(kunden) { })
-          //          .links(getTransitionalLinks(kunden, uriInfo))
-              //      .build();
-	//}
 	
 	
 
@@ -201,7 +196,7 @@ public class KundeResource {
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public Response createKunde(AbstractKunde kunde) {
+	public Response createKunde(@Valid AbstractKunde kunde) {
 		kunde = ks.createKunde(kunde);
 		return Response.created(getUriKunde(kunde, uriInfo)).build();
 	}
@@ -209,7 +204,7 @@ public class KundeResource {
 	@PUT
 	@Produces({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Consumes
-	public void updateKunde(AbstractKunde kunde) {
+	public void updateKunde(@Valid AbstractKunde kunde) {
 		ks.updateKunde(kunde);
 	}
 
