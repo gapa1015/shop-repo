@@ -2,8 +2,8 @@ package shop.artikelverwaltung.domain;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -28,13 +28,14 @@ public abstract class Artikel implements Serializable {
 	private String name;
 
 	@NotNull (message = "{artikel.preis.notNull}")
-	@Pattern(regexp = "[1-9]+" , message = "artikel.preis.pattern")
 	private int preis;
 
 	@NotNull (message = "{artikel.hersteller.notNull}")
+	@Valid
 	private Hersteller hersteller;
 
 	@NotNull (message = "{artikel.lieferant.notNull}")
+	@Valid
 	private Lieferant lieferant;
 
 	public Long getId() {

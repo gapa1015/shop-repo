@@ -16,11 +16,11 @@ public class Hersteller implements Serializable{
 
 	@Size(min = 2, message = "{hersteller.name.size}")
 	@NotNull (message = "{hersteller.name.notNull}")
-	@Pattern(regexp = "[A-Z] [a-z]+", message = "{artikel.hersteller.pattern}")
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+(-[A-ZÄÖÜ][a-zäöü]+)?", message = "{artikel.hersteller.pattern}")
 	private String name;
 	
-	@Valid
 	@NotNull(message = "AbstractKunde.adresse.notnull")
+	@Valid
 	private Adresse adresse;
 
 	public Long getId() {

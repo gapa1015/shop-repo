@@ -3,21 +3,18 @@ package shop.artikelverwaltung.domain;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Rad extends Artikel {
+	private static final long serialVersionUID = -583656323460519925L;
 
 	@Min(12)
 	@Max(28)
 	@NotNull(message = "{rad.zoll.notNull}")
 	private int zoll;
 
-	@Past (message = "{rad.baujahr.notNull}")
-	@Pattern(regexp = "[1-2]???" , message = "rad.baujahr.pattern")
-	private int baujahr;
+	private String baujahr;
 
 	public int getZoll() {
 		return zoll;
@@ -27,11 +24,11 @@ public class Rad extends Artikel {
 		this.zoll = zoll;
 	}
 
-	public int getBaujahr() {
+	public String getBaujahr() {
 		return baujahr;
 	}
 
-	public void setBaujahr(int baujahr) {
+	public void setBaujahr(String baujahr) {
 		this.baujahr = baujahr;
 	}
 
@@ -44,7 +41,6 @@ public class Rad extends Artikel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + baujahr;
 		result = prime * result + zoll;
 		return result;
 	}

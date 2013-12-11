@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.context.Dependent;
+
+import shop.artikelverwaltung.domain.Artikel;
 import shop.artikelverwaltung.domain.Hersteller;
 import shop.artikelverwaltung.domain.Lieferant;
 import shop.artikelverwaltung.domain.Rad;
@@ -12,7 +15,12 @@ import shop.kundenverwaltung.domain.Adresse;
 import shop.kundenverwaltung.domain.Bankdaten;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.domain.Privatkunde;
+import shop.util.cdi.MockService;
+import shop.util.interceptor.Log;
 
+@MockService
+@Dependent
+@Log
 public class Mock {
 	private static final int MAX_ID = 99;
 	private static final int MAX_BESTELLUNGEN = 4;
@@ -51,14 +59,14 @@ public class Mock {
 		return bestellung;
 	}
 
-	public static Rad findRadById(Long id) {
+	public static Artikel findArtikelById(Long id) {
 		if (id > MAX_ID) {
 			return null;
 		}
 		
 		final int preis = 150;
-		final int baujahr = 2012;
 		final int zoll = 28;
+		final String baujahr = "2012";
 		
 		final Lieferant lieferant = new Lieferant();
 		lieferant.setId(id + 1);
@@ -82,45 +90,43 @@ public class Mock {
 		adressz.setPlz("76133"); 
 		hersteller.setAdresse(adressz);
 		
-		final Rad rad = new Rad();
-		rad.setId(id);
-		rad.setName("City-Bike");
-		rad.setPreis(preis);
-		rad.setBaujahr(baujahr);
-		rad.setZoll(zoll);
-		rad.setHersteller(null);
-		rad.setLieferant(null);
+		final Artikel artikel = new Rad();
+		artikel.setId(id);
+		artikel.setName("City-Bike");
+		artikel.setPreis(preis);
+		artikel.setHersteller(hersteller);
+		artikel.setLieferant(lieferant);
 
-		return rad;
+		if (artikel.getClass().equals(Rad.class)) {
+			final Rad rad = (Rad) artikel;
+			rad.setBaujahr(baujahr);
+			rad.setZoll(zoll);
+		}
+		
+		return artikel;
 	}
-
-	public static Rad createRad(Rad rad) {
+	
+	public static <T extends Artikel> T createArtikel(T artikel) {
 		final long id = 10;
 		
-		final Rad radx = new Rad();
+		final Artikel radx = new Rad();
 		radx.setId(id);
-		radx.setName(rad.getName());
-		radx.setPreis(rad.getPreis());
-		radx.setZoll(rad.getZoll());
-		radx.setBaujahr(rad.getBaujahr());
-		radx.setHersteller(rad.getHersteller());
-		radx.setLieferant(rad.getLieferant());
+		radx.setName(artikel.getName());
+		radx.setPreis(artikel.getPreis());
+		radx.setHersteller(artikel.getHersteller());
+		radx.setLieferant(artikel.getLieferant());
+		
+		if (artikel.getClass().equals(Rad.class)) {
+			final Rad rad = (Rad) radx;
+			rad.setZoll(rad.getZoll());
+			rad.setBaujahr(rad.getBaujahr());
+		}
 
-		return rad;
+		return artikel;
 	}
 
 	public static void updateRad(Rad rad) {
 		System.out.println("Aktualisiertes Rad: " + rad);
-	}
-
-	public static void deleteRad(Long id) {
-		System.out.println("Rad mit ID = " + id + "geloescht");
-	}
-
-	public static void deleteKunde(Long id) {
-
-		System.out.println("Kunde mit ID= " + id + "wurde geloescht");
-
 	}
 
 	public static AbstractKunde findKundeById(Long id) {
@@ -286,4 +292,14 @@ public class Mock {
 		System.out.println("Kunde mit ID = " + kunde + "wurde aktualliert");
 
 	}
+		
+		public static void deleteRad(Long id) {
+			System.out.println("Rad mit ID = " + id + "geloescht");
+		}
+
+		public static void deleteKunde(Long id) {
+
+			System.out.println("Kunde mit ID= " + id + "wurde geloescht");
+
+		}
 }

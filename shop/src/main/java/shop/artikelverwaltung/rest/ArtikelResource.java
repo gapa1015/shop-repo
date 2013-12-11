@@ -23,6 +23,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import shop.artikelverwaltung.domain.Artikel;
 import shop.artikelverwaltung.domain.Rad;
 import shop.artikelverwaltung.service.ArtikelService;
 import shop.util.Mock;
@@ -46,30 +47,30 @@ public class ArtikelResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findRadById(@PathParam("id") Long id) {
-		final Rad rad = as.findRadById(id);
+		final Artikel artikel = as.findArtikelById(id);
 
-		return Response		.ok(rad)
-							.links(getTransitionalLinks(rad, uriInfo))
+		return Response		.ok(artikel)
+							.links(getTransitionalLinks(artikel, uriInfo))
 							.build();
 	}
 
-	private Link[] getTransitionalLinks(Rad rad, UriInfo uriInfo) {
-		final Link self = Link.fromUri(getUriRad(rad, uriInfo)).rel(SELF_LINK)
+	private Link[] getTransitionalLinks(Artikel artikel, UriInfo uriInfo) {
+		final Link self = Link.fromUri(getUriArtikel(artikel, uriInfo)).rel(SELF_LINK)
 				.build();
 		return new Link[]{self};
 	}
 
-	public URI getUriRad(Rad rad, UriInfo uriInfo) {
+	public URI getUriArtikel(Artikel artikel, UriInfo uriInfo) {
 		return uriHelper.getURI(ArtikelResource.class, "findRadById",
-				rad.getId(), uriInfo);
+				artikel.getId(), uriInfo);
 	}
 
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public Response createRad(@Valid Rad rad) {
-		rad = as.createRad(rad);
-		return Response.created(getUriRad(rad, uriInfo)).build();
+	public Response createRad(@Valid Artikel artikel) {
+		artikel = as.createArtikel(artikel);
+		return Response.created(getUriArtikel(artikel, uriInfo)).build();
 	}
 
 	@PUT

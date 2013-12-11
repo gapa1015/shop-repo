@@ -26,10 +26,9 @@ import shop.bestellverwaltung.domain.Bestellung;
 @XmlSeeAlso({ Firmenkunde.class, Privatkunde.class })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-                @Type(value = Privatkunde.class, name = "P"),
-                @Type(value = Firmenkunde.class, name = "F") })
+                @Type(value = Privatkunde.class, name = "Privatkunde"),
+                @Type(value = Firmenkunde.class, name = "Firmenkunde") })
 public abstract class AbstractKunde implements Serializable {
-
 	private static final long serialVersionUID = -424504155716043120L;
 
 	private Long id;
@@ -58,7 +57,7 @@ public abstract class AbstractKunde implements Serializable {
 	
 	@NotNull(message = "{kunde.email.notnull}")
 	@Email(message = "{kunde.email.pattern}")
-	//@Pattern(regexp = "[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
+	@Pattern(regexp = "[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
 	private String email;
 	
 	@NotNull(message = "{kunde.bankdaten.notnull}")

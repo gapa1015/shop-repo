@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Ersatzteil extends Artikel {
+	private static final long serialVersionUID = 4379667842641098264L;
 	
 	@NotNull (message = "{ersatzteil.kompartibel.notNull}")
 	private List<Rad> kompartibel;
