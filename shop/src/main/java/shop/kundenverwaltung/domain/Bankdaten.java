@@ -10,15 +10,15 @@ public class Bankdaten implements Serializable {
 
 	private static final long serialVersionUID = 4004266924592845222L;
 
-	@NotNull(message = "Bank.bankname.notnull")
+	@NotNull(message = "{bank.bankname.notnull}")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+(-[A-ZÄÖÜ][a-zäöü]+)?", message = "Bank.bankname.pattern")
 	private String bankname;
 	
-	@NotNull(message = "Bank.blz.notnull")
+	@NotNull(message = "{bank.blz.notnull}")
 	@Pattern(regexp = "[0-9]+", message = "Bank.blz.pattern")
 	private String blz;
 	
-	@NotNull(message = "Bank.kontonummer.notnull")
+	@NotNull(message = "{bank.kontonummer.notnull}")
 	@Pattern(regexp = "[0-9]+", message = "Bank.kontonummer.pattern")
 	@Size(min = 8, max = 10, message = "Bank.kontonummer.size")
 	private String kontonummer;
