@@ -1,5 +1,7 @@
 package shop.artikelverwaltung.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -16,7 +18,8 @@ import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 @JsonSubTypes({
                 @Type(value = Ersatzteil.class, name = "Ersatzteil"),
                 @Type(value = Rad.class, name = "Rad") })
-public abstract class Artikel {
+public abstract class Artikel implements Serializable {
+	private static final long serialVersionUID = 2848375996704146134L;
 
 	private Long id;
 	

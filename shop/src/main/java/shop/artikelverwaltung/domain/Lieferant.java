@@ -1,5 +1,7 @@
 package shop.artikelverwaltung.domain;
 
+import java.io.Serializable;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -8,7 +10,8 @@ import javax.validation.constraints.Size;
 import shop.kundenverwaltung.domain.Adresse;
 
 
-public class Lieferant {
+public class Lieferant implements Serializable {
+	private static final long serialVersionUID = -491580271549710536L;
 
 	private Long id;
 
@@ -17,8 +20,8 @@ public class Lieferant {
 	@Pattern(regexp = "[A-Z] [a-z]+", message = "{lieferant.name.pattern}")
 	private String name;
 	
-	@NotNull(message = "AbstractKunde.adresse.notnull")
 	@Valid
+	@NotNull(message = "AbstractKunde.adresse.notnull")
 	private Adresse adresse;
 
 	public Long getId() {
