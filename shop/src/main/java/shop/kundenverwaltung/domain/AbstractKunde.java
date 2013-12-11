@@ -34,34 +34,34 @@ public abstract class AbstractKunde implements Serializable {
 
 	private Long id;
 	
-	@NotNull(message = "{AbstractKunde.vorname.notnull}")
+	@NotNull(message = "{kunde.vorname.notnull}")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "AbstractKunde.vorname.pattern")
 	@Size(min = 2, max = 32, message = "AbstractKunde.vorname.size")
 	private String vorname;
 	
-	@NotNull(message = "{AbstractKunde.nachname.notnull}")
+	@NotNull(message = "{kunde.nachname.notnull}")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "AbstractKunde.nachname.pattern")
 	@Size(min = 2, max = 32, message = "AbstractKunde.nachname.size")
 	private String nachname;
 	
-	@NotNull(message = "{AbstractKunde.adresse.notnull}")
+	@NotNull(message = "{kunde.adresse.notnull}")
 	@Valid
 	private Adresse adresse;
 	
-	@NotNull(message = "{AbstractKunde.geburtstag.notnull}")
+	@NotNull(message = "{kunde.geburtstag.notnull}")
 	@Past
 	private Date geburtstag;
 	
-	@NotNull(message = "{AbstractKunde.telefon.notnull}")
+	@NotNull(message = "{kunde.telefon.notnull}")
 	@Pattern(regexp = "[0-9]+", message = "AbstractKunde.telefon.pattern")
 	private String telefon;
 	
-	@NotNull(message = "{AbstractKunde.email.notnull}")
+	@NotNull(message = "{kunde.email.notnull}")
 	@Email(message = "{kunde.email.pattern}")
 	//@Pattern(regexp = "[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
 	private String email;
 	
-	@NotNull(message = "{AbstractKunde.bankdaten.notnull}")
+	@NotNull(message = "{kunde.bankdaten.notnull}")
 	@Valid
 	private Bankdaten  bankdaten;
 	

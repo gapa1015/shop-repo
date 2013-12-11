@@ -7,6 +7,7 @@ import static shop.util.Constants.SELF_LINK;
 
 import java.net.URI;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -31,6 +32,7 @@ import shop.util.rest.UriHelper;
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75",
 		TEXT_XML + ";qs=0.5" })
 @Consumes
+@RequestScoped
 public class ArtikelResource {
 	@Context
 	private UriInfo uriInfo;
