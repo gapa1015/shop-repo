@@ -50,7 +50,6 @@ public class Mock {
 		bestellung.setKunde(bestellung.getKunde());
 		bestellung.setBestelldatum(date);
 		
-		System.out.println("Erstellte Bestellung: " + bestellung);
 		return bestellung;
 	}
 
