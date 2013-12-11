@@ -167,39 +167,7 @@ public class Mock {
                 kundeList.add(kunde);
         }
         return kundeList;
-}
-    
-	public static AbstractKunde findKundeByVorname(String vorname) {
-		final long id = 98;
-		
-		if (vorname == null) {
-			return null;
-		}
-		final AbstractKunde kunde = new Privatkunde(); 
-
-		kunde.setId(id); 
-		kunde.setVorname(vorname); 
-		kunde.setNachname("Jankowoi"); 
-		kunde.setEmail("jaan1011@hskarlsruhe.de"); 
-		final Date geburt = new Date(); 
-		kunde.setGeburtstag(geburt); 
-		kunde.setTelefon("00234234994");
-
-		final Adresse adress = new Adresse(); 
-		adress.setStrasse("Kaiserstrasse"); 
-		adress.setHausnummer("12"); 
-		adress.setStadt("Karlsruhe"); 
-		adress.setPlz("76100"); 
-		kunde.setAdresse(adress);
-
-		final Bankdaten bank = new Bankdaten(); 
-		bank.setBankname("Sparkasse Ettlingen"); 
-		bank.setKontonummer("837474346"); 
-		bank.setBlz("32544356"); 
-		kunde.setBankdaten(bank);
-
-		return kunde;
-	}
+    }
 	
 	public static List<AbstractKunde> findKundenByNachname(String nachname) {
 		final int anzahl = nachname.length();
@@ -213,15 +181,13 @@ public class Mock {
 	}
 	
 	public static AbstractKunde findKundeByEmail(String email) {
-		final long id = 98;
-		
 		if (email == null) {
 			return null;
 		}
 		
 		final AbstractKunde kunde = new Privatkunde(); 
 		
-		kunde.setId(id); 
+		kunde.setId((long)email.length()); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname("Jankoboy"); 
 		kunde.setEmail(email); 

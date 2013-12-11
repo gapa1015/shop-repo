@@ -18,12 +18,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -50,7 +48,9 @@ import shop.util.rest.UriHelper;
 @Consumes
 @RequestScoped
 public class KundeResource {
-
+	public static final String NACHNAME = "nachname";
+	public static final String EMAIL = "email";
+	
 	@Context
 	private UriInfo uriInfo;
 
@@ -76,40 +76,46 @@ public class KundeResource {
 					   .links(getTransitionalLinks(kunde, uriInfo))
 					   .build();
 	}
-		
-	@GET
-	public Response findKundeByEmail(@QueryParam("email") 
-	@DefaultValue("")
-	@Email(message = "kunde.mail.pattern")
-	String email)
-	{
-			final AbstractKunde kunde = ks.findKundebyEmail(email);
-
-			if (kunde == null) {
-				throw new NotFoundException("Kein Kunde mit der Email " + email
-						+ " gefunden.");
-			}
-
-		setStructuralLinks(kunde, uriInfo);
-		return Response.ok(kunde).links(getTransitionalLinks(kunde, uriInfo))
-				.build();
-	}
 	
 	@GET
-	public Response findAllKunde() {
-		final List<AbstractKunde> kunden = ks.findAllKunde();
-		
-		if (kunden != null) {
-			for (AbstractKunde kunde : kunden) {
-				setStructuralLinks(kunde, uriInfo);
+	public Response findKunden(
+		@QueryParam(NACHNAME)
+		@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "{kunde.nachname.pattern}")
+		String nachname,
+		@QueryParam(EMAIL)
+		@Email(message = "{kunde.email}")
+		String email) {
+			List<? extends AbstractKunde> kunden = null;
+			AbstractKunde kunde = null;
+			if (nachname != null) {
+				kunden = ks.findKundenByNachname(nachname);
 			}
-		}
-		
-		return Response.ok(new GenericEntity<List<AbstractKunde>>(kunden){})
-	                   .links(getTransitionalLinksKunden(kunden, uriInfo))
-	                   .build();
+			else if (email != null) {
+				kunde = ks.findKundeByEmail(email);
+			}
+			else {
+				kunden = ks.findAllKunden();
+			}
+			
+			Object entity = null;
+			Link[] links = null;
+			if (kunden != null) {
+				for (AbstractKunde k : kunden) {
+					setStructuralLinks(k, uriInfo);
+				}
+				entity = new GenericEntity<List<? extends AbstractKunde>>(kunden){};
+				links = getTransitionalLinksKunden(kunden, uriInfo);
+			}
+			else if (kunde != null) {
+				entity = kunde;
+				links = getTransitionalLinks(kunde, uriInfo);
+			}
+			
+		return Response.ok(entity)
+                       .links(links)
+                       .build();
 	}
-
+	
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
@@ -198,27 +204,6 @@ public class KundeResource {
 						      .build();
 
 		return new Link[] { self, first, last };
-	}
-		
-	@GET
-	public Response findKundenByNachname(@QueryParam("nachname") 
-	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "nachname.pattern")
-	String nachname) {
-		List<? extends AbstractKunde> kunden = null;
-		if (nachname != null) {
-			kunden = ks.findKundenByNachname(nachname);
-		}
-		else {
-			kunden = ks.findAllKunde();
-		}
-		
-		for (AbstractKunde k : kunden) {
-			setStructuralLinks(k, uriInfo);
-		}
-		
-		return Response.ok(new GenericEntity<List<? extends AbstractKunde>>(kunden){})
-                       .links(getTransitionalLinksKunden(kunden, uriInfo))
-                       .build();
 	}
 	
 	@POST
