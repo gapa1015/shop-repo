@@ -23,7 +23,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import shop.artikelverwaltung.domain.Artikel;
+import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Rad;
 import shop.artikelverwaltung.service.ArtikelService;
 import shop.util.Mock;
@@ -47,20 +47,20 @@ public class ArtikelResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findRadById(@PathParam("id") Long id) {
-		final Artikel artikel = as.findArtikelById(id);
+		final AbstractArtikel artikel = as.findArtikelById(id);
 
 		return Response		.ok(artikel)
 							.links(getTransitionalLinks(artikel, uriInfo))
 							.build();
 	}
 
-	private Link[] getTransitionalLinks(Artikel artikel, UriInfo uriInfo) {
+	private Link[] getTransitionalLinks(AbstractArtikel artikel, UriInfo uriInfo) {
 		final Link self = Link.fromUri(getUriArtikel(artikel, uriInfo)).rel(SELF_LINK)
 				.build();
 		return new Link[]{self};
 	}
 
-	public URI getUriArtikel(Artikel artikel, UriInfo uriInfo) {
+	public URI getUriArtikel(AbstractArtikel artikel, UriInfo uriInfo) {
 		return uriHelper.getURI(ArtikelResource.class, "findRadById",
 				artikel.getId(), uriInfo);
 	}
@@ -68,7 +68,7 @@ public class ArtikelResource {
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public Response createRad(@Valid Artikel artikel) {
+	public Response createRad(@Valid AbstractArtikel artikel) {
 		artikel = as.createArtikel(artikel);
 		return Response.created(getUriArtikel(artikel, uriInfo)).build();
 	}

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Rad extends Artikel {
+public class Rad extends AbstractArtikel {
 	private static final long serialVersionUID = -583656323460519925L;
 
 	@Min(12)
@@ -54,8 +54,6 @@ public class Rad extends Artikel {
 		if (getClass() != obj.getClass())
 			return false;
 		final Rad other = (Rad) obj;
-		if (baujahr != other.baujahr)
-			return false;
 		if (zoll != other.zoll)
 			return false;
 		return true;

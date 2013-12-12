@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 import shop.kundenverwaltung.domain.Adresse;
 
-public class Hersteller implements Serializable{
+public class Hersteller implements Serializable {
 	private static final long serialVersionUID = -2394662794541413156L;
 
 	private Long id;

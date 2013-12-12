@@ -18,8 +18,8 @@ import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 @JsonSubTypes({
                 @Type(value = Ersatzteil.class, name = "Ersatzteil"),
                 @Type(value = Rad.class, name = "Rad") })
-public abstract class Artikel implements Serializable {
-	private static final long serialVersionUID = 2848375996704146134L;
+public abstract class AbstractArtikel implements Serializable {
+	private static final long serialVersionUID = -6383194126780965236L;
 
 	private Long id;
 	
@@ -107,7 +107,7 @@ public abstract class Artikel implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Artikel other = (Artikel) obj;
+		final AbstractArtikel other = (AbstractArtikel) obj;
 		if (hersteller == null) {
 			if (other.hersteller != null)
 				return false;

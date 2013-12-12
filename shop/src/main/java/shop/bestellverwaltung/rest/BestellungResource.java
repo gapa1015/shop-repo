@@ -27,7 +27,6 @@ import shop.bestellverwaltung.domain.Bestellung;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.rest.KundeResource;
 import shop.util.Mock;
-import shop.util.rest.NotFoundException;
 import shop.util.interceptor.Log;
 import shop.util.rest.UriHelper;
 
@@ -37,8 +36,6 @@ import shop.util.rest.UriHelper;
 @RequestScoped
 @Log
 public class BestellungResource {
-	private static final String NOT_FOUND_ID = "bestellung.notFound.id";
-	
 	@Context
 	private UriInfo uriInfo;
 	
@@ -55,9 +52,6 @@ public class BestellungResource {
 	@Path("{id:[1-9][0-9]*}")
 	public Response findBestellungById(@PathParam("id") Long id) {
 		final Bestellung bestellung = bs.findBestellungById(id);
-		if (bestellung == null) {
-			throw new NotFoundException(NOT_FOUND_ID, id);
-		}
 
 		setStructuralLinks(bestellung, uriInfo);
 		

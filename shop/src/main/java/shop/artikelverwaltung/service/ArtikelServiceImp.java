@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.enterprise.context.Dependent;
 import javax.validation.constraints.NotNull;
 
-import shop.artikelverwaltung.domain.Artikel;
+import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Rad;
 import shop.util.Mock;
 import shop.util.interceptor.Log;
@@ -17,12 +17,12 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 
 	@Override
 	@NotNull(message = "{artikelverwaltung.artikel.notFound.id}")
-	public Artikel findArtikelById(Long id) {
+	public AbstractArtikel findArtikelById(Long id) {
 		 return Mock.findArtikelById(id);
 	 }
 
 	@Override
-	public Artikel createArtikel(Artikel artikel) {
+	public AbstractArtikel createArtikel(AbstractArtikel artikel) {
 		return 	Mock.createArtikel(artikel);
 	}
 

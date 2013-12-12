@@ -2,11 +2,11 @@ package shop.artikelverwaltung.service;
 
 
 
-import shop.artikelverwaltung.domain.Artikel;
+import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Rad;
 
 public interface ArtikelService {
-	Artikel findArtikelById(Long id);
-	Artikel createArtikel(Artikel artikel);
+	AbstractArtikel findArtikelById(Long id);
+	AbstractArtikel createArtikel(AbstractArtikel artikel);
 	void updateRad(Rad rad);
 }

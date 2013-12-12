@@ -103,7 +103,7 @@ public class KundeResource {
 				for (AbstractKunde k : kunden) {
 					setStructuralLinks(k, uriInfo);
 				}
-				entity = new GenericEntity<List<? extends AbstractKunde>>(kunden){};
+				entity = new GenericEntity<List<? extends AbstractKunde>>(kunden) { };
 				links = getTransitionalLinksKunden(kunden, uriInfo);
 			}
 			else if (kunde != null) {
@@ -128,7 +128,7 @@ public class KundeResource {
 			}
 		}
 		
-		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen){})
+		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) { })
                        .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
                        .build();
 	}
@@ -165,7 +165,7 @@ public class KundeResource {
 		                        .rel(REMOVE_LINK)
 		                        .build();
 		
-		return new Link[] { self, list, add, update, remove };
+		return new Link[] {self, list, add, update, remove};
 	}
 	
 	private Link[] getTransitionalLinksKunden(List<? extends AbstractKunde> kunden, UriInfo uriInfo) {
@@ -181,10 +181,10 @@ public class KundeResource {
                               .rel(LAST_LINK)
                               .build();
 		
-		return new Link[] { first, last };
+		return new Link[] {first, last};
 	}
 	
-	private Link[] getTransitionalLinksBestellungen(List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
+	private Link[] getTransitionalLinksBestellungen (List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
 		if (bestellungen == null || bestellungen.isEmpty()) {
 			return new Link[0];
 		}
@@ -203,7 +203,7 @@ public class KundeResource {
 						      .rel(LAST_LINK)
 						      .build();
 
-		return new Link[] { self, first, last };
+		return new Link[] {self, first, last};
 	}
 	
 	@POST

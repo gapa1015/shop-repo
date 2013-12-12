@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.enterprise.context.Dependent;
 
-import shop.artikelverwaltung.domain.Artikel;
+import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
 import shop.artikelverwaltung.domain.Lieferant;
 import shop.artikelverwaltung.domain.Rad;
@@ -58,7 +58,7 @@ public class Mock {
 		return bestellung;
 	}
 
-	public static Artikel findArtikelById(Long id) {
+	public static AbstractArtikel findArtikelById(Long id) {
 		if (id > MAX_ID) {
 			return null;
 		}
@@ -89,7 +89,7 @@ public class Mock {
 		adressz.setPlz("76133"); 
 		hersteller.setAdresse(adressz);
 		
-		final Artikel artikel = new Rad();
+		final AbstractArtikel artikel = new Rad();
 		artikel.setId(id);
 		artikel.setName("City-Bike");
 		artikel.setPreis(preis);
@@ -105,10 +105,10 @@ public class Mock {
 		return artikel;
 	}
 	
-	public static <T extends Artikel> T createArtikel(T artikel) {
+	public static <T extends AbstractArtikel> T createArtikel(T artikel) {
 		final long id = 10;
 		
-		final Artikel radx = new Rad();
+		final AbstractArtikel radx = new Rad();
 		radx.setId(id);
 		radx.setName(artikel.getName());
 		radx.setPreis(artikel.getPreis());
@@ -163,7 +163,7 @@ public class Mock {
         final int anzahl = 3;
         final List<AbstractKunde> kundeList = new ArrayList<>(anzahl);
         for (int i = 1; i <= anzahl; i++) {
-                final AbstractKunde kunde = findKundeById((long)i);
+                final AbstractKunde kunde = findKundeById((long) i);
                 kundeList.add(kunde);
         }
         return kundeList;
@@ -187,7 +187,7 @@ public class Mock {
 		
 		final AbstractKunde kunde = new Privatkunde(); 
 		
-		kunde.setId((long)email.length()); 
+		kunde.setId((long) email.length()); 
 		kunde.setVorname("Andreas"); 
 		kunde.setNachname("Jankoboy"); 
 		kunde.setEmail(email); 

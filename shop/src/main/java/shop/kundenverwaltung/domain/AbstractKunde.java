@@ -88,8 +88,8 @@ public abstract class AbstractKunde implements Serializable {
 	public void setNachname(String nachname) {
 		this.nachname = nachname;
 	}
-	public Date getGeburtstag() {
-		return geburtstag;
+	public Date getGeburtstag(Date geburtstag) {
+		return this.geburtstag = new Date(geburtstag.getTime());
 	}
 	public void setGeburtstag(Date geburtstag) {
 		this.geburtstag = new Date(geburtstag.getTime());
