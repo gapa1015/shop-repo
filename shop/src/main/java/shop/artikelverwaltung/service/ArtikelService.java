@@ -1,12 +1,12 @@
 package shop.artikelverwaltung.service;
 
-import javax.validation.Valid;
 
+
+import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Rad;
 
 public interface ArtikelService {
-	Rad findRadById(Long id);
-	Rad createRad(@Valid Rad rad);
+	AbstractArtikel findArtikelById(Long id);
+	AbstractArtikel createArtikel(AbstractArtikel artikel);
 	void updateRad(Rad rad);
-	
 }

@@ -13,19 +13,19 @@ public class Adresse implements Serializable {
 	
 	private static final long serialVersionUID = 6370717829606891773L;
 
-	@NotNull(message = "Adresse.strasse.notnull")
+	@NotNull(message = "{Adresse.strasse.notnull}")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "Adresse.strasse.pattern")
 	private String strasse;
 	
-	@NotEmpty(message = "Adresse.haus)nummer.notempty")
+	@NotEmpty(message = "{adresse.haus)nummer.notempty}")
 	@Size(max = 6, message = "Adresse.hausnummer.size")
 	private String hausnummer;
 	
-	@NotNull(message = "Adresse.plz.notnull")
+	@NotNull(message = "{adresse.plz.notnull}")
 	@Pattern(regexp = "[0-9]+", message = "Adresse.plz.pattern")
 	private String plz;
 	
-	@NotNull(message = "Adresse.stadt.notnull")
+	@NotNull(message = "{adresse.stadt.notnull")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "Adresse.stadt.pattern")
 	private String stadt;
 	

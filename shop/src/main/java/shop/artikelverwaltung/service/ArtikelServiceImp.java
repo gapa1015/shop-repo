@@ -3,9 +3,9 @@ package shop.artikelverwaltung.service;
 import java.io.Serializable;
 
 import javax.enterprise.context.Dependent;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Rad;
 import shop.util.Mock;
 import shop.util.interceptor.Log;
@@ -17,13 +17,13 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 
 	@Override
 	@NotNull(message = "{artikelverwaltung.artikel.notFound.id}")
-	public Rad findRadById(Long id) {
-		 return Mock.findRadById(id);
+	public AbstractArtikel findArtikelById(Long id) {
+		 return Mock.findArtikelById(id);
 	 }
 
 	@Override
-	public Rad createRad(@Valid Rad rad) {
-		return 	Mock.createRad(rad);
+	public AbstractArtikel createArtikel(AbstractArtikel artikel) {
+		return 	Mock.createArtikel(artikel);
 	}
 
 	@Override

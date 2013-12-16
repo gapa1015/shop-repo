@@ -1,7 +1,9 @@
 package shop.artikelverwaltung.domain;
 
+import java.io.Serializable;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -16,7 +18,8 @@ import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 @JsonSubTypes({
                 @Type(value = Ersatzteil.class, name = "Ersatzteil"),
                 @Type(value = Rad.class, name = "Rad") })
-public abstract class Artikel {
+public abstract class AbstractArtikel implements Serializable {
+	private static final long serialVersionUID = -6383194126780965236L;
 
 	private Long id;
 	
@@ -25,13 +28,14 @@ public abstract class Artikel {
 	private String name;
 
 	@NotNull (message = "{artikel.preis.notNull}")
-	@Pattern(regexp = "[1-9]+" , message = "artikel.preis.pattern")
 	private int preis;
 
 	@NotNull (message = "{artikel.hersteller.notNull}")
+	@Valid
 	private Hersteller hersteller;
 
 	@NotNull (message = "{artikel.lieferant.notNull}")
+	@Valid
 	private Lieferant lieferant;
 
 	public Long getId() {
@@ -103,7 +107,7 @@ public abstract class Artikel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Artikel other = (Artikel) obj;
+		final AbstractArtikel other = (AbstractArtikel) obj;
 		if (hersteller == null) {
 			if (other.hersteller != null)
 				return false;

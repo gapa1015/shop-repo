@@ -24,13 +24,13 @@ public class KundenService implements Serializable {
 		
 	}
 	
-	public List<AbstractKunde> findAllKunde() {
+	public List<AbstractKunde> findAllKunden() {
 		return Mock.findAllKunden();
 	}
 	
 	@NotNull(message = "{kundenverwaltung.kunde.notFound.email}")
-	public AbstractKunde findKundebyEmail(String email) {
-		if(email == null)
+	public AbstractKunde findKundeByEmail(String email) {
+		if (email == null)
 			return null;
 		return Mock.findKundeByEmail(email);
 		
@@ -38,7 +38,7 @@ public class KundenService implements Serializable {
 	
 	@NotNull(message = "{kundenverwaltung.kunde.notFound.nachname}")
 	public List<? extends AbstractKunde> findKundenByNachname(String nachname) {
-		if(nachname == null)
+		if (nachname == null)
 			return null;
 		return Mock.findKundenByNachname(nachname);
 	}
