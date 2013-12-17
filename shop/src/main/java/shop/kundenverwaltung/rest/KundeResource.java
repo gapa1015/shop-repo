@@ -40,6 +40,7 @@ import shop.bestellverwaltung.rest.BestellungResource;
 import shop.bestellverwaltung.service.BestellungService;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.service.KundenService;
+import shop.util.Mock;
 import shop.util.rest.UriHelper;
 
 @Path("/kunden")
@@ -218,13 +219,13 @@ public class KundeResource {
 	@Produces({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Consumes
 	public void updateKunde(@Valid AbstractKunde kunde) {
-		ks.updateKunde(kunde);
+		Mock.updateKunde(kunde);
 	}
 
 	@DELETE
 	@Path("{id:[1-9] [0-9]*}")
 	@Produces
 	public void deleteKunde(@PathParam("id") Long id) {
-		ks.deleteKunde(id);
+		Mock.deleteKunde(id);
 	}
 }

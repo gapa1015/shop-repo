@@ -72,7 +72,7 @@ public class Mock {
 		lieferant.setName("Franz");
 		
 		final Adresse adressa = new Adresse(); 
-		adressa.setStrasse("Amalienstraße"); 
+		adressa.setStrasse("Amalienstrasse"); 
 		adressa.setHausnummer("70"); 
 		adressa.setStadt("Karlsruhe"); 
 		adressa.setPlz("76133"); 
@@ -80,10 +80,10 @@ public class Mock {
 
 		final Hersteller hersteller = new Hersteller();
 		hersteller.setId(id + 2);
-		hersteller.setName("Velo GmbH");
+		hersteller.setName("Velo");
 		
 		final Adresse adressz = new Adresse(); 
-		adressz.setStrasse("Amalienstraße"); 
+		adressz.setStrasse("Amalienstrasse"); 
 		adressz.setHausnummer("70"); 
 		adressz.setStadt("Karlsruhe"); 
 		adressz.setPlz("76133"); 
@@ -151,7 +151,7 @@ public class Mock {
 		kunde.setAdresse(adress);
 
 		final Bankdaten bank = new Bankdaten(); 
-		bank.setBankname("Sparkasse Ettlingen"); 
+		bank.setBankname("Sparkasse"); 
 		bank.setKontonummer("837474462"); 
 		bank.setBlz("32544567"); 
 		kunde.setBankdaten(bank);
@@ -203,7 +203,7 @@ public class Mock {
 		kunde.setAdresse(adress);
 
 		final Bankdaten bank = new Bankdaten(); 
-		bank.setBankname("Sparkasse Ettlingen"); 
+		bank.setBankname("Sparkasse"); 
 		bank.setKontonummer("887347446"); 
 		bank.setBlz("32544356"); 
 		kunde.setBankdaten(bank);
@@ -249,12 +249,10 @@ public class Mock {
 		bank.setBlz(kunde.getBankdaten().getBlz());
 		kund.setBankdaten(bank);
 
-		System.out.println("Erstellter Kunde: " + kund);
 		return kunde;
 	}
 
 		public static void updateKunde(AbstractKunde kunde) {
-		System.out.println("Kunde mit ID = " + kunde + "wurde aktualliert");
 
 	}
 		
