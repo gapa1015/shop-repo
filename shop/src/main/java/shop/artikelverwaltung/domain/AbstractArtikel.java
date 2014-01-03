@@ -3,9 +3,12 @@ package shop.artikelverwaltung.domain;
 import static shop.util.Constants.KEINE_ID;
 
 
+import java.lang.invoke.MethodHandles;
+
 import javax.persistence.Basic;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PostPersist;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,6 +20,8 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 
 
+import org.jboss.logging.Logger;
+
 import shop.util.persistence.AbstractAuditable;
 
 @XmlRootElement
@@ -25,8 +30,10 @@ import shop.util.persistence.AbstractAuditable;
 @JsonSubTypes({
                 @Type(value = Ersatzteil.class, name = "Ersatzteil"),
                 @Type(value = Rad.class, name = "Rad") })
+
 public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Id
 	@GeneratedValue
@@ -47,6 +54,11 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	@NotNull (message = "{artikel.lieferant.notNull}")
 	@Valid
 	private Lieferant lieferant;
+	
+	@PostPersist
+	private void postPersist() {
+		LOGGER.debugf("Neues Ersatzteil/Rad mit ID=%d", id);
+	}
 	
 	public AbstractArtikel() {
 		super();
