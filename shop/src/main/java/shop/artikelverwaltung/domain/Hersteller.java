@@ -19,7 +19,7 @@ import org.jboss.logging.Logger;
 import shop.kundenverwaltung.domain.Adresse;
 import shop.util.persistence.AbstractAuditable;
 
-public abstract class Hersteller extends AbstractAuditable {
+public class Hersteller extends AbstractAuditable {
 	private static final long serialVersionUID = -2394662794541413156L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
