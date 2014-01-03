@@ -1,7 +1,11 @@
 package shop.artikelverwaltung.domain;
 
-import java.io.Serializable;
+import static shop.util.Constants.KEINE_ID;
 
+
+import javax.persistence.Basic;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,16 +16,22 @@ import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 
+
+import shop.util.persistence.AbstractAuditable;
+
 @XmlRootElement
 @XmlSeeAlso({ Ersatzteil.class, Rad.class })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
                 @Type(value = Ersatzteil.class, name = "Ersatzteil"),
                 @Type(value = Rad.class, name = "Rad") })
-public abstract class AbstractArtikel implements Serializable {
+public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
 
-	private Long id;
+	@Id
+	@GeneratedValue
+	@Basic(optional = false)
+	private Long id = KEINE_ID;
 	
 	@Size(min = 2, message = "{artikel.name.size}")
 	@NotNull (message = "{artikel.name.notNull}")
@@ -37,6 +47,11 @@ public abstract class AbstractArtikel implements Serializable {
 	@NotNull (message = "{artikel.lieferant.notNull}")
 	@Valid
 	private Lieferant lieferant;
+	
+	public AbstractArtikel() {
+		super();
+		
+	}
 
 	public Long getId() {
 		return id;
