@@ -1,11 +1,14 @@
 package shop.kundenverwaltung.service;
 
 import java.io.Serializable;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.PathParam;
+
+import org.jboss.logging.Logger;
 
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.Mock;
@@ -15,11 +18,15 @@ import shop.util.interceptor.Log;
 @Log
 public class KundenService implements Serializable {
 	private static final long serialVersionUID = -4188395218729678116L;
+	private static final Logger LOGGER = Logger.getLogger
+			(MethodHandles.lookup().lookupClass());
 	
 	@NotNull(message = "{kundenverwaltung.kunde.notFound.id}")
 	public AbstractKunde findKundeById(Long id) {
+		LOGGER.debugf("Beginn findKundeById %s", id);
 		if (id == null)
 			return null;
+		//LOGGER.debugf("Ende findKundeById %d", Mock);
 		return Mock.findKundeById(id);
 		
 	}
