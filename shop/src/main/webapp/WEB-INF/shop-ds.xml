@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<datasources>
+<datasource jndi-name="java:jboss/datasources/shopDS"
+pool-name="shop" enabled="true">
+<connection-url>jdbc:oracle:thin:@localhost:1521:XE</connection-url>
+<driver>oracle</driver>
+<driver-class>oracle.jdbc.OracleDriver</driver-class>
+<security>
+<user-name>shop</user-name>
+<password>p</password>
+</security>
+</datasource>
+</datasources>
