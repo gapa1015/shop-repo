@@ -14,6 +14,7 @@ import static javax.ws.rs.core.MediaType.TEXT_XML;
 import java.net.URI;
 import java.util.List;
 
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -41,8 +42,11 @@ import shop.bestellverwaltung.service.BestellungService;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.service.KundenService;
 import shop.util.Mock;
+import shop.util.interceptor.Log;
 import shop.util.rest.UriHelper;
 
+@Log
+@Dependent
 @Path("/kunden")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75",
 		TEXT_XML + ";qs=0.5" })
