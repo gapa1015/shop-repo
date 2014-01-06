@@ -20,6 +20,12 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	public AbstractArtikel findArtikelById(Long id) {
 		 return Mock.findArtikelById(id);
 	 }
+	
+	@Override
+	@NotNull
+	public AbstractArtikel findArtikelByName(String name) {
+		return Mock.findArtikelByName(name);
+	}
 
 	@Override
 	public AbstractArtikel createArtikel(AbstractArtikel artikel) {
