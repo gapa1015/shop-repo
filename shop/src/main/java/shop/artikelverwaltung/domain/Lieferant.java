@@ -1,19 +1,33 @@
 package shop.artikelverwaltung.domain;
 
-import java.io.Serializable;
+import static shop.util.Constants.KEINE_ID;
 
+import java.lang.invoke.MethodHandles;
+
+import javax.persistence.Basic;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.PostPersist;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.jboss.logging.Logger;
+
 import shop.kundenverwaltung.domain.Adresse;
+import shop.util.persistence.AbstractAuditable;
 
 
-public class Lieferant implements Serializable {
+public class Lieferant extends AbstractAuditable {
 	private static final long serialVersionUID = -491580271549710536L;
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
-	private Long id;
+
+	@Id
+	@GeneratedValue
+	@Basic(optional = false)
+	private Long id = KEINE_ID;
 
 	@NotNull (message = "{lieferant.name.notNull}")
 	@Size(min = 2, message = "{lieferant.name.size}")
@@ -23,6 +37,16 @@ public class Lieferant implements Serializable {
 	@NotNull(message = "AbstractKunde.adresse.notnull")
 	@Valid
 	private Adresse adresse;
+	
+	@PostPersist
+	private void postPersist() {
+		LOGGER.debugf("Neuer Lieferant mit ID=%d ", id);
+	}
+	
+	public Lieferant() {
+		super();
+		
+	}
 
 	public Long getId() {
 		return id;
