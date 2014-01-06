@@ -3,12 +3,21 @@ package shop.artikelverwaltung.domain;
 import static shop.util.Constants.KEINE_ID;
 
 
+
+
+
+
 import java.lang.invoke.MethodHandles;
 
 import javax.persistence.Basic;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PostPersist;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,10 +40,30 @@ import shop.util.persistence.AbstractAuditable;
                 @Type(value = Ersatzteil.class, name = "Ersatzteil"),
                 @Type(value = Rad.class, name = "Rad") })
 
+@Entity
+@Table (indexes = @Index(columnList = "name"))
+@NamedQueries({
+	@NamedQuery(name =AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL,
+			query = "SELECT      a"
+					+ "FROM		 AbstractArtikel a"
+					+ "ORDER BY a.id ASC"),
+	@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_NAME,
+				query = "SELECT      a"
+						+ "FROM		 AbstractArtikel a"
+						+ "WHERE     a.name LIKE :" +AbstractArtikel.PARAM_NAME
+						+ "ORDER BY a.id ASC")
+})
+
 public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
+	private static final String PREFIX = "AbstractArtikel";
+	public static final String FIND_VERFUEGBARE_ARTIKEL = PREFIX + "findVerfuegbareArtikel";
+	public static final String FIND_ARTIKEL_BY_NAME = PREFIX + "findArtikelByName";
+	
+	public static final String PARAM_NAME = "name";
+	
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
