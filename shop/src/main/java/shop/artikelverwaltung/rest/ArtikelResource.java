@@ -64,6 +64,16 @@ public class ArtikelResource {
 		return uriHelper.getURI(ArtikelResource.class, "findRadById",
 				artikel.getId(), uriInfo);
 	}
+	
+	@GET
+	@Path("{name}")
+	public Response findRadByKunde(@PathParam("name") Long id) {
+		final AbstractArtikel artikel = as.findArtikelById(id);
+
+		return Response		.ok(artikel)
+							.links(getTransitionalLinks(artikel, uriInfo))
+							.build();
+	}
 
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })

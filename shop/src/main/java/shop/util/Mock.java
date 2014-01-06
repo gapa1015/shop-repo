@@ -55,6 +55,10 @@ public class Mock {
 		System.out.println("Aktualisierte Bestellung: " + bestellung);
 		return bestellung;
 	}
+	
+	public static AbstractArtikel findArtikelByName(String name) {
+		return null;
+	}
 
 	public static AbstractArtikel findArtikelById(Long id) {
 		if (id > MAX_ID) {
