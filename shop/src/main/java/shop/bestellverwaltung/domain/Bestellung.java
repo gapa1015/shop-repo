@@ -21,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PostPersist;
 import javax.persistence.Transient;
@@ -47,6 +48,8 @@ public class Bestellung extends AbstractAuditable {
 	@Basic(optional = false)
 	private Long id = KEINE_ID;
 	
+	@ManyToOne
+	@JoinColumn(name = "kunde_fk", nullable = false, insertable = false, updatable = false)
 	@XmlTransient
 	private AbstractKunde kunde;
 	

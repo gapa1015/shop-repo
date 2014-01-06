@@ -7,6 +7,7 @@ import java.util.Locale;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,6 +20,10 @@ import shop.util.interceptor.Log;
 @Log
 public class BestellungServiceImpl implements BestellungService, Serializable {
 	private static final long serialVersionUID = 7643139186205745743L;
+	
+	@Inject
+	private transient EntityManager em;
+	
 	@Inject
 	@NeueBestellung
 	private transient Event<Bestellung> event;
