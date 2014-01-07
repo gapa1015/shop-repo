@@ -4,7 +4,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 @XmlRootElement
 @Entity
 @DiscriminatorValue("P")

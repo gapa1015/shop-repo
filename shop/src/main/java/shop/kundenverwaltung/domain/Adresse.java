@@ -13,87 +13,89 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-
-
-
-
-
-
-
-
-
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(indexes = @Index(columnList = "plz"))
 public class Adresse implements Serializable {
-	
+
 	private static final long serialVersionUID = 6370717829606891773L;
 
 	@Id
 	@GeneratedValue
 	@Column(nullable = false, updatable = false)
 	private Long id;
-	
+
 	@NotNull(message = "{Adresse.strasse.notnull}")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "Adresse.strasse.pattern")
 	private String strasse;
-	
+
 	@NotEmpty(message = "{adresse.haus)nummer.notempty}")
 	@Size(max = 6, message = "Adresse.hausnummer.size")
 	private String hausnummer;
-	
+
 	@NotNull(message = "{adresse.plz.notnull}")
 	@Pattern(regexp = "[0-9]+", message = "Adresse.plz.pattern")
 	private String plz;
-	
+
 	@NotNull(message = "{adresse.stadt.notnull")
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "Adresse.stadt.pattern")
 	private String stadt;
-	
+
 	@OneToOne
-	@JoinColumn(name = "kunde_fk", unique = true, nullable = false )
+	@JoinColumn(name = "kunde_fk", unique = true, nullable = false)
+	@XmlTransient
 	private AbstractKunde kunde;
-	
-	
+
 	public String getStrasse() {
 		return strasse;
 	}
+
 	public void setStrasse(String strasse) {
 		this.strasse = strasse;
 	}
+
 	public String getHausnummer() {
 		return hausnummer;
 	}
+
 	public void setHausnummer(String hausnummer) {
 		this.hausnummer = hausnummer;
 	}
+
 	public String getPlz() {
 		return plz;
 	}
+
 	public void setPlz(String plz) {
 		this.plz = plz;
 	}
+
 	public String getStadt() {
 		return stadt;
 	}
+
 	public void setStadt(String stadt) {
 		this.stadt = stadt;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	@Override
 	public String toString() {
 		return "Adresse [id=" + id + ", strasse=" + strasse + ", hausnummer="
 				+ hausnummer + ", plz=" + plz + ", stadt=" + stadt + ", kunde="
 				+ kunde + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -107,6 +109,7 @@ public class Adresse implements Serializable {
 		result = prime * result + ((strasse == null) ? 0 : strasse.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -148,9 +151,11 @@ public class Adresse implements Serializable {
 			return false;
 		return true;
 	}
+
 	public AbstractKunde getKunde() {
 		return kunde;
 	}
+
 	public void setKunde(AbstractKunde kunde) {
 		this.kunde = kunde;
 	}

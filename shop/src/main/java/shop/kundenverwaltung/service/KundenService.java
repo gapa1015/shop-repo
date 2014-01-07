@@ -5,6 +5,8 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.PathParam;
 
@@ -21,13 +23,27 @@ public class KundenService implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger
 			(MethodHandles.lookup().lookupClass());
 	
+	public enum FetchType {
+        NUR_KUNDE,
+        MIT_BESTELLUNGEN,
+	}
+
+	public enum OrderType {
+        KEINE,
+        ID
+	}
+	
+	@Inject EntityManager em;
+	
+	
 	@NotNull(message = "{kundenverwaltung.kunde.notFound.id}")
 	public AbstractKunde findKundeById(Long id) {
 		LOGGER.debugf("Beginn findKundeById %s", id);
 		if (id == null)
 			return null;
 		//LOGGER.debugf("Ende findKundeById %d", Mock);
-		return Mock.findKundeById(id);
+		AbstractKunde kunde = em.find(AbstractKunde.class, id);
+		return kunde;
 		
 	}
 	
