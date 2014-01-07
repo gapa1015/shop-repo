@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.DiscriminatorColumn;
@@ -18,6 +19,9 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraphs;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -65,7 +69,11 @@ import shop.bestellverwaltung.domain.Bestellung;
 		query = "Select k + FROM AbstractKunde k + WHERE k.geburtstag = :geburtstag + ORDER BY k.geburtstag ASC"),
 		
 })
+@NamedEntityGraphs({
+		@NamedEntityGraph(name = "bestellungen", attributeNodes = @NamedAttributeNode("bestellungen"))
+		})
 @Table(indexes = @Index(columnList = "nachname"))
+@Cacheable
 @Inheritance
 @DiscriminatorColumn(name = "art", length = 1)
 @XmlRootElement

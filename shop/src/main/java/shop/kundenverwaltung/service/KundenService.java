@@ -33,6 +33,7 @@ public class KundenService implements Serializable {
         ID
 	}
 	
+	
 	@Inject EntityManager em;
 	
 	
@@ -68,18 +69,27 @@ public class KundenService implements Serializable {
 
 	public <T extends AbstractKunde> T createKunde(T kunde) {
 		if (kunde == null) {
-			return kunde;
+			return null;
 		}
-		kunde = Mock.createKunde(kunde);
-
+		kunde.setId(null);
+		em.persist(kunde);
 		return kunde;
 	}
 		
-	public void updateKunde(AbstractKunde kunde) {
-		Mock.updateKunde(kunde);
+	public <T extends AbstractKunde> T updateKunde(T kunde) {
+		if(kunde == null)
+			return null;
+		
+		kunde = em.merge(kunde);
+		return kunde;
 	}
 	
-	public void deleteKunde(@PathParam("id") Long id) {
-		Mock.deleteKunde(id);
+	public void deleteKunde(AbstractKunde kunde) {
+		if (!em.contains(kunde)) {
+			kunde = em.find(AbstractKunde.class, kunde.getId());
+			if(kunde == null)
+				return;
+		}
+		em.remove(kunde);
 	}
 }

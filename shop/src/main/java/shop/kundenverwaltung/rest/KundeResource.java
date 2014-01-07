@@ -17,6 +17,7 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.PathParam;
@@ -45,6 +46,7 @@ import shop.util.Mock;
 import shop.util.interceptor.Log;
 import shop.util.rest.UriHelper;
 
+@Transactional
 @Log
 @Dependent
 @Path("/kunden")

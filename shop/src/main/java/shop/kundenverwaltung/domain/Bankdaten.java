@@ -2,6 +2,7 @@ package shop.kundenverwaltung.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
+@Cacheable
 @Entity
 @Table(indexes = @Index(columnList = "kontonummer"))
 public class Bankdaten implements Serializable {

@@ -2,6 +2,7 @@ package shop.kundenverwaltung.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+@Cacheable
 @Entity
 @Table(indexes = @Index(columnList = "plz"))
 public class Adresse implements Serializable {
