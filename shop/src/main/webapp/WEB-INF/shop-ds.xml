@@ -1,13 +1,79 @@
 <?xml version="1.0"?>
-<datasources>
-<datasource jndi-name="java:jboss/datasources/shopDS"
-pool-name="shop" enabled="true">
-<connection-url>jdbc:oracle:thin:@localhost:1521:XE</connection-url>
-<driver>oracle</driver>
-<driver-class>oracle.jdbc.OracleDriver</driver-class>
-<security>
-<user-name>shop</user-name>
-<password>p</password>
-</security>
-</datasource>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+        <datasource jndi-name="java:jboss/datasources/shopDS" pool-name="shop" enabled="true">
+                <connection-url>jdbc:oracle:thin:@localhost:1521:XE</connection-url>
+                <driver-class>oracle.jdbc.OracleDriver</driver-class>
+                <driver>oracle</driver>
+                <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                <pool>
+                        <min-pool-size>1</min-pool-size>
+                        <max-pool-size>4</max-pool-size>
+                </pool>
+                <security>
+                        <user-name>shop</user-name>
+                        <password>p</password>
+                </security>
+                <validation>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"/>
+                        <check-valid-connection-sql>SELECT 1 FROM DUAL</check-valid-connection-sql>
+                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"/>
+                </validation>
+        </datasource>
+        
+        <!-- PostgreSQL
+        <datasource jndi-name="java:jboss/datasources/shopDS" pool-name="shop" enabled="true">
+                <connection-url>jdbc:postgresql:shop</connection-url>
+                <driver>postgresql</driver>
+                <driver-class>org.postgresql.Driver</driver-class>
+                <security>
+                        <user-name>shop</user-name>
+                        <password>p</password>
+                </security>
+                <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                <pool>
+                        <min-pool-size>1</min-pool-size>
+                        <max-pool-size>4</max-pool-size>
+                </pool>
+                <validation>
+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+                </validation>
+        </datasource>
+        -->
+
+        <!-- MySQL
+        <datasource jndi-name="java:jboss/datasources/shopDS" pool-name="shop" enabled="true">
+                <connection-url>jdbc:mysql:///shop</connection-url>
+                <driver>mysql</driver>
+                <driver-class>com.mysql.jdbc.Driver</driver-class>
+                <security>
+                        <user-name>shop</user-name>
+                        <password>p</password>
+                </security>
+                <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                <pool>
+                        <min-pool-size>1</min-pool-size>
+                        <max-pool-size>4</max-pool-size>
+                </pool>
+                <validation>
+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"/>
+                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"/>
+                </validation>
+        </datasource>
+        -->
+
+        <!-- H2
+        <datasource jndi-name="java:jboss/datasources/shopDS" pool-name="shop" enabled="true" use-java-context="true">
+                <connection-url>jdbc:h2:file:C:/temp/h2/shop</connection-url>
+                <driver>h2</driver>
+                <security>
+                        <user-name>sa</user-name>
+                        <password>sa</password>
+                </security>
+        </datasource>
+        -->
 </datasources>
