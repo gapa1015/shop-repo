@@ -92,31 +92,36 @@ public class Bankdaten implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Bankdaten other = (Bankdaten) obj;
+		final Bankdaten other = (Bankdaten) obj;
 		if (bankname == null) {
 			if (other.bankname != null)
 				return false;
-		} else if (!bankname.equals(other.bankname))
+		} 
+		else if (!bankname.equals(other.bankname))
 			return false;
 		if (blz == null) {
 			if (other.blz != null)
 				return false;
-		} else if (!blz.equals(other.blz))
+		} 
+		else if (!blz.equals(other.blz))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} 
+		else if (!id.equals(other.id))
 			return false;
 		if (kontonummer == null) {
 			if (other.kontonummer != null)
 				return false;
-		} else if (!kontonummer.equals(other.kontonummer))
+		} 
+		else if (!kontonummer.equals(other.kontonummer))
 			return false;
 		if (kunde == null) {
 			if (other.kunde != null)
 				return false;
-		} else if (!kunde.equals(other.kunde))
+		} 
+		else if (!kunde.equals(other.kunde))
 			return false;
 		return true;
 	}
