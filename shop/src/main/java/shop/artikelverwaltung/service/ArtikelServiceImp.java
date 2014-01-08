@@ -82,6 +82,12 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 				.setParameter(AbstractArtikel.PARAM_NAME, "%" + name + "%")
 				.getResultList();
 	}
+	
+	@Override
+	@NotNull //TODO MEssage
+	public List<AbstractArtikel> findArtikelByPrice(int preis){
+		
+	}
 
 	@Override
 	public AbstractArtikel createArtikel(AbstractArtikel artikel) {

@@ -3,6 +3,7 @@ package shop.artikelverwaltung.domain;
 import static shop.util.Constants.KEINE_ID;
 
 import java.lang.invoke.MethodHandles;
+import java.math.BigDecimal;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -71,7 +72,7 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 
 	@NotNull (message = "{artikel.preis.notNull}")
 	@Digits(integer = 10, fraction = 2, message = "{artikel.preis.digits}")
-	private int preis;
+	private BigDecimal preis;
 	
 	@OneToOne
 	@NotNull (message = "{artikel.hersteller.notNull}")
