@@ -149,18 +149,14 @@ public class LogInterceptor implements Serializable {
 			return str;
 		}
 
-		// Objekt, aber keine Collection und kein Array
+
 		return obj.toString();
 	}
 	
-	/**
-	 * Array in einen String konvertieren
-	 */
 	private static String arrayToString(Object obj) {
 		final Class<?> componentClass = obj.getClass().getComponentType();
 
 		if (!componentClass.isPrimitive()) {
-			// Array von Objekten
 			final Object[] arr = (Object[]) obj;
 			if (arr.length > MAX_ELEM) {
 				return COUNT + arr.length;
@@ -184,9 +180,6 @@ public class LogInterceptor implements Serializable {
 			sbEnd.append(']');
 			return sbEnd.toString();
 		}
-		
-		// Array von primitiven Werten: byte, short, int, long, ..., float, double, boolean, char
-		
 		if ("short".equals(componentClass.getName())) {
 			final short[] arr = (short[]) obj;
 			if (arr.length > MAX_ELEM) {
