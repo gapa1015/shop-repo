@@ -28,6 +28,7 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
  @Inject
  private transient EntityManager em;
  
+ //TODO Fehlermeldung
  public List<AbstractArtikel> findVerfuegbareArtikel() {
 		return em.createNamedQuery(AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL, AbstractArtikel.class)
 				 .getResultList();
@@ -74,7 +75,7 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	}
 	
 	@Override
-	@NotNull
+	@NotNull //TODO Message
 	public List<AbstractArtikel> findArtikelByName(String name) {
 		
 				return em.createNamedQuery(AbstractArtikel.FIND_ARTIKEL_BY_NAME,AbstractArtikel.class)
