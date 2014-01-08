@@ -12,7 +12,7 @@ public interface ArtikelService {
 	AbstractArtikel findArtikelById(Long id);
 	List<AbstractArtikel> findArtikelByIds(List<Long> ids); 
 	List<AbstractArtikel> findArtikelByName (String name);
-	List<AbstractArtikel> findArtikelByPrice (BigDecimal preis);
+	List<AbstractArtikel> findArtikelByPreis (BigDecimal preis);
 	AbstractArtikel createArtikel(AbstractArtikel artikel);
 	void updateRad(Rad rad);
 }
