@@ -2,7 +2,6 @@ package shop.artikelverwaltung.domain;
 
 import static shop.artikelverwaltung.domain.AbstractArtikel.RAD;
 
-import javax.persistence.Cacheable;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.validation.constraints.Max;
