@@ -1,5 +1,6 @@
 package shop.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,7 +66,7 @@ public class Mock {
 			return null;
 		}
 		
-		final int preis = 150;
+		final BigDecimal preis = BigDecimal.valueOf(150.00);
 		final int zoll = 28;
 		final String baujahr = "2012";
 		
