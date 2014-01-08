@@ -16,14 +16,22 @@ import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PostPersist;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,11 +46,39 @@ import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.persistence.AbstractAuditable;
 
 @XmlRootElement
+@Entity
+@Table(indexes = {
+	@Index(columnList = "kunde_fk"),
+	@Index(columnList = "erzeugt")
+})
+@NamedQueries({
+	@NamedQuery(name  = Bestellung.FIND_BESTELLUNGEN_BY_KUNDE,
+             query = "SELECT b"
+			            + " FROM   Bestellung b"
+						+ " WHERE  b.kunde = :" + Bestellung.PARAM_KUNDE),
+	@NamedQuery(name  = Bestellung.FIND_KUNDE_BY_ID,
+			    query = "SELECT b.kunde"
+                     + " FROM   Bestellung b"
+			            + " WHERE  b.id = :" + Bestellung.PARAM_ID)
+})
+@NamedEntityGraphs({
+	@NamedEntityGraph(name = Bestellung.GRAPH_LIEFERUNGEN,
+					  attributeNodes = @NamedAttributeNode("lieferungen"))
+})
 @Cacheable
 public class Bestellung extends AbstractAuditable {
 	private static final long serialVersionUID = 308578161399323975L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
+	private static final String PREFIX = "Bestellung.";
+	public static final String FIND_BESTELLUNGEN_BY_KUNDE = PREFIX + "findBestellungenByKunde";
+	public static final String FIND_KUNDE_BY_ID = PREFIX + "findBestellungKundeById";
+	
+	public static final String PARAM_KUNDE = "kunde";
+	public static final String PARAM_ID = "id";
+	
+	public static final String GRAPH_LIEFERUNGEN = PREFIX + "lieferungen";
+	
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)

@@ -21,8 +21,14 @@ public class KundenService implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger
 			(MethodHandles.lookup().lookupClass());
 	
+	public enum FetchType {
+		NUR_KUNDE,
+		MIT_BESTELLUNGEN,
+		MIT_WARTUNGSVERTRAEGEN
+	}
+	
 	@NotNull(message = "{kundenverwaltung.kunde.notFound.id}")
-	public AbstractKunde findKundeById(Long id) {
+	public AbstractKunde findKundeById(Long id, FetchType fetch) {
 		LOGGER.debugf("Beginn findKundeById %s", id);
 		if (id == null)
 			return null;

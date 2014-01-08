@@ -6,11 +6,16 @@ import java.lang.invoke.MethodHandles;
 import java.net.URI;
 
 import javax.persistence.Basic;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PostPersist;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlTransient;
@@ -20,6 +25,11 @@ import org.jboss.logging.Logger;
 import shop.util.persistence.AbstractAuditable;
 import shop.artikelverwaltung.domain.AbstractArtikel;
 
+@Entity
+@Table(indexes =  {
+	@Index(columnList = "bestellung_fk"),
+	@Index(columnList = "artikel_fk")
+})
 public class Bestellposition extends AbstractAuditable {
 	private static final long serialVersionUID = -6300237680332104210L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());

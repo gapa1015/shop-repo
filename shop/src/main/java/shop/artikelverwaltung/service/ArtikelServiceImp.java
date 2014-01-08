@@ -1,12 +1,19 @@
 package shop.artikelverwaltung.service;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Rad;
@@ -33,7 +40,38 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 		 return em.find(AbstractArtikel.class,id);
 	 }
 	
-	
+	@Override
+	@Size(min = 1, message = "{artikel.notFound.ids}")
+	public List<AbstractArtikel> findArtikelByIds(List<Long> ids) {
+		if (ids == null || ids.isEmpty()) {
+			return Collections.emptyList();
+		}
+		
+		final CriteriaBuilder builder = em.getCriteriaBuilder();
+		final CriteriaQuery<AbstractArtikel> criteriaQuery = builder.createQuery(AbstractArtikel.class);
+		final Root<AbstractArtikel> a = criteriaQuery.from(AbstractArtikel.class);
+
+		final Path<Long> idPath = a.get("id");
+		
+		Predicate pred = null;
+		if (ids.size() == 1) {
+			pred = builder.equal(idPath, ids.get(0));
+		}
+		else {
+			final Predicate[] equals = new Predicate[ids.size()];
+			int i = 0;
+			for (Long id : ids) {
+				equals[i++] = builder.equal(idPath, id);
+			}
+			
+			pred = builder.or(equals);
+		}
+		
+		criteriaQuery.where(pred);
+		
+		return em.createQuery(criteriaQuery)
+		         .getResultList();
+	}
 	
 	@Override
 	@NotNull

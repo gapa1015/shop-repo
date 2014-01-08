@@ -1,11 +1,18 @@
 package shop.artikelverwaltung.domain;
 
+import static shop.artikelverwaltung.domain.AbstractArtikel.RAD;
+
+import javax.persistence.Cacheable;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
+@Entity
+@DiscriminatorValue(RAD)
 public class Rad extends AbstractArtikel {
 	private static final long serialVersionUID = -583656323460519925L;
 

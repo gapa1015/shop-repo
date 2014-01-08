@@ -14,13 +14,20 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PostPersist;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -31,17 +38,35 @@ import shop.util.persistence.AbstractAuditable;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.bestellverwaltung.domain.TransportType;
 
+@XmlRootElement
+@Entity
+@NamedQueries({
+	@NamedQuery(name  = Lieferung.FIND_LIEFERUNGEN_BY_LIEFERNR,
+                query = "SELECT l"
+                	    + " FROM Lieferung l"
+			            + " WHERE l.liefernummer LIKE :" + Lieferung.PARAM_LIEFERNR)
+})
+@NamedEntityGraphs({
+	@NamedEntityGraph(name = Lieferung.GRAPH_BESTELLUNGEN,
+					  attributeNodes = @NamedAttributeNode("bestellungen"))
+})
 public class Lieferung  extends AbstractAuditable {
 	private static final long serialVersionUID = -6368176928690990504L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
+	private static final String PREFIX = "Lieferung.";
+	public static final String FIND_LIEFERUNGEN_BY_LIEFERNR = PREFIX + "findLieferungenByLieferNr";
+	public static final String PARAM_LIEFERNR = "lieferNr";
+	
+	public static final String GRAPH_BESTELLUNGEN = PREFIX + "bestellungen";
+
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
 	private Long id = KEINE_ID;
 	
-	@NotNull(message = "{lieferung.liefernr.notNull}")
-	@Size(max = 12, message = "{lieferung.liefernr.max}")
+	@NotNull(message = "{lieferung.liefernummer.notNull}")
+	@Size(max = 12, message = "{lieferung.liefernummer.max}")
 	@Column(unique = true)
 	private String liefernummer;
 	

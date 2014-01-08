@@ -5,9 +5,13 @@ import static shop.util.Constants.KEINE_ID;
 import java.lang.invoke.MethodHandles;
 
 import javax.persistence.Basic;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -18,6 +22,8 @@ import org.jboss.logging.Logger;
 import shop.kundenverwaltung.domain.Adresse;
 import shop.util.persistence.AbstractAuditable;
 
+@Entity
+@Table(indexes = @Index(columnList = "name")) 
 public class Hersteller extends AbstractAuditable {
 	private static final long serialVersionUID = -2394662794541413156L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
@@ -32,6 +38,7 @@ public class Hersteller extends AbstractAuditable {
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+(-[A-ZÄÖÜ][a-zäöü]+)?", message = "{artikel.hersteller.pattern}")
 	private String name;
 	
+	@OneToOne
 	@NotNull(message = "AbstractKunde.adresse.notnull")
 	@Valid
 	private Adresse adresse;

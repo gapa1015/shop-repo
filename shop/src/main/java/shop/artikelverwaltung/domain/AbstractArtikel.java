@@ -2,11 +2,6 @@ package shop.artikelverwaltung.domain;
 
 import static shop.util.Constants.KEINE_ID;
 
-
-
-
-
-
 import java.lang.invoke.MethodHandles;
 
 import javax.persistence.Basic;
@@ -14,11 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,32 +23,18 @@ import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 
-
 import org.jboss.logging.Logger;
 
 import shop.util.persistence.AbstractAuditable;
 
+@Entity
+@Table(name = "artikel", indexes = @Index(columnList = "name"))
 @XmlRootElement
 @XmlSeeAlso({ Ersatzteil.class, Rad.class })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-                @Type(value = Ersatzteil.class, name = "Ersatzteil"),
-                @Type(value = Rad.class, name = "Rad") })
-
-@Entity
-@Table (indexes = @Index(columnList = "name"))
-@NamedQueries({
-	@NamedQuery(name =AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL,
-			query = "SELECT      a"
-					+ "FROM		 AbstractArtikel a"
-					+ "ORDER BY a.id ASC"),
-	@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_NAME,
-				query = "SELECT      a"
-						+ "FROM		 AbstractArtikel a"
-						+ "WHERE     a.name LIKE :" +AbstractArtikel.PARAM_NAME
-						+ "ORDER BY a.id ASC")
-})
-
+                @Type(value = Ersatzteil.class, name = AbstractArtikel.ERSATZTEIL),
+                @Type(value = Rad.class, name = AbstractArtikel.RAD) })
 public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
@@ -61,6 +42,9 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final String PREFIX = "AbstractArtikel";
 	public static final String FIND_VERFUEGBARE_ARTIKEL = PREFIX + "findVerfuegbareArtikel";
 	public static final String FIND_ARTIKEL_BY_NAME = PREFIX + "findArtikelByName";
+	
+	public static final String ERSATZTEIL = "E";
+	public static final String RAD = "R";
 	
 	public static final String PARAM_NAME = "name";
 	
@@ -74,16 +58,19 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	private String name;
 
 	@NotNull (message = "{artikel.preis.notNull}")
+	@Digits(integer = 10, fraction = 2, message = "{artikel.preis.digits}")
 	private int preis;
-
+	
+	@OneToOne
 	@NotNull (message = "{artikel.hersteller.notNull}")
 	@Valid
 	private Hersteller hersteller;
 
+	@OneToOne
 	@NotNull (message = "{artikel.lieferant.notNull}")
 	@Valid
 	private Lieferant lieferant;
-	
+
 	@PostPersist
 	private void postPersist() {
 		LOGGER.debugf("Neues Ersatzteil/Rad mit ID=%d", id);
@@ -117,7 +104,7 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	public void setPreis(int preis) {
 		this.preis = preis;
 	}
-
+	
 	public Hersteller getHersteller() {
 		return hersteller;
 	}
@@ -136,20 +123,14 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 
 	@Override
 	public String toString() {
-		return "Artikel [id=" + id + ", name=" + name + ", preis=" + preis
-				+ ", hersteller=" + hersteller + ", lieferant=" + lieferant
-				+ "]";
+		return "AbstractArtikel [id=" + id + ", name=" + name + ", preis="
+				+ preis + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((hersteller == null) ? 0 : hersteller.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((lieferant == null) ? 0 : lieferant.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + preis;
 		return result;
@@ -163,34 +144,14 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final AbstractArtikel other = (AbstractArtikel) obj;
-		if (hersteller == null) {
-			if (other.hersteller != null)
-				return false;
-		} 
-		else if (!hersteller.equals(other.hersteller))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} 
-		else if (!id.equals(other.id))
-			return false;
-		if (lieferant == null) {
-			if (other.lieferant != null)
-				return false;
-		} 
-		else if (!lieferant.equals(other.lieferant))
-			return false;
+		AbstractArtikel other = (AbstractArtikel) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} 
-		else if (!name.equals(other.name))
+		} else if (!name.equals(other.name))
 			return false;
 		if (preis != other.preis)
 			return false;
 		return true;
 	}
-
 }

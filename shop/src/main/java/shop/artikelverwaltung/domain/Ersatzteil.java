@@ -1,15 +1,28 @@
 package shop.artikelverwaltung.domain;
 
+import static shop.artikelverwaltung.domain.AbstractArtikel.ERSATZTEIL;
+
 import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
+@Entity
+@DiscriminatorValue(ERSATZTEIL)
 public class Ersatzteil extends AbstractArtikel {
 	private static final long serialVersionUID = 4379667842641098264L;
 	
-	@NotNull (message = "{ersatzteil.kompartibel.notNull}")
+	@XmlTransient
+	@OneToMany
+	@JoinColumn(name = "rad_fk", nullable = false)
+	@OrderColumn(name = "idx")
 	private List<Rad> kompartibel;
 
 	public List<Rad> getKompartibel() {

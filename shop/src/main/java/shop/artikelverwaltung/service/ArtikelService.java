@@ -9,6 +9,7 @@ import shop.artikelverwaltung.domain.Rad;
 
 public interface ArtikelService {
 	AbstractArtikel findArtikelById(Long id);
+	List<AbstractArtikel> findArtikelByIds(List<Long> ids); 
 	List<AbstractArtikel> findArtikelByName (String name);
 	AbstractArtikel createArtikel(AbstractArtikel artikel);
 	void updateRad(Rad rad);

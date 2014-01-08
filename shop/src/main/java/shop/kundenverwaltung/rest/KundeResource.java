@@ -17,6 +17,7 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.ws.rs.PathParam;
@@ -45,13 +46,12 @@ import shop.util.Mock;
 import shop.util.interceptor.Log;
 import shop.util.rest.UriHelper;
 
-@Log
-@Dependent
 @Path("/kunden")
-@Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75",
-		TEXT_XML + ";qs=0.5" })
+@Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
 @RequestScoped
+@Transactional
+@Log
 public class KundeResource {
 	public static final String NACHNAME = "nachname";
 	public static final String EMAIL = "email";
@@ -74,7 +74,7 @@ public class KundeResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findKundeById(@PathParam("id")Long id) {
-		final AbstractKunde kunde = ks.findKundeById(id);
+		final AbstractKunde kunde = ks.findKundeById(id, null);
 
 		setStructuralLinks(kunde, uriInfo);
 		return Response.ok(kunde)
@@ -124,7 +124,7 @@ public class KundeResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Response findBestellungenByKundeId(@PathParam("id") Long kundeId) {
-		final AbstractKunde kunde = ks.findKundeById(kundeId);
+		final AbstractKunde kunde = ks.findKundeById(kundeId, null);
 		final List<Bestellung> bestellungen = bs.findBestellungenByKunde(kunde);
 		
 		if (bestellungen != null) {
