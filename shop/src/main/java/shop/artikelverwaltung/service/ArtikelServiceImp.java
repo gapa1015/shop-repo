@@ -92,7 +92,7 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	
 	@Override
 	@NotNull //TODO MEssage
-	public List<AbstractArtikel> findArtikelByPrice(BigDecimal preis){
+	public List<AbstractArtikel> findArtikelByPreis(BigDecimal preis){
 		return null;
 		
 	}
