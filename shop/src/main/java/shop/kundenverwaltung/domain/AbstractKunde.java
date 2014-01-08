@@ -55,17 +55,32 @@ import shop.bestellverwaltung.domain.Bestellung;
 @NamedQueries({
 		@NamedQuery
 		(name = AbstractKunde.KUNDE_BY_NACHNAME, 
-		query = "Select k + FROM AbstractKunde k + WHERE k.nachname = :nachname + ORDER BY k.nachname ASC"),
+		query = "Select k" 
+				+ " FROM AbstractKunde k" 
+				+ " WHERE k.nachname = :nachname" 
+				+ " ORDER BY k.nachname ASC"),
 		@NamedQuery(name = AbstractKunde.KUNDE_BY_ID, 
-		query = "Select k + FROM AbstractKunde k + WHERE k.id = :id + ORDER BY k.id ASC"), 
+		query = "Select k" 
+				+ " FROM AbstractKunde k"
+				+ " WHERE k.id = :id"
+				+ " ORDER BY k.id ASC"), 
 		@NamedQuery
 		(name = AbstractKunde.KUNDE_BY_VORNAME,
-		query = "SELECT k + FROM AbstractKunde k + WHERE k.vorname = :vorname + ORDER BY k.vorname ASC"),
+		query = "SELECT k"
+				+ " FROM AbstractKunde k" 
+				+ " WHERE k.vorname = :vorname"
+				+ " ORDER BY k.vorname ASC"),
 		@NamedQuery(name = AbstractKunde.KUNDE_BY_EMAIL,
-		query = "SELECT k + FROM AbstractKunde k WHERE k.email = :email + ORDER BY k.email ASC"),
+		query = "SELECT k" 
+				+ " FROM AbstractKunde k"
+				+ " WHERE k.email = :email"
+				+ " ORDER BY k.email ASC"),
 		@NamedQuery
 		(name = AbstractKunde.KUNDE_BY_GEBURTSTAG, 
-		query = "Select k + FROM AbstractKunde k + WHERE k.geburtstag = :geburtstag + ORDER BY k.geburtstag ASC"),
+		query = "Select k" 
+				+ " FROM AbstractKunde k"
+				+ " WHERE k.geburtstag = :geburtstag"
+				+ " ORDER BY k.geburtstag ASC"),
 })
 @NamedEntityGraphs({
 		@NamedEntityGraph(name = "bestellungen", attributeNodes = @NamedAttributeNode("bestellungen"))

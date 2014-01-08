@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.Table;
@@ -22,7 +24,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
-
 import org.jboss.logging.Logger;
 
 import shop.util.persistence.AbstractAuditable;
@@ -35,6 +36,17 @@ import shop.util.persistence.AbstractAuditable;
 @JsonSubTypes({
                 @Type(value = Ersatzteil.class, name = AbstractArtikel.ERSATZTEIL),
                 @Type(value = Rad.class, name = AbstractArtikel.RAD) })
+@NamedQueries({
+	@NamedQuery(name =AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL,
+			query = "SELECT a"
+					+ " FROM		 AbstractArtikel a"
+					+ " ORDER BY a.id ASC"),
+	@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_NAME,
+				query = "SELECT      a"
+						+ " FROM		 AbstractArtikel a"
+						+ " WHERE     a.name LIKE :" +AbstractArtikel.PARAM_NAME
+						+ " ORDER BY a.id ASC")
+})
 public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
