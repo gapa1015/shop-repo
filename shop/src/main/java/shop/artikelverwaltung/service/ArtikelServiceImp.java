@@ -89,9 +89,15 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	}
 
 	@Override
-	public AbstractArtikel createArtikel(AbstractArtikel artikel) {
-		return 	Mock.createArtikel(artikel);
+	public <T extends AbstractArtikel > T createArtikel(T artikel) {
+			if (artikel == null) {
+			return artikel;
+		}
+		em.persist(artikel);
+		return artikel;
 	}
+			
+	
 
 	@Override
 	public void updateRad(Rad rad) {
