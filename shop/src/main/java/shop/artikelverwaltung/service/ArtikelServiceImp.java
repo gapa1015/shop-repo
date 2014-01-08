@@ -1,6 +1,7 @@
 package shop.artikelverwaltung.service;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -85,7 +86,8 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	
 	@Override
 	@NotNull //TODO MEssage
-	public List<AbstractArtikel> findArtikelByPrice(int preis){
+	public List<AbstractArtikel> findArtikelByPrice(BigDecimal preis){
+		return null;
 		
 	}
 

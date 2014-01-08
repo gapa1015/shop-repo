@@ -35,52 +35,58 @@ import shop.util.persistence.AbstractAuditable;
 @XmlSeeAlso({ Ersatzteil.class, Rad.class })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-                @Type(value = Ersatzteil.class, name = AbstractArtikel.ERSATZTEIL),
-                @Type(value = Rad.class, name = AbstractArtikel.RAD) })
+		@Type(value = Ersatzteil.class, name = AbstractArtikel.ERSATZTEIL),
+		@Type(value = Rad.class, name = AbstractArtikel.RAD) })
 @NamedQueries({
-	@NamedQuery(name =AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL,
-			query = "SELECT a"
-					+ " FROM		 AbstractArtikel a"
-					+ " ORDER BY a.id ASC"),
-	@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_NAME,
-				query = "SELECT      a"
-						+ " FROM		 AbstractArtikel a"
-						+ " WHERE     a.name LIKE :" +AbstractArtikel.PARAM_NAME
-						+ " ORDER BY a.id ASC")
-})
+		@NamedQuery(name = AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL, query = "SELECT a"
+				+ " FROM		 AbstractArtikel a" + " ORDER BY a.id ASC"),
+		@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_NAME, query = "SELECT      a"
+				+ " FROM		 AbstractArtikel a"
+				+ " WHERE     a.name LIKE :"
+				+ AbstractArtikel.PARAM_NAME + " ORDER BY a.id ASC"),
+		@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_PREIS, query = "SELECT      a"
+				+ " FROM		 AbstractArtikel a"
+				+ " WHERE     a.preis < :"
+				+ AbstractArtikel.PARAM_PREIS + " ORDER BY a.id ASC") })
 public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles
+			.lookup().lookupClass());
 
 	private static final String PREFIX = "AbstractArtikel";
-	public static final String FIND_VERFUEGBARE_ARTIKEL = PREFIX + "findVerfuegbareArtikel";
-	public static final String FIND_ARTIKEL_BY_NAME = PREFIX + "findArtikelByName";
-	
+	public static final String FIND_VERFUEGBARE_ARTIKEL = PREFIX
+			+ "findVerfuegbareArtikel";
+	public static final String FIND_ARTIKEL_BY_NAME = PREFIX
+			+ "findArtikelByName";
+	public static final String FIND_ARTIKEL_BY_PREIS = PREFIX
+			+ "findArtikelByPreis";
+
 	public static final String ERSATZTEIL = "E";
 	public static final String RAD = "R";
-	
+
 	public static final String PARAM_NAME = "name";
-	
+	public static final String PARAM_PREIS = "preis";
+
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
 	private Long id = KEINE_ID;
-	
+
 	@Size(min = 2, message = "{artikel.name.size}")
-	@NotNull (message = "{artikel.name.notNull}")
+	@NotNull(message = "{artikel.name.notNull}")
 	private String name;
 
-	@NotNull (message = "{artikel.preis.notNull}")
+	@NotNull(message = "{artikel.preis.notNull}")
 	@Digits(integer = 10, fraction = 2, message = "{artikel.preis.digits}")
 	private BigDecimal preis;
-	
+
 	@OneToOne
-	@NotNull (message = "{artikel.hersteller.notNull}")
+	@NotNull(message = "{artikel.hersteller.notNull}")
 	@Valid
 	private Hersteller hersteller;
 
 	@OneToOne
-	@NotNull (message = "{artikel.lieferant.notNull}")
+	@NotNull(message = "{artikel.lieferant.notNull}")
 	@Valid
 	private Lieferant lieferant;
 
@@ -88,10 +94,10 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	private void postPersist() {
 		LOGGER.debugf("Neues Ersatzteil/Rad mit ID=%d", id);
 	}
-	
+
 	public AbstractArtikel() {
 		super();
-		
+
 	}
 
 	public Long getId() {
@@ -110,14 +116,14 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 		this.name = name;
 	}
 
-	public int getPreis() {
+	public BigDecimal getPreis() {
 		return preis;
 	}
 
-	public void setPreis(int preis) {
+	public void setPreis(BigDecimal preis) {
 		this.preis = preis;
 	}
-	
+
 	public Hersteller getHersteller() {
 		return hersteller;
 	}
@@ -144,8 +150,13 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((hersteller == null) ? 0 : hersteller.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((lieferant == null) ? 0 : lieferant.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + preis;
+		result = prime * result + ((preis == null) ? 0 : preis.hashCode());
 		return result;
 	}
 
@@ -158,13 +169,32 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractArtikel other = (AbstractArtikel) obj;
+		if (hersteller == null) {
+			if (other.hersteller != null)
+				return false;
+		} else if (!hersteller.equals(other.hersteller))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (lieferant == null) {
+			if (other.lieferant != null)
+				return false;
+		} else if (!lieferant.equals(other.lieferant))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (preis != other.preis)
+		if (preis == null) {
+			if (other.preis != null)
+				return false;
+		} else if (!preis.equals(other.preis))
 			return false;
 		return true;
 	}
+
 }
