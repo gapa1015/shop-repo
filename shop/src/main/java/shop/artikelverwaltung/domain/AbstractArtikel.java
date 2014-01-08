@@ -97,7 +97,6 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 
 	public AbstractArtikel() {
 		super();
-
 	}
 
 	public Long getId() {
@@ -196,5 +195,4 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 			return false;
 		return true;
 	}
-
 }
