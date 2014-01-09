@@ -6,10 +6,12 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 
 import javax.persistence.Basic;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.Inheritance;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -48,6 +50,8 @@ import shop.util.persistence.AbstractAuditable;
 				+ " FROM		 AbstractArtikel a"
 				+ " WHERE     a.preis < :"
 				+ AbstractArtikel.PARAM_PREIS + " ORDER BY a.id ASC") })
+@Inheritance
+@DiscriminatorColumn(name = "dtype", length = 1)
 public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles
