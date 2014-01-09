@@ -20,5 +20,12 @@ INSERT INTO hersteller (id, aktualisiert, erzeugt, adresse_id, name) VALUES (106
 INSERT INTO hersteller (id, aktualisiert, erzeugt, adresse_id, name) VALUES (107, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 302, 'sigma');
 INSERT INTO hersteller (id, aktualisiert, erzeugt, adresse_id, name) VALUES (108, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 302, 'trelock');
 
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('R', 11, '06.08.2006 00:00:00', '06.08.2006 00:00:00', 'Fahrrad', 120, '2011', 15, 100, 100);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('E', 10, '06.08.2006 00:00:00', '06.08.2006 00:00:00', 'Fahrrad', 120, '2011', NULL, 102, 101);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('R', 11, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Fahrrad', 350, '2011', 28, 100, 100);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('R', 12, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Mountainbike', 1200, '2011', 28, 101, 101);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('R', 13, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'KidsBike', 140, '2010', 15, 108, 104);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('R', 14, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Damenrad', 220, '2011', 24, 102, 102);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('R', 15, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Electrorad', 2520, '2011', 28, 103, 103);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('E', 21, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Spiegel', 29, '2011', NULL, 104, 102);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('E', 22, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Pedale', 50, '2011', NULL, 105, 103);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('E', 23, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Sitz', 120, '2011', NULL, 106, 102);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_id, lieferant_id) VALUES ('E', 24, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Lenker', 60, '2011', NULL, 107, 104);
