@@ -87,7 +87,7 @@ public class ArtikelResource {
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateRad(@Valid Rad rad) {
-		as.updateRad(rad);
+		as.updateArtikel(rad);
 	}
 
 	@DELETE
