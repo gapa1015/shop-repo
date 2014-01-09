@@ -11,8 +11,13 @@ INSERT INTO adresse (id, hausnummer, plz, stadt, strasse, kunde_fk) VALUES (303,
 --
 -- Lieferant
 --
-INSERT INTO lieferant (id, aktualisiert, erzeugt, name, adresse_id) VALUES (400,'02.08.2006 00:00:00','02.08.2006 00:00:00',"Reno",301);
+INSERT INTO lieferant (id, aktualisiert, erzeugt, name, adresse_id) VALUES (400,'02.08.2006 00:00:00','02.08.2006 00:00:00',"DHL",301);
 
 --
 -- Lieferant
+--
+INSERT INTO hersteller (id, aktualisiert, erzeugt, name, adresse_id) VALUES (500,'02.08.2006 00:00:00','02.08.2006 00:00:00',"Reno",302);
+
+--
+-- Artikel
 --
