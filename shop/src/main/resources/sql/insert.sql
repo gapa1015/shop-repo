@@ -1,3 +1,4 @@
+
 INSERT INTO adresse (id, hausnummer, plz, stadt, strasse, kunde_fk) VALUES (300, '7', '76133', 'Karlsruhe','Moltkestrasse', NULL);
 
 INSERT INTO lieferant (id, aktualisiert, erzeugt, adresse_id, name) VALUES (100, '06.08.2006 00:00:00', '06.08.2006 00:00:00', 300, 'Lieferant');
