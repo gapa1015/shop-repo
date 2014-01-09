@@ -47,7 +47,7 @@ public class Adresse implements Serializable {
 	private String stadt;
 
 	@OneToOne
-	@JoinColumn(name = "kunde_fk", unique = true, nullable = false)
+	@JoinColumn(name = "kunde_fk", unique = true)
 	@XmlTransient
 	private AbstractKunde kunde;
 

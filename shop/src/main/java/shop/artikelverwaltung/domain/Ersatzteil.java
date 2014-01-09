@@ -20,8 +20,8 @@ public class Ersatzteil extends AbstractArtikel {
 	
 	@XmlTransient
 	@OneToMany
-	@JoinColumn(name = "rad_fk", nullable = false)
-	@OrderColumn(name = "idx")
+	@JoinColumn(name = "rad_fk")
+//	@OrderColumn(name = "idx")
 	private List<Rad> kompartibel;
 
 	public List<Rad> getKompartibel() {
