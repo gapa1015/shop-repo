@@ -80,17 +80,7 @@ import shop.bestellverwaltung.domain.Bestellung;
 		query = "Select k" 
 				+ " FROM AbstractKunde k"
 				+ " WHERE k.geburtstag = :geburtstag"
-				+ " ORDER BY k.geburtstag ASC"),
-		@NamedQuery(name = AbstractKunde.KUNDE_BY_PLZ,
-		query = "SELECT k" 
-				+ " FROM AbstractKunde k"
-				+ " WHERE k.adresse.pls = :Abstract.adresse.plz"
-				+ " ORDER BY k.adresse.plz ASC"),
-		@NamedQuery(name = AbstractKunde.KUNDE_BY_PLZ,
-		query = "SELECT k" 
-				+ " FROM AbstractKunde k"
-				+ " WHERE k.adresse.strasse = :Abstract.adresse.strasse"
-				+ " ORDER BY k.adresse.strasse ASC"),			
+				+ " ORDER BY k.geburtstag ASC")			
 })
 @NamedEntityGraphs({
 		@NamedEntityGraph(name = "bestellungen", attributeNodes = @NamedAttributeNode("bestellungen"))
