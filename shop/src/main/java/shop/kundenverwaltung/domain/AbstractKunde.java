@@ -81,6 +81,16 @@ import shop.bestellverwaltung.domain.Bestellung;
 				+ " FROM AbstractKunde k"
 				+ " WHERE k.geburtstag = :geburtstag"
 				+ " ORDER BY k.geburtstag ASC"),
+		@NamedQuery(name = AbstractKunde.KUNDE_BY_PLZ,
+		query = "SELECT k" 
+				+ " FROM AbstractKunde k"
+				+ " WHERE k.adresse.pls = :Abstract.adresse.plz"
+				+ " ORDER BY k.adresse.plz ASC"),
+		@NamedQuery(name = AbstractKunde.KUNDE_BY_PLZ,
+		query = "SELECT k" 
+				+ " FROM AbstractKunde k"
+				+ " WHERE k.adresse.strasse = :Abstract.adresse.strasse"
+				+ " ORDER BY k.adresse.strasse ASC"),			
 })
 @NamedEntityGraphs({
 		@NamedEntityGraph(name = "bestellungen", attributeNodes = @NamedAttributeNode("bestellungen"))
@@ -92,18 +102,25 @@ import shop.bestellverwaltung.domain.Bestellung;
 @XmlRootElement
 @XmlSeeAlso({ Firmenkunde.class, Privatkunde.class })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({ @Type(value = Privatkunde.class, name = "P"),
-		@Type(value = Firmenkunde.class, name = "F") })
+@JsonSubTypes({ @Type(value = Privatkunde.class, name = AbstractKunde.PRIVATKUNDE),
+		@Type(value = Firmenkunde.class, name = AbstractKunde.FIRMENKUNDE) })
 public abstract class AbstractKunde implements Serializable {
 	private static final long serialVersionUID = -424504155716043120L;
 
 	private static final String PREFIX = "AbstractKunde.";
-
+	public static final String PRIVATKUNDE = "P";
+	public static final String FIRMENKUNDE = "F";
+	
+	
 	public static final String KUNDE_BY_NACHNAME = PREFIX + "findKundeByNachname";
 	public static final String KUNDE_BY_ID = PREFIX + "findKundeById";
 	public static final String KUNDE_BY_VORNAME = PREFIX + "findKundeByVorname";
 	public static final String KUNDE_BY_EMAIL = PREFIX + "findKundeByEmail";
 	public static final String KUNDE_BY_GEBURTSTAG = PREFIX + "findKundeByGeburtstag";
+	public static final String KUNDE_BY_PLZ = PREFIX + "findKundeByPlz";
+	public static final String KUNDE_BY_STRASSE = PREFIX + "findKundeByStrasse";
+	public static final String KUNDE_BY_BANKDATEN = PREFIX + "findKundeByBankdaten";
+	public static final String KUNDE_BY_BESTELLUNG = PREFIX + "findKundeByBestellelung";
 
 	@Id
 	@GeneratedValue
@@ -150,6 +167,8 @@ public abstract class AbstractKunde implements Serializable {
 	@Convert(converter = GeschlechtTypeConverter.class)
 	private GeschlechtType geschlecht;
 	
+	@NotNull
+	@Size(min = 7, max = 20)
     private String password;
     
     @Transient
