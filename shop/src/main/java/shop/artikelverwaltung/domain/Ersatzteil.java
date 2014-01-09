@@ -8,7 +8,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -20,8 +19,8 @@ public class Ersatzteil extends AbstractArtikel {
 	
 	@XmlTransient
 	@OneToMany
-	@JoinColumn(name = "rad_fk", nullable = false)
-	@OrderColumn(name = "idx")
+	@JoinColumn(name = "rad_fk")
+//	@OrderColumn(name = "idx")
 	private List<Rad> kompartibel;
 
 	public List<Rad> getKompartibel() {
