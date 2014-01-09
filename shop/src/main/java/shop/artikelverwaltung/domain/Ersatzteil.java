@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @DiscriminatorValue(ERSATZTEIL)
 public class Ersatzteil extends AbstractArtikel {
 	private static final long serialVersionUID = 4379667842641098264L;
-	
+
 	@XmlTransient
 	@OneToMany
 	@JoinColumn(name = "rad_fk")
-//	@OrderColumn(name = "idx")
+	// @OrderColumn(name = "idx")
 	private List<Rad> kompartibel;
 
 	public List<Rad> getKompartibel() {
@@ -57,8 +57,7 @@ public class Ersatzteil extends AbstractArtikel {
 		if (kompartibel == null) {
 			if (other.kompartibel != null)
 				return false;
-		}
-		else if (!kompartibel.equals(other.kompartibel))
+		} else if (!kompartibel.equals(other.kompartibel))
 			return false;
 		return true;
 	}

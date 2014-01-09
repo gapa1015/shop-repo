@@ -6,6 +6,7 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,6 +28,8 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
 import org.jboss.logging.Logger;
 
+import shop.kundenverwaltung.domain.Firmenkunde;
+import shop.kundenverwaltung.domain.Privatkunde;
 import shop.util.persistence.AbstractAuditable;
 
 @Entity
@@ -48,6 +51,7 @@ import shop.util.persistence.AbstractAuditable;
 				+ " FROM		 AbstractArtikel a"
 				+ " WHERE     a.preis < :"
 				+ AbstractArtikel.PARAM_PREIS + " ORDER BY a.id ASC") })
+@Cacheable
 public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles
