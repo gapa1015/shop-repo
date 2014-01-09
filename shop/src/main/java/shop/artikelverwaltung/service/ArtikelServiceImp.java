@@ -90,10 +90,14 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	}
 
 	@Override
-	@NotNull(message = "{artikelverwaltung.artikel.notFound.price}")
+	@NotNull(message = "{artikelverwaltung.artikel.notFound.preis}")
 	public List<AbstractArtikel> findArtikelByPreis(BigDecimal preis) {
-		return null;
 
+		return em
+				.createNamedQuery(AbstractArtikel.FIND_ARTIKEL_BY_PREIS,
+						AbstractArtikel.class)
+				.setParameter(AbstractArtikel.PARAM_PREIS, "%" + preis + "%")
+				.getResultList();
 	}
 
 	@Override
