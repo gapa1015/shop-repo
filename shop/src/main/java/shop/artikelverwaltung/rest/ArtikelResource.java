@@ -86,7 +86,7 @@ public class ArtikelResource {
 	@PUT
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public void updateRad(@Valid Rad rad) {
+	public void updateArtikel(@Valid Rad rad) {
 		as.updateArtikel(rad);
 	}
 
