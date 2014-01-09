@@ -21,13 +21,13 @@ public class Ersatzteil extends AbstractArtikel {
 	@OneToMany
 	@JoinColumn(name = "rad_fk")
 	// @OrderColumn(name = "idx")
-	private List<Rad> kompartibel;
+	private int kompartibel;
 
-	public List<Rad> getKompartibel() {
+	public int getKompartibel() {
 		return kompartibel;
 	}
 
-	public void setKompartibel(List<Rad> kompartibel) {
+	public void setKompartibel(int kompartibel) {
 		this.kompartibel = kompartibel;
 	}
 
@@ -40,8 +40,7 @@ public class Ersatzteil extends AbstractArtikel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((kompartibel == null) ? 0 : kompartibel.hashCode());
+		result = prime * result + kompartibel;
 		return result;
 	}
 
@@ -53,11 +52,8 @@ public class Ersatzteil extends AbstractArtikel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Ersatzteil other = (Ersatzteil) obj;
-		if (kompartibel == null) {
-			if (other.kompartibel != null)
-				return false;
-		} else if (!kompartibel.equals(other.kompartibel))
+		Ersatzteil other = (Ersatzteil) obj;
+		if (kompartibel != other.kompartibel)
 			return false;
 		return true;
 	}
