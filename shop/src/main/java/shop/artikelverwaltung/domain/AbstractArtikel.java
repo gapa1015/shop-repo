@@ -6,6 +6,7 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,8 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.jboss.logging.Logger;
 
 import shop.util.persistence.AbstractAuditable;
@@ -50,6 +51,8 @@ import shop.util.persistence.AbstractAuditable;
 				+ " FROM		 AbstractArtikel a"
 				+ " WHERE     a.preis < :"
 				+ AbstractArtikel.PARAM_PREIS + " ORDER BY a.id ASC") })
+
+@Cacheable
 @Inheritance
 @DiscriminatorColumn(name = "dtype", length = 1)
 public abstract class AbstractArtikel extends AbstractAuditable {
