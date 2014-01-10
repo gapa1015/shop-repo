@@ -44,15 +44,17 @@ import shop.bestellverwaltung.domain.TransportType;
 	@NamedQuery(name  = Lieferung.FIND_LIEFERUNGEN_BY_LIEFERNR,
                 query = "SELECT l"
                 	    + " FROM Lieferung l"
-			            + " WHERE l.liefernummer LIKE :" + Lieferung.PARAM_LIEFERNR)
+			            + " WHERE l.liefernr LIKE :" + Lieferung.PARAM_LIEFERNR)
 })
 @NamedEntityGraphs({
 	@NamedEntityGraph(name = Lieferung.GRAPH_BESTELLUNGEN,
 					  attributeNodes = @NamedAttributeNode("bestellungen"))
 })
-public class Lieferung  extends AbstractAuditable {
-	private static final long serialVersionUID = -6368176928690990504L;
+public class Lieferung extends AbstractAuditable {
+	private static final long serialVersionUID = 7560752199018702446L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	
+	private static final int LIEFERNR_LENGTH = 12;
 	
 	private static final String PREFIX = "Lieferung.";
 	public static final String FIND_LIEFERUNGEN_BY_LIEFERNR = PREFIX + "findLieferungenByLieferNr";
@@ -64,29 +66,29 @@ public class Lieferung  extends AbstractAuditable {
 	@GeneratedValue
 	@Basic(optional = false)
 	private Long id = KEINE_ID;
-	
-	@NotNull(message = "{lieferung.liefernummer.notNull}")
-	@Size(max = 12, message = "{lieferung.liefernummer.max}")
+
+	@NotNull(message = "{lieferung.liefernr.notNull}")
+	@Size(max = LIEFERNR_LENGTH, message = "{lieferung.liefernr.max}")
 	@Column(unique = true)
-	private String liefernummer;
+	private String liefernr;
 	
 	@Column(name = "transport_art", length = 3)
 	@Convert(converter = TransportTypeConverter.class)
 	private TransportType transportArt;
-	
-	@ManyToMany(mappedBy = "lieferungen", cascade = { PERSIST, MERGE })
+
+	@ManyToMany
 	@NotEmpty(message = "{lieferung.bestellungen.notEmpty}")
 	@Valid
 	@XmlTransient
 	private Set<Bestellung> bestellungen;
-	
+
 	public Lieferung() {
 		super();
 	}
 	
-	public Lieferung(String liefernummer, TransportType transportArt) {
+	public Lieferung(String liefernr, TransportType transportArt) {
 		super();
-		this.liefernummer = liefernummer;
+		this.liefernr = liefernr;
 		this.transportArt = transportArt;
 	}
 	
@@ -102,11 +104,11 @@ public class Lieferung  extends AbstractAuditable {
 		this.id = id;
 	}
 
-	public String getLiefernummer() {
-		return liefernummer;
+	public String getLiefernr() {
+		return liefernr;
 	}
-	public void setLiefernummer(String liefernummer) {
-		this.liefernummer = liefernummer;
+	public void setLiefernr(String liefernr) {
+		this.liefernr = liefernr;
 	}
 
 	public TransportType getTransportArt() {
@@ -116,7 +118,7 @@ public class Lieferung  extends AbstractAuditable {
 	public void setTransportArt(TransportType transportArt) {
 		this.transportArt = transportArt;
 	}
-	
+
 	public Set<Bestellung> getBestellungen() {
 		return bestellungen == null ? null : Collections.unmodifiableSet(bestellungen);
 	}
@@ -126,6 +128,7 @@ public class Lieferung  extends AbstractAuditable {
 			this.bestellungen = bestellungen;
 			return;
 		}
+		
 		this.bestellungen.clear();
 		if (bestellungen != null) {
 			this.bestellungen.addAll(bestellungen);
@@ -149,7 +152,7 @@ public class Lieferung  extends AbstractAuditable {
 
 	@Override
 	public String toString() {
-		return "Lieferung [id=" + id + ", liefernr=" + liefernummer + ", transportArt=" + transportArt
+		return "Lieferung [id=" + id + ", liefernr=" + liefernr + ", transportArt=" + transportArt
 				+ ", " + super.toString() + ']';
 	}
 
@@ -157,25 +160,32 @@ public class Lieferung  extends AbstractAuditable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((liefernummer == null) ? 0 : liefernummer.hashCode());
+		result = prime * result + ((liefernr == null) ? 0 : liefernr.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
-		Lieferung other = (Lieferung) obj;
-		if (liefernummer == null) {
-			if (other.liefernummer != null)
+		}
+		final Lieferung other = (Lieferung) obj;
+		
+		if (liefernr == null) {
+			if (other.liefernr != null) {
 				return false;
-		} else if (!liefernummer.equals(other.liefernummer))
+			}
+		}
+		else if (!liefernr.equals(other.liefernr)) {
 			return false;
+		}
+
 		return true;
 	}
 }

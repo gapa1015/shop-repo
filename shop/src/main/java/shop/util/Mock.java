@@ -37,7 +37,6 @@ public class Mock {
 		final Bestellung bestellung = new Bestellung();
 		bestellung.setId(id);
 		bestellung.setKunde(kunde);
-		bestellung.setBestelldatum(date);
 
 		return bestellung;
 	}
@@ -47,7 +46,6 @@ public class Mock {
 		
 		bestellung.setId((long) bestellung.getKunde().getNachname().length());
 		bestellung.setKunde(bestellung.getKunde());
-		bestellung.setBestelldatum(date);
 		
 		return bestellung;
 	}

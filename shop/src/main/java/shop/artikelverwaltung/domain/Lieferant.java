@@ -1,14 +1,19 @@
 package shop.artikelverwaltung.domain;
 
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
 import static shop.util.Constants.KEINE_ID;
 
 import java.lang.invoke.MethodHandles;
 
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.Table;
@@ -16,6 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jboss.logging.Logger;
 
@@ -24,11 +30,32 @@ import shop.util.persistence.AbstractAuditable;
 
 @Entity
 @Table(indexes = @Index(columnList = "name")) 
+@XmlRootElement
+@NamedQueries({
+	@NamedQuery(name = Lieferant.FIND_LIEFERANT_BY_ID, 
+	query = "Select	  l" 
+			+ " FROM  Lieferant l"
+			+ " WHERE l.id = :id"
+			+ Lieferant.PARAM_ID
+			+ " ORDER BY l.id ASC"), 
+	@NamedQuery(name = Lieferant.FIND_LIEFERANT_BY_NAME, 
+	query = "SELECT		l"
+			+ " FROM	Lieferant l"
+			+ " WHERE   l.name LIKE :"
+			+ Lieferant.PARAM_NAME + " ORDER BY l.id ASC")
+})
+@Cacheable
 public class Lieferant extends AbstractAuditable {
 	private static final long serialVersionUID = -491580271549710536L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
-
-
+	
+	private static final String PREFIX = "Lieferant.";
+	public static final String FIND_LIEFERANT_BY_ID = PREFIX + "findLieferantById";
+	public static final String FIND_LIEFERANT_BY_NAME = PREFIX + "findHLieferantByName";
+	
+	public static final String PARAM_NAME = "name";
+	public static final String PARAM_ID = "id";
+	
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
@@ -39,7 +66,7 @@ public class Lieferant extends AbstractAuditable {
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+(-[A-ZÄÖÜ][a-zäöü]+)?", message = "{lieferant.name.pattern}")
 	private String name;
 	
-	@OneToOne
+	@OneToOne(cascade = { PERSIST, REMOVE })
 	@NotNull(message = "AbstractKunde.adresse.notnull")
 	@Valid
 	private Adresse adresse;

@@ -46,6 +46,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.ScriptAssert;
 
 import shop.bestellverwaltung.domain.Bestellung;
+import shop.util.persistence.AbstractAuditable;
 
 @ScriptAssert(lang = "javascript",
                          script = "_this.password != null && !_this.password.equals(\"\")"
@@ -85,7 +86,7 @@ import shop.bestellverwaltung.domain.Bestellung;
 @NamedEntityGraphs({
 		@NamedEntityGraph(name = "bestellungen", attributeNodes = @NamedAttributeNode("bestellungen"))
 		})
-@Table(indexes = @Index(columnList = "nachname"))
+@Table(name = "kunde", indexes = @Index(columnList = "nachname"))
 @Cacheable
 @Inheritance
 @DiscriminatorColumn(name = "art", length = 1)
@@ -94,7 +95,7 @@ import shop.bestellverwaltung.domain.Bestellung;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @Type(value = Privatkunde.class, name = AbstractKunde.PRIVATKUNDE),
 		@Type(value = Firmenkunde.class, name = AbstractKunde.FIRMENKUNDE) })
-public abstract class AbstractKunde implements Serializable {
+public abstract class AbstractKunde extends AbstractAuditable {
 	private static final long serialVersionUID = -424504155716043120L;
 
 	private static final String PREFIX = "AbstractKunde.";
@@ -129,7 +130,7 @@ public abstract class AbstractKunde implements Serializable {
 
 	@NotNull(message = "{kunde.adresse.notnull}")
 	@Valid
-	@OneToOne(mappedBy = "kunde", cascade = { PERSIST, REMOVE })
+	@OneToOne(cascade = { PERSIST, REMOVE })
 	// default: fetch = EAGER
 	private Adresse adresse;
 
@@ -149,8 +150,7 @@ public abstract class AbstractKunde implements Serializable {
 
 	@NotNull(message = "{kunde.bankdaten.notnull}")
 	@Valid
-	@OneToOne(mappedBy = "kunde", cascade = { PERSIST, REMOVE })
-	// default: fetch = EAGER
+	@OneToOne(cascade = { PERSIST, REMOVE })
 	private Bankdaten bankdaten;
 
 	@Column(length = 1)

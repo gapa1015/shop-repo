@@ -88,12 +88,12 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	private BigDecimal preis;
 
 	@OneToOne
-	@NotNull(message = "{artikel.hersteller.notNull}")
+	//@NotNull(message = "{artikel.hersteller.notNull}")
 	@Valid
 	private Hersteller hersteller;
 
 	@OneToOne
-	@NotNull(message = "{artikel.lieferant.notNull}")
+	//@NotNull(message = "{artikel.lieferant.notNull}")
 	@Valid
 	private Lieferant lieferant;
 

@@ -2,12 +2,10 @@ package shop.artikelverwaltung.domain;
 
 import static shop.artikelverwaltung.domain.AbstractArtikel.ERSATZTEIL;
 
-import java.util.List;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -18,16 +16,15 @@ public class Ersatzteil extends AbstractArtikel {
 	private static final long serialVersionUID = 4379667842641098264L;
 
 	@XmlTransient
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "rad_fk")
-	// @OrderColumn(name = "idx")
-	private int kompartibel;
+	private Rad kompartibel;
 
-	public int getKompartibel() {
+	public Rad getKompartibel() {
 		return kompartibel;
 	}
 
-	public void setKompartibel(int kompartibel) {
+	public void setKompartibel(Rad kompartibel) {
 		this.kompartibel = kompartibel;
 	}
 
@@ -40,7 +37,7 @@ public class Ersatzteil extends AbstractArtikel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + kompartibel;
+		result = prime * result + kompartibel.hashCode();
 		return result;
 	}
 

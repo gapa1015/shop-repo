@@ -16,10 +16,12 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
+import shop.util.persistence.AbstractAuditable;
+
 @Cacheable
 @Entity
 @Table(indexes = @Index(columnList = "kontonummer"))
-public class Bankdaten implements Serializable {
+public class Bankdaten extends AbstractAuditable  {
 
 	private static final long serialVersionUID = 4004266924592845222L;
 
@@ -42,7 +44,7 @@ public class Bankdaten implements Serializable {
 	private String kontonummer;
 
 	@OneToOne
-	@JoinColumn(name = "kunde_fk", unique = true, nullable = false)
+	@JoinColumn(name = "kunde_fk", unique = true)
 	@XmlTransient
 	private AbstractKunde kunde;
 

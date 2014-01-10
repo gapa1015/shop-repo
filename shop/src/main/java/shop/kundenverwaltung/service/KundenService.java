@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import org.jboss.logging.Logger;
 
 import shop.kundenverwaltung.domain.AbstractKunde;
+import shop.kundenverwaltung.domain.Adresse;
+import shop.kundenverwaltung.domain.Bankdaten;
 import shop.util.Mock;
 import shop.util.interceptor.Log;
 
@@ -69,8 +71,28 @@ public class KundenService implements Serializable {
 			return null;
 		}
 		kunde.setId(null);
+		createAdresse(kunde.getAdresse());
+		createBankdaten(kunde.getBankdaten());
 		em.persist(kunde);
 		return kunde;
+	}
+	
+	public Adresse createAdresse(Adresse adresse) {
+		if (adresse == null) {
+			return null;
+		}
+		adresse.setId(null);
+		em.persist(adresse);
+		return adresse;
+	}
+	
+	public Bankdaten createBankdaten(Bankdaten bankdaten) {
+		if (bankdaten == null) {
+			return null;
+		}
+		bankdaten.setId(null);
+		em.persist(bankdaten);
+		return bankdaten;
 	}
 		
 	public <T extends AbstractKunde> T updateKunde(T kunde) {

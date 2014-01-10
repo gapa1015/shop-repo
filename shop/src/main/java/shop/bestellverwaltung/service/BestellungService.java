@@ -11,15 +11,15 @@ public interface BestellungService {
 
 	Bestellung findBestellungById(Long id, FetchType fetch);
 	
+	AbstractKunde findKundeById(Long id);
+	
+	List<Bestellung> findBestellungenByKunde(AbstractKunde kunde);
+	
 	List<Bestellung> findBestellungenByIds(List<Long> ids, FetchType fetch);
 	
 	Bestellung createBestellung(Bestellung bestellung, Long kundeId);
 	
 	Bestellung createBestellung(Bestellung bestellung, AbstractKunde kunde);
-	
-	Bestellung updateBestellung(Bestellung bestellung);
-	
-	List<Bestellung> findBestellungenByKunde(AbstractKunde kunde);
 	
 	List<Lieferung> findLieferungen(String nr);
 	

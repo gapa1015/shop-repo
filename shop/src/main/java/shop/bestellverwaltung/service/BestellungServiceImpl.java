@@ -14,6 +14,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -30,13 +31,12 @@ import shop.kundenverwaltung.service.KundenService;
 import shop.bestellverwaltung.domain.Lieferung;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.bestellverwaltung.domain.Bestellung;
-import shop.util.Mock;
 import shop.util.interceptor.Log;
 
 @Dependent
 @Log
-public class BestellungServiceImpl implements BestellungService, Serializable {
-	private static final long serialVersionUID = 7643139186205745743L;
+public class BestellungServiceImpl implements Serializable, BestellungService {
+	private static final long serialVersionUID = -9145947650157430928L;
 	
 	@Inject
 	private transient EntityManager em;
@@ -49,32 +49,36 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 	private transient Event<Bestellung> event;
 	
 	@Override
-	@NotNull(message = "{bestellverwaltung.bestellung.notFound.id}")
+	@NotNull(message = "{bestellung.notFound.id}")
 	public Bestellung findBestellungById(Long id, FetchType fetch) {
 		if (id == null) {
 			return null;
 		}
-		
-		Bestellung bestellung;
-		EntityGraph<?> entityGraph;
-		Map<String, Object> props;
-		switch (fetch) {
-			case NUR_BESTELLUNG:
-				bestellung = em.find(Bestellung.class, id);
-				break;
-				
-			case MIT_LIEFERUNGEN:
-				entityGraph = em.getEntityGraph(Bestellung.GRAPH_LIEFERUNGEN);
-				props = ImmutableMap.of(LOADGRAPH, (Object) entityGraph);
-				bestellung = em.find(Bestellung.class, id, props);
-				break;
-				
-			default:
-				bestellung = em.find(Bestellung.class, id);
-				break;
+		return em.find(Bestellung.class, id);
+	}
+
+	@Override
+	@NotNull(message = "{bestellung.kunde.notFound.id}")
+	public AbstractKunde findKundeById(Long id) {
+		try {
+			return em.createNamedQuery(Bestellung.FIND_KUNDE_BY_ID, AbstractKunde.class)
+                     .setParameter(Bestellung.PARAM_ID, id)
+					 .getSingleResult();
 		}
-		
-		return bestellung;
+		catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	@Size(min = 1, message = "{bestellung.notFound.kunde}")
+	public List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
+		if (kunde == null) {
+			return Collections.emptyList();
+		}
+		return em.createNamedQuery(Bestellung.FIND_BESTELLUNGEN_BY_KUNDE, Bestellung.class)
+                 .setParameter(Bestellung.PARAM_KUNDE, kunde)
+				 .getResultList();
 	}
 	
 	@Override
@@ -87,14 +91,13 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 		final CriteriaBuilder builder = em.getCriteriaBuilder();
 		final CriteriaQuery<Bestellung> criteriaQuery  = builder.createQuery(Bestellung.class);
 		final Root<Bestellung> b = criteriaQuery.from(Bestellung.class);
+		
 		final Path<Long> idPath = b.get("id");
 		final List<Predicate> predList = new ArrayList<>();
-		
 		for (Long id : ids) {
 			final Predicate equal = builder.equal(idPath, id);
 			predList.add(equal);
 		}
-		
 		final Predicate[] predArray = new Predicate[predList.size()];
 		final Predicate pred = builder.or(predList.toArray(predArray));
 		criteriaQuery.where(pred).distinct(true);
@@ -107,7 +110,7 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 				
 		return query.getResultList();
 	}
-	
+
 	@Override
 	public Bestellung createBestellung(Bestellung bestellung, Long kundeId) {
 		if (bestellung == null) {
@@ -125,7 +128,7 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 		}
 		
 		if (!em.contains(kunde)) {
-			//kunde = ks.findKundeById(kunde.getId(), KundenService.FetchType.MIT_BESTELLUNGEN);
+			kunde = ks.findKundeById(kunde.getId(), KundenService.FetchType.MIT_BESTELLUNGEN);
 		}
 		kunde.addBestellung(bestellung);
 		bestellung.setKunde(kunde);
@@ -139,20 +142,6 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 		event.fire(bestellung);
 
 		return bestellung;
-	}
-	
-	@Override
-	public Bestellung updateBestellung(Bestellung bestellung) {
-		bestellung = Mock.updateBestellung(bestellung);
-		event.fire(bestellung);
-		
-		return bestellung;
-	}
-	
-	@Override
-	@Size(min = 1, message = "{bestellverwaltung.bestellung.notFound.kunde}")
-	public List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
-		return Mock.findBestellungenByKunde(kunde);
 	}
 	
 	@Override
@@ -175,13 +164,13 @@ public class BestellungServiceImpl implements BestellungService, Serializable {
 		for (Bestellung b : bestellungen) {
 			ids.add(b.getId());
 		}
-
+		
 		bestellungen = findBestellungenByIds(ids, FetchType.MIT_LIEFERUNGEN);
 		lieferung.setBestellungenAsList(bestellungen);
 		for (Bestellung bestellung : bestellungen) {
 			bestellung.addLieferung(lieferung);
 		}
-
+		
 		lieferung.setId(KEINE_ID);
 		em.persist(lieferung);		
 		return lieferung;

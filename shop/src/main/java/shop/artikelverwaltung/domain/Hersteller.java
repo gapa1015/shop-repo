@@ -1,14 +1,19 @@
 package shop.artikelverwaltung.domain;
 
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
 import static shop.util.Constants.KEINE_ID;
 
 import java.lang.invoke.MethodHandles;
 
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.Table;
@@ -16,6 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.jboss.logging.Logger;
 
@@ -24,10 +30,32 @@ import shop.util.persistence.AbstractAuditable;
 
 @Entity
 @Table(indexes = @Index(columnList = "name")) 
+@XmlRootElement
+@NamedQueries({
+	@NamedQuery(name = Hersteller.FIND_HERSTELLER_BY_ID, 
+	query = "Select h" 
+			+ " FROM Hersteller h"
+			+ " WHERE h.id = :id"
+			+ Hersteller.PARAM_ID
+			+ " ORDER BY h.id ASC"), 
+	@NamedQuery(name = Hersteller.FIND_HERSTELLER_BY_NAME, 
+	query = "SELECT      h"
+			+ " FROM		 Hersteller h"
+			+ " WHERE     h.name LIKE :"
+			+ Hersteller.PARAM_NAME + " ORDER BY h.id ASC")
+})
+@Cacheable
 public class Hersteller extends AbstractAuditable {
 	private static final long serialVersionUID = -2394662794541413156L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 
+	private static final String PREFIX = "Herstller.";
+	public static final String FIND_HERSTELLER_BY_ID = PREFIX + "findHerstllerById";
+	public static final String FIND_HERSTELLER_BY_NAME = PREFIX + "findHerstllerByName";
+	
+	public static final String PARAM_NAME = "name";
+	public static final String PARAM_ID = "id";
+	
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
@@ -38,7 +66,7 @@ public class Hersteller extends AbstractAuditable {
 	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+(-[A-ZÄÖÜ][a-zäöü]+)?", message = "{artikel.hersteller.pattern}")
 	private String name;
 	
-	@OneToOne
+	@OneToOne(cascade = { PERSIST, REMOVE })
 	@NotNull(message = "AbstractKunde.adresse.notnull")
 	@Valid
 	private Adresse adresse;

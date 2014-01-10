@@ -33,7 +33,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.PostPersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -68,8 +70,8 @@ import shop.util.persistence.AbstractAuditable;
 @Cacheable
 public class Bestellung extends AbstractAuditable {
 	private static final long serialVersionUID = 308578161399323975L;
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
-
+private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	
 	private static final String PREFIX = "Bestellung.";
 	public static final String FIND_BESTELLUNGEN_BY_KUNDE = PREFIX + "findBestellungenByKunde";
 	public static final String FIND_KUNDE_BY_ID = PREFIX + "findBestellungKundeById";
@@ -78,63 +80,40 @@ public class Bestellung extends AbstractAuditable {
 	public static final String PARAM_ID = "id";
 	
 	public static final String GRAPH_LIEFERUNGEN = PREFIX + "lieferungen";
-	
+
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
 	private Long id = KEINE_ID;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "kunde_fk", nullable = false, insertable = false, updatable = false)
 	@XmlTransient
 	private AbstractKunde kunde;
 	
 	@Transient
-	private URI kundeURI;
-	
+	private URI kundeUri;
+
 	@OneToMany(fetch = EAGER, cascade = { PERSIST, REMOVE })
 	@JoinColumn(name = "bestellung_fk", nullable = false)
 	@NotEmpty(message = "{bestellung.bestellpositionen.notEmpty}")
 	@Valid
 	private Set<Bestellposition> bestellpositionen;
-
+	
 	@ManyToMany
 	@JoinTable(name = "bestellung_lieferung",
 			   joinColumns = @JoinColumn(name = "bestellung_fk"),
 			                 inverseJoinColumns = @JoinColumn(name = "lieferung_fk"))
 	@XmlTransient
 	private Set<Lieferung> lieferungen;
-	
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public AbstractKunde getKunde() {
-		return kunde;
-	}
-
-	public void setKunde(AbstractKunde kunde) {
-		this.kunde = kunde;
-	}
-
-	public URI getKundeURI() {
-		return kundeURI;
-	}
-
-	public void setKundeURI(URI kundeURI) {
-		this.kundeURI = kundeURI;
-	}
-
-	public Date getBestelldatum(Date bestelldatum) {
+	@XmlElement
+	public Date getDatum() {
 		return getErzeugt();
 	}
-
-	public void setBestelldatum(Date bestelldatum) {
-		setErzeugt(bestelldatum);
+	
+	public void setDatum(Date datum) {
+		setErzeugt(datum);
 	}
 
 	public Bestellung() {
@@ -151,6 +130,13 @@ public class Bestellung extends AbstractAuditable {
 		LOGGER.debugf("Neue Bestellung mit ID=%d", id);
 	}
 	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public Set<Bestellposition> getBestellpositionen() {
 		if (bestellpositionen == null) {
 			return null;
@@ -164,6 +150,7 @@ public class Bestellung extends AbstractAuditable {
 			this.bestellpositionen = bestellpositionen;
 			return;
 		}
+		
 		this.bestellpositionen.clear();
 		if (bestellpositionen != null) {
 			this.bestellpositionen.addAll(bestellpositionen);
@@ -177,9 +164,24 @@ public class Bestellung extends AbstractAuditable {
 		bestellpositionen.add(bestellposition);
 		return this;
 	}
-	
+
+	public AbstractKunde getKunde() {
+		return kunde;
+	}
+	public void setKunde(AbstractKunde kunde) {
+		this.kunde = kunde;
+	}
+
+	public URI getKundeUri() {
+		return kundeUri;
+	}
+
+	public void setKundeUri(URI kundeUri) {
+		this.kundeUri = kundeUri;
+	}
+
 	public Set<Lieferung> getLieferungen() {
-		return lieferungen == null ? null : Collections.unmodifiableSet(lieferungen);
+		return lieferungen;
 	}
 	
 	public void setLieferungen(Set<Lieferung> lieferungen) {
@@ -187,6 +189,7 @@ public class Bestellung extends AbstractAuditable {
 			this.lieferungen = lieferungen;
 			return;
 		}
+		
 		this.lieferungen.clear();
 		if (lieferungen != null) {
 			this.lieferungen.addAll(lieferungen);
@@ -212,7 +215,7 @@ public class Bestellung extends AbstractAuditable {
 	@Override
 	public String toString() {
 		final Long kundeId = kunde == null ? null : kunde.getId();
-		return "Bestellung [id=" + id + ", kundeId=" + kundeId + ", kundeUri=" + kundeURI
+		return "Bestellung [id=" + id + ", kundeId=" + kundeId + ", kundeUri=" + kundeUri
 				+ ", " + super.toString() + ']';
 	}
 	

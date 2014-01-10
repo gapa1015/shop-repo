@@ -18,10 +18,14 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import shop.artikelverwaltung.domain.Hersteller;
+import shop.artikelverwaltung.domain.Lieferant;
+import shop.util.persistence.AbstractAuditable;
+
 @Cacheable
 @Entity
 @Table(indexes = @Index(columnList = "plz"))
-public class Adresse implements Serializable {
+public class Adresse extends AbstractAuditable {
 
 	private static final long serialVersionUID = 6370717829606891773L;
 
@@ -50,6 +54,16 @@ public class Adresse implements Serializable {
 	@JoinColumn(name = "kunde_fk", unique = true)
 	@XmlTransient
 	private AbstractKunde kunde;
+	
+	@OneToOne
+	@JoinColumn(name = "hersteller_fk", unique = true)
+	@XmlTransient
+	private Hersteller hersteller;
+	
+	@OneToOne
+	@JoinColumn(name = "lieferant_fk", unique = true)
+	@XmlTransient
+	private Lieferant lieferant;
 
 	public String getStrasse() {
 		return strasse;
@@ -90,7 +104,7 @@ public class Adresse implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Adresse [id=" + id + ", strasse=" + strasse + ", hausnummer="
@@ -160,6 +174,22 @@ public class Adresse implements Serializable {
 
 	public void setKunde(AbstractKunde kunde) {
 		this.kunde = kunde;
+	}
+
+	public Hersteller getHersteller() {
+		return hersteller;
+	}
+
+	public void setHersteller(Hersteller hersteller) {
+		this.hersteller = hersteller;
+	}
+
+	public Lieferant getLieferant() {
+		return lieferant;
+	}
+
+	public void setLieferant(Lieferant lieferant) {
+		this.lieferant = lieferant;
 	}
 
 }

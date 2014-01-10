@@ -5,7 +5,9 @@ import static shop.util.Constants.ADD_LINK;
 import static shop.bestellverwaltung.service.BestellungService.FetchType.NUR_BESTELLUNG;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
+import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -22,7 +24,6 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -43,7 +44,7 @@ import shop.util.interceptor.Log;
 import shop.util.rest.UriHelper;
 
 @Path("/bestellungen")
-@Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
+@Produces({APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
 @RequestScoped
 @Transactional
@@ -53,29 +54,19 @@ public class BestellungResource {
 	private UriInfo uriInfo;
 	
 	@Inject
-	private UriHelper uriHelper;
-	
-	@Inject
-	private KundeResource kundeResource;
-	
-	@Inject
-	private ArtikelResource artikelResource;
-	
-	@Inject
 	private BestellungService bs;
 	
 	@Inject
 	private ArtikelService as;
 	
-	@NotNull(message = "{bestellung.artikelIds.invalid}")
-	public List<Long> artikelIdsInvalid() {
-		return null;
-	}
+	@Inject
+	private ArtikelResource artikelResource;
+
+	@Inject
+	private KundeResource kundeResource;
 	
-	@NotNull(message = "{bestellung.kunde.id.invalid}")
-	public Long kundeIdInvalid() {
-		return null;
-	}
+	@Inject
+	private UriHelper uriHelper;
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
@@ -94,39 +85,64 @@ public class BestellungResource {
 		final AbstractKunde kunde = bestellung.getKunde();
 		if (kunde != null) {
 			final URI kundeUri = kundeResource.getUriKunde(bestellung.getKunde(), uriInfo);
-			bestellung.setKundeURI(kundeUri);
+			bestellung.setKundeUri(kundeUri);
 		}
 		
 		final Collection<Bestellposition> bestellpositionen = bestellung.getBestellpositionen();
 		if (bestellpositionen != null && !bestellpositionen.isEmpty()) {
 			for (Bestellposition bp : bestellpositionen) {
 				final URI artikelUri = artikelResource.getUriArtikel(bp.getArtikel(), uriInfo);
-				bp.setArtikelURI(artikelUri);
+				bp.setArtikelUri(artikelUri);
 			}
 		}
 	}
 	
-	private Link[] getTransitionalLinks(Bestellung bestellung, UriInfo uriInfo) {
+	public Link[] getTransitionalLinks(Bestellung bestellung, UriInfo uriInfo) {
 		final Link self = Link.fromUri(getUriBestellung(bestellung, uriInfo))
                               .rel(SELF_LINK)
                               .build();
-		
 		final Link add = Link.fromUri(uriHelper.getURI(BestellungResource.class, uriInfo))
-                .rel(ADD_LINK)
-                .build();
-
-		return new Link[] {self, add};
+                             .rel(ADD_LINK)
+                             .build();
+		return new Link[] { self, add };
 	}
-	
+
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {
 		return uriHelper.getURI(BestellungResource.class, "findBestellungById", bestellung.getId(), uriInfo);
 	}
 	
+	/**
+	 * Mit der URL /bestellungen/{id}/lieferungen die Lieferung ermitteln
+	 * zu einer bestimmten Bestellung ermitteln
+	 * @param id ID der Bestellung
+	 * @return Objekt mit Lieferdaten, falls die ID vorhanden ist
+	 */
+	@GET
+	@Path("{id:[1-9][0-9]*}/lieferungen")
+	public Response findLieferungenByBestellungId(@PathParam("id") Long id) {
+		return Response.status(INTERNAL_SERVER_ERROR)
+			       .entity("findLieferungenByBestellungId: NOT YET IMPLEMENTED")
+			       .type(TEXT_PLAIN)
+			       .build();
+	}
+
+	@GET
+	@Path("{id:[1-9][0-9]*}/kunde")
+	public Response findKundeByBestellungId(@PathParam("id") Long id) {
+		final AbstractKunde kunde = bs.findKundeById(id);
+		kundeResource.setStructuralLinks(kunde, uriInfo);
+		
+		final Response response = Response.ok(kunde)
+                                          .links(kundeResource.getTransitionalLinks(kunde, uriInfo))
+                                          .build();
+		return response;
+	}
+
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createBestellung(@Valid Bestellung bestellung) {
-		final String kundeUriStr = bestellung.getKundeURI().toString();
+		final String kundeUriStr = bestellung.getKundeUri().toString();
 		int startPos = kundeUriStr.lastIndexOf('/') + 1;
 		final String kundeIdStr = kundeUriStr.substring(startPos);
 		Long kundeId = null;
@@ -140,7 +156,7 @@ public class BestellungResource {
 		final Collection<Bestellposition> bestellpositionen = bestellung.getBestellpositionen();
 		final List<Long> artikelIds = new ArrayList<>(bestellpositionen.size());
 		for (Bestellposition bp : bestellpositionen) {
-			final URI artikelUri = bp.getArtikelURI();
+			final URI artikelUri = bp.getArtikelUri();
 			if (artikelUri == null) {
 				continue;
 			}
@@ -184,10 +200,13 @@ public class BestellungResource {
 		return Response.created(bestellungUri).build();
 	}
 	
-	@PUT
-	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
-	@Produces
-	public void updateBestellung(Bestellung bestellung) {
-		bs.updateBestellung(bestellung);
+	@NotNull(message = "{bestellung.artikelIds.invalid}")
+	public List<Long> artikelIdsInvalid() {
+		return null;
+	}
+	
+	@NotNull(message = "{bestellung.kunde.id.invalid}")
+	public Long kundeIdInvalid() {
+		return null;
 	}
 }
