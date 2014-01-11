@@ -81,7 +81,7 @@ import shop.util.persistence.AbstractAuditable;
 		query = "Select k" 
 				+ " FROM AbstractKunde k"
 				+ " WHERE k.geburtstag = :geburtstag"
-				+ " ORDER BY k.geburtstag ASC")			
+				+ " ORDER BY k.geburtstag ASC")
 })
 @NamedEntityGraphs({
 		@NamedEntityGraph(name = "bestellungen", attributeNodes = @NamedAttributeNode("bestellungen"))
@@ -112,7 +112,9 @@ public abstract class AbstractKunde extends AbstractAuditable {
 	public static final String KUNDE_BY_STRASSE = PREFIX + "findKundeByStrasse";
 	public static final String KUNDE_BY_BANKDATEN = PREFIX + "findKundeByBankdaten";
 	public static final String KUNDE_BY_BESTELLUNG = PREFIX + "findKundeByBestellelung";
-
+	
+	public static final String GRAPH_BESTELLUNGEN = PREFIX + "bestellungen";
+	
 	@Id
 	@GeneratedValue
 	@Column(nullable = false, updatable = false)

@@ -1,6 +1,5 @@
 package shop.kundenverwaltung.domain;
 
-import java.io.Serializable;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;

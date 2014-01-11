@@ -41,6 +41,7 @@ import shop.bestellverwaltung.rest.BestellungResource;
 import shop.bestellverwaltung.service.BestellungService;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.service.KundenService;
+import shop.kundenverwaltung.service.KundenService.FetchType;
 import shop.util.Mock;
 import shop.util.interceptor.Log;
 import shop.util.rest.UriHelper;
@@ -72,13 +73,15 @@ public class KundeResource {
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response findKundeById(@PathParam("id")Long id) {
-		final AbstractKunde kunde = ks.findKundeById(id, null);
-
+	public Response findKundeById(@PathParam("id") Long id) {
+		final AbstractKunde kunde = ks.findKundeById(id, FetchType.NUR_KUNDE);
 		setStructuralLinks(kunde, uriInfo);
-		return Response.ok(kunde)
-					   .links(getTransitionalLinks(kunde, uriInfo))
-					   .build();
+	
+		final Response response = Response.ok(kunde)
+                                          .links(getTransitionalLinks(kunde, uriInfo))
+                                          .build();
+
+		return response;
 	}
 	
 	@GET
@@ -107,7 +110,7 @@ public class KundeResource {
 				for (AbstractKunde k : kunden) {
 					setStructuralLinks(k, uriInfo);
 				}
-				entity = new GenericEntity<List<? extends AbstractKunde>>(kunden) { };
+				entity = new GenericEntity<List<? extends AbstractKunde>>(kunden){};
 				links = getTransitionalLinksKunden(kunden, uriInfo);
 			}
 			else if (kunde != null) {
@@ -115,10 +118,10 @@ public class KundeResource {
 				links = getTransitionalLinks(kunde, uriInfo);
 			}
 			
-		return Response.ok(entity)
-                       .links(links)
-                       .build();
-	}
+			return Response.ok(entity)
+			               .links(links)
+			               .build();
+		}
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
@@ -132,13 +135,15 @@ public class KundeResource {
 			}
 		}
 		
-		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) { })
-                       .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
-                       .build();
+		final Response response = Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) {})
+                .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
+                .build();
+		return response;
 	}
 	
 	public void setStructuralLinks(AbstractKunde kunde, UriInfo uriInfo) {
-		}
+		kunde.setBestellungUri(getUriBestellungen(kunde, uriInfo));
+	}
 	
 	public URI getUriKunde(AbstractKunde kunde, UriInfo uriInfo) {
 		return uriHelper.getURI(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);

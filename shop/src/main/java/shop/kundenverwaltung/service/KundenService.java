@@ -1,18 +1,31 @@
 package shop.kundenverwaltung.service;
 
+import static shop.util.Constants.LOADGRAPH;
+
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.constraints.NotNull;
 
 import org.jboss.logging.Logger;
 
+import com.google.common.collect.ImmutableMap;
+
 import shop.kundenverwaltung.domain.AbstractKunde;
+import shop.kundenverwaltung.domain.AbstractKunde_;
 import shop.kundenverwaltung.domain.Adresse;
+import shop.kundenverwaltung.domain.Adresse_;
 import shop.kundenverwaltung.domain.Bankdaten;
 import shop.util.Mock;
 import shop.util.interceptor.Log;
@@ -28,22 +41,35 @@ public class KundenService implements Serializable {
 	public enum FetchType {
 		NUR_KUNDE,
 		MIT_BESTELLUNGEN,
-		MIT_WARTUNGSVERTRAEGEN
 	}
 	
-	public enum OrderType {
-        KEINE,
-        ID
-	}
-	
-	@NotNull(message = "{kundenverwaltung.kunde.notFound.id}")
+	@NotNull(message = "{kunde.notFound.id}")
 	public AbstractKunde findKundeById(Long id, FetchType fetch) {
-		LOGGER.debugf("Beginn findKundeById %s", id);
-		if (id == null)
+		if (id == null) {
 			return null;
-		//LOGGER.debugf("Ende findKundeById %d", Mock);
-		final AbstractKunde kunde = em.find(AbstractKunde.class, id);
+		}
+		
+		AbstractKunde kunde;
+		EntityGraph<?> entityGraph;
+		Map<String, Object> props;
+		switch (fetch) {
+			case NUR_KUNDE:
+				kunde = em.find(AbstractKunde.class, id);
+				break;
+			
+			case MIT_BESTELLUNGEN:
+				entityGraph = em.getEntityGraph(AbstractKunde.GRAPH_BESTELLUNGEN);
+				props = ImmutableMap.of(LOADGRAPH, (Object) entityGraph);
+				kunde = em.find(AbstractKunde.class, id, props);
+				break;
+				
+			default:
+				kunde = em.find(AbstractKunde.class, id);
+				break;
+		}
+		
 		return kunde;
+	
 		
 	}
 	
@@ -53,9 +79,10 @@ public class KundenService implements Serializable {
 	
 	@NotNull(message = "{kundenverwaltung.kunde.notFound.email}")
 	public AbstractKunde findKundeByEmail(String email) {
-		if (email == null)
-			return null;
-		return Mock.findKundeByEmail(email);
+	
+	return em.createNamedQuery(AbstractKunde.KUNDE_BY_EMAIL, AbstractKunde.class)
+			.setParameter("email", email)
+			.getSingleResult();
 		
 	}
 	
@@ -64,6 +91,54 @@ public class KundenService implements Serializable {
 		if (nachname == null)
 			return null;
 		return Mock.findKundenByNachname(nachname);
+	}
+	
+	
+	public List <AbstractKunde> findKundeByNachname (String nachname) {
+		CriteriaBuilder builder = em.getCriteriaBuilder ();
+		CriteriaQuery <AbstractKunde> criteriaQuery = builder.createQuery(AbstractKunde.class);
+		
+		Root <AbstractKunde> k = criteriaQuery.from(AbstractKunde.class);
+		
+		Path <String> nachnamePath = k.get(AbstractKunde_.nachname);
+		
+		Predicate pred = builder.equal(nachnamePath, nachname);
+		criteriaQuery.where(pred);
+		 List <AbstractKunde> kunde = em.createQuery(criteriaQuery)
+				 					.getResultList();
+		return kunde;
+		
+	}
+		public List <AbstractKunde> findKundeByEmailCriteria (String email) {
+		CriteriaBuilder builder = em.getCriteriaBuilder ();
+		CriteriaQuery <AbstractKunde> criteriaQuery = builder.createQuery(AbstractKunde.class);
+		
+		Root <AbstractKunde> k = criteriaQuery.from(AbstractKunde.class);
+		
+		Path <String> emailPath = k.get(AbstractKunde_.email);
+		
+		Predicate pred = builder.equal(emailPath, email);
+		criteriaQuery.where(pred);
+		 List <AbstractKunde> kunde = em.createQuery(criteriaQuery)
+				 					.getResultList();
+		return kunde;		
+	}
+	
+	public List <AbstractKunde> findKundeByPlzCriteria (String plz) {
+		CriteriaBuilder builder = em.getCriteriaBuilder ();
+		CriteriaQuery <AbstractKunde> criteriaQuery = builder.createQuery(AbstractKunde.class);
+		
+		Root <AbstractKunde> k = criteriaQuery.from(AbstractKunde.class);
+		
+		Path <Adresse> adressePath = k.get(AbstractKunde_.adresse);
+		Path <String> plzPath = adressePath.get(Adresse_.plz);
+		
+		Predicate pred = builder.equal(plzPath, plz);
+		criteriaQuery.where(pred);
+		 List <AbstractKunde> kunde = em.createQuery(criteriaQuery)
+				 					.getResultList();
+		return kunde;
+		
 	}
 
 	public <T extends AbstractKunde> T createKunde(T kunde) {
