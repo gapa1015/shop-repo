@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 @Log
 @Dependent    // FIXME https://issues.jboss.org/browse/WELD-1540
 public class LogInterceptor implements Serializable {
-	private static final long serialVersionUID = -3902286097608221L;
+	private static final long serialVersionUID = 6225006198548883927L;
 	
 	private static final String COUNT = "Anzahl = ";
 	private static final int MAX_ELEM = 4;  // bei Collections wird ab 5 Elementen nur die Anzahl ausgegeben
@@ -149,14 +149,18 @@ public class LogInterceptor implements Serializable {
 			return str;
 		}
 
-
+		// Objekt, aber keine Collection und kein Array
 		return obj.toString();
 	}
 	
+	/**
+	 * Array in einen String konvertieren
+	 */
 	private static String arrayToString(Object obj) {
 		final Class<?> componentClass = obj.getClass().getComponentType();
 
 		if (!componentClass.isPrimitive()) {
+			// Array von Objekten
 			final Object[] arr = (Object[]) obj;
 			if (arr.length > MAX_ELEM) {
 				return COUNT + arr.length;
@@ -180,6 +184,9 @@ public class LogInterceptor implements Serializable {
 			sbEnd.append(']');
 			return sbEnd.toString();
 		}
+		
+		// Array von primitiven Werten: byte, short, int, long, ..., float, double, boolean, char
+		
 		if ("short".equals(componentClass.getName())) {
 			final short[] arr = (short[]) obj;
 			if (arr.length > MAX_ELEM) {

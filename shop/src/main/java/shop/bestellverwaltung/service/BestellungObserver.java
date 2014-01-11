@@ -21,8 +21,8 @@ import shop.bestellverwaltung.domain.Bestellposition;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.interceptor.Log;
-import shop.util.AbsenderMail;
-import shop.util.AbsenderName;
+import shop.util.mail.AbsenderMail;
+import shop.util.mail.AbsenderName;
 
 /**
  * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
@@ -81,7 +81,7 @@ public class BestellungObserver implements Serializable {
 			final StringBuilder sb = new StringBuilder(256);
 			sb.append("<h3>Neue Bestellung Nr. <b>" + bestellung.getId() + "</b></h3>" + NEWLINE);
 			for (Bestellposition bp : bestellung.getBestellpositionen()) {
-				sb.append(bp.getAnzahl() + "\t" + bp.getArtikel().getName() + "<br/>" + NEWLINE);
+				sb.append(bp.getAnzahl() + "\t" + bp.getArtikel().getBezeichnung() + "<br/>" + NEWLINE);
 			}
 			final String text = sb.toString();
 			LOGGER.trace(text);

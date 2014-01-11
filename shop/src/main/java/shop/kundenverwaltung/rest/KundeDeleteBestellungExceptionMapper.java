@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import shop.kundenverwaltung.service.EmailExistsException;
+import shop.kundenverwaltung.service.KundeDeleteBestellungException;
 import shop.util.interceptor.Log;
 import shop.util.rest.Messages;
 
@@ -22,7 +22,7 @@ import shop.util.rest.Messages;
 @Provider
 @ApplicationScoped
 @Log
-public class EmailExistsExceptionMapper implements ExceptionMapper<EmailExistsException> {
+public class KundeDeleteBestellungExceptionMapper implements ExceptionMapper<KundeDeleteBestellungException> {
 	@Context
 	private HttpHeaders headers;
 	
@@ -30,8 +30,8 @@ public class EmailExistsExceptionMapper implements ExceptionMapper<EmailExistsEx
 	private Messages messages;
 	
 	@Override
-	public Response toResponse(EmailExistsException e) {
-		final String msg = messages.getMessage(headers, e.getMessageKey(), e.getEmail());
+	public Response toResponse(KundeDeleteBestellungException e) {
+		final String msg = messages.getMessage(headers, e.getMessageKey(), e.getKundeId(), e.getAnzahlBestellungen());
 		return Response.status(BAD_REQUEST)
 		               .type(TEXT_PLAIN)
 		               .entity(msg)

@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.jboss.logging.Logger;
 
-import shop.artikelverwaltung.domain.AbstractArtikel;
+import shop.artikelverwaltung.domain.Artikel;
 import shop.util.persistence.AbstractAuditable;
 
 /**
@@ -34,12 +34,12 @@ import shop.util.persistence.AbstractAuditable;
 	@Index(columnList = "bestellung_fk"),
 	@Index(columnList = "artikel_fk")
 })
-//@NamedQueries({
-//    @NamedQuery(name  = Bestellposition.FIND_LADENHUETER,
-//   	            query = "SELECT a"
-//   	            	    + " FROM   Artikel a"
-//   	            	    + " WHERE  a NOT IN (SELECT bp.artikel FROM Bestellposition bp)")
-//})
+@NamedQueries({
+    @NamedQuery(name  = Bestellposition.FIND_LADENHUETER,
+   	            query = "SELECT a"
+   	            	    + " FROM   Artikel a"
+   	            	    + " WHERE  a NOT IN (SELECT bp.artikel FROM Bestellposition bp)")
+})
 public class Bestellposition extends AbstractAuditable {
 	private static final long serialVersionUID = 2222771733641950913L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
@@ -56,7 +56,7 @@ public class Bestellposition extends AbstractAuditable {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "artikel_fk", nullable = false)
 	@XmlTransient
-	private AbstractArtikel artikel;
+	private Artikel artikel;
 
 	@Transient
 	private URI artikelUri;
@@ -69,13 +69,13 @@ public class Bestellposition extends AbstractAuditable {
 		super();
 	}
 	
-	public Bestellposition(AbstractArtikel artikel) {
+	public Bestellposition(Artikel artikel) {
 		super();
 		this.artikel = artikel;
 		this.anzahl = 1;
 	}
 	
-	public Bestellposition(AbstractArtikel artikel, short anzahl) {
+	public Bestellposition(Artikel artikel, short anzahl) {
 		super();
 		this.artikel = artikel;
 		this.anzahl = anzahl;
@@ -94,11 +94,11 @@ public class Bestellposition extends AbstractAuditable {
 		this.id = id;
 	}
 	
-	public AbstractArtikel getArtikel() {
+	public Artikel getArtikel() {
 		return artikel;
 	}
 
-	public void setArtikel(AbstractArtikel artikel) {
+	public void setArtikel(Artikel artikel) {
 		this.artikel = artikel;
 	}
 	

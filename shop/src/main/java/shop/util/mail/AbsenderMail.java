@@ -1,22 +1,21 @@
-package shop.util.cdi;
+package shop.util.mail;
 
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.enterprise.inject.Alternative;
-import javax.enterprise.inject.Stereotype;
+import javax.inject.Qualifier;
 
 /**
  * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
  */
-@Alternative
-@Stereotype
-@Target(TYPE)
+@Qualifier
+@Target({ FIELD, PARAMETER })
 @Retention(RUNTIME)
 @Documented
-public @interface MockService {
+public @interface AbsenderMail {
 }

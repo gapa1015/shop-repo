@@ -2,8 +2,9 @@ package shop.bestellverwaltung.service;
 
 import java.util.List;
 
-import shop.artikelverwaltung.domain.AbstractArtikel;
+import shop.artikelverwaltung.domain.Artikel;
 import shop.bestellverwaltung.domain.Bestellung;
+import shop.bestellverwaltung.domain.Lieferung;
 import shop.kundenverwaltung.domain.AbstractKunde;
 
 /**
@@ -69,11 +70,20 @@ public interface BestellungService {
 	 * @param anzahl Obergrenze fuer maximale Bestellungsanzahl
 	 * @return Liste der Artikel
 	 */
-	List<AbstractArtikel> ladenhueter(int anzahl);
+	List<Artikel> ladenhueter(int anzahl);
 	
 	/**
 	 * Lieferungen zu gegebenem Nummer-Praefix suchen
 	 * @param nr Nummer-Praefix
 	 * @return Liste der Lieferungen
 	 */
+	List<Lieferung> findLieferungen(String nr);
+	
+	/**
+	 * Eine neue Lieferung mit auszuliefernden Bestellungen anlegen
+	 * @param lieferung Neue Lieferung
+	 * @param bestellungen Zugehoerige Bestellungen
+	 * @return Neue Lieferung einschliesslich generierter ID
+	 */
+	Lieferung createLieferung(Lieferung lieferung, List<Bestellung> bestellungen);
 }

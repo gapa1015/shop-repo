@@ -32,7 +32,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import shop.artikelverwaltung.domain.AbstractArtikel;
+import shop.artikelverwaltung.domain.Artikel;
 import shop.artikelverwaltung.rest.ArtikelResource;
 import shop.artikelverwaltung.service.ArtikelService;
 import shop.bestellverwaltung.domain.Bestellposition;
@@ -112,14 +112,14 @@ public class BestellungResource {
 		final Link self = Link.fromUri(getUriBestellung(bestellung, uriInfo))
                               .rel(SELF_LINK)
                               .build();
-		final Link add = Link.fromUri(uriHelper.getURI(BestellungResource.class, uriInfo))
+		final Link add = Link.fromUri(uriHelper.getUri(BestellungResource.class, uriInfo))
                              .rel(ADD_LINK)
                              .build();
 		return new Link[] { self, add };
 	}
 
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {
-		return uriHelper.getURI(BestellungResource.class, "findBestellungById", bestellung.getId(), uriInfo);
+		return uriHelper.getUri(BestellungResource.class, "findBestellungById", bestellung.getId(), uriInfo);
 	}
 	
 	/**
@@ -213,7 +213,7 @@ public class BestellungResource {
 			artikelIdsInvalid();
 		}
 
-		final Collection<AbstractArtikel> gefundeneArtikel = as.findArtikelByIds(artikelIds);
+		final Collection<Artikel> gefundeneArtikel = as.findArtikelByIds(artikelIds);
 		
 		// Bestellpositionen haben URLs fuer persistente Artikel.
 		// Diese persistenten Artikel wurden in einem DB-Zugriff ermittelt (s.o.)
@@ -227,7 +227,7 @@ public class BestellungResource {
 			final long artikelId = artikelIds.get(i++);
 			
 			// Wurde der Artikel beim DB-Zugriff gefunden?
-			for (AbstractArtikel artikel : gefundeneArtikel) {
+			for (Artikel artikel : gefundeneArtikel) {
 				if (artikel.getId().longValue() == artikelId) {
 					// Der Artikel wurde gefunden
 					bp.setArtikel(artikel);

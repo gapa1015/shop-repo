@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @MappedSuperclass
 public abstract class AbstractAuditable implements Serializable {
-	private static final long serialVersionUID = 1158882637171201007L;
+	private static final long serialVersionUID = -6592056535978766351L;
 
 	@Temporal(TIMESTAMP)
 	@Basic(optional = false)

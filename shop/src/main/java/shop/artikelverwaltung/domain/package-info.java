@@ -1,6 +1,6 @@
 @XmlAccessorType(FIELD)
 @Vetoed
-package shop.kundenverwaltung.domain;
+package shop.artikelverwaltung.domain;
 
 import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 
