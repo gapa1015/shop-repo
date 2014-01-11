@@ -1,9 +1,9 @@
 package shop.bestellverwaltung.domain;
 
+import static shop.util.Constants.KEINE_ID;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.FetchType.EAGER;
-import static shop.util.Constants.KEINE_ID;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -42,35 +42,35 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.logging.Logger;
 
-import shop.bestellverwaltung.domain.Lieferung;
-import shop.bestellverwaltung.domain.Bestellposition;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.persistence.AbstractAuditable;
 
+
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 @XmlRootElement
 @Entity
+// TODO MySQL 5.7 kann einen Index nicht 2x anlegen
 @Table(indexes = {
 	@Index(columnList = "kunde_fk"),
 	@Index(columnList = "erzeugt")
 })
 @NamedQueries({
 	@NamedQuery(name  = Bestellung.FIND_BESTELLUNGEN_BY_KUNDE,
-             query = "SELECT b"
+                query = "SELECT b"
 			            + " FROM   Bestellung b"
 						+ " WHERE  b.kunde = :" + Bestellung.PARAM_KUNDE),
 	@NamedQuery(name  = Bestellung.FIND_KUNDE_BY_ID,
-			    query = "SELECT b.kunde"
-                     + " FROM   Bestellung b"
-			            + " WHERE  b.id = :" + Bestellung.PARAM_ID)
-})
-@NamedEntityGraphs({
-	@NamedEntityGraph(name = Bestellung.GRAPH_LIEFERUNGEN,
-					  attributeNodes = @NamedAttributeNode("lieferungen"))
+ 			    query = "SELECT b.kunde"
+                        + " FROM   Bestellung b"
+  			            + " WHERE  b.id = :" + Bestellung.PARAM_ID)
 })
 @Cacheable
+@Transactional
 public class Bestellung extends AbstractAuditable {
-	private static final long serialVersionUID = 308578161399323975L;
-private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	private static final long serialVersionUID = 7560752199018702446L;
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
 	private static final String PREFIX = "Bestellung.";
 	public static final String FIND_BESTELLUNGEN_BY_KUNDE = PREFIX + "findBestellungenByKunde";
@@ -79,8 +79,6 @@ private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().loo
 	public static final String PARAM_KUNDE = "kunde";
 	public static final String PARAM_ID = "id";
 	
-	public static final String GRAPH_LIEFERUNGEN = PREFIX + "lieferungen";
-
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
@@ -99,13 +97,6 @@ private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().loo
 	@NotEmpty(message = "{bestellung.bestellpositionen.notEmpty}")
 	@Valid
 	private Set<Bestellposition> bestellpositionen;
-	
-	@ManyToMany
-	@JoinTable(name = "bestellung_lieferung",
-			   joinColumns = @JoinColumn(name = "bestellung_fk"),
-			                 inverseJoinColumns = @JoinColumn(name = "lieferung_fk"))
-	@XmlTransient
-	private Set<Lieferung> lieferungen;
 
 	@XmlElement
 	public Date getDatum() {
@@ -151,6 +142,7 @@ private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().loo
 			return;
 		}
 		
+		// Wiederverwendung der vorhandenen Collection
 		this.bestellpositionen.clear();
 		if (bestellpositionen != null) {
 			this.bestellpositionen.addAll(bestellpositionen);
@@ -179,38 +171,6 @@ private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().loo
 	public void setKundeUri(URI kundeUri) {
 		this.kundeUri = kundeUri;
 	}
-
-	public Set<Lieferung> getLieferungen() {
-		return lieferungen;
-	}
-	
-	public void setLieferungen(Set<Lieferung> lieferungen) {
-		if (this.lieferungen == null) {
-			this.lieferungen = lieferungen;
-			return;
-		}
-		
-		this.lieferungen.clear();
-		if (lieferungen != null) {
-			this.lieferungen.addAll(lieferungen);
-		}
-	}
-	
-	public void addLieferung(Lieferung lieferung) {
-		if (lieferungen == null) {
-			lieferungen = new HashSet<>();
-		}
-		lieferungen.add(lieferung);
-	}
-	
-	@XmlTransient
-	public List<Lieferung> getLieferungenAsList() {
-		return lieferungen == null ? null : new ArrayList<>(lieferungen);
-	}
-
-	public void setLieferungenAsList(List<Lieferung> lieferungen) {
-		this.lieferungen = lieferungen == null ? null : new HashSet<>(lieferungen);
-	}
 	
 	@Override
 	public String toString() {
@@ -218,29 +178,47 @@ private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().loo
 		return "Bestellung [id=" + id + ", kundeId=" + kundeId + ", kundeUri=" + kundeUri
 				+ ", " + super.toString() + ']';
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((kunde == null) ? 0 : kunde.hashCode());
+		result = prime * result + ((getErzeugt() == null) ? 0 : getErzeugt().hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
-		Bestellung other = (Bestellung) obj;
+		}
+		final Bestellung other = (Bestellung) obj;
+		
 		if (kunde == null) {
-			if (other.kunde != null)
+			if (other.kunde != null) {
 				return false;
-		} else if (!kunde.equals(other.kunde))
+			}
+		}
+		else if (!kunde.equals(other.kunde)) {
 			return false;
+		}
+		
+		if (getErzeugt() == null) {
+			if (other.getErzeugt() != null) {
+				return false;
+			}
+		}
+		else if (!getErzeugt().equals(other.getErzeugt())) {
+			return false;
+		}
+		
 		return true;
 	}
 }

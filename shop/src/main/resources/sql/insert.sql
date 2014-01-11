@@ -43,7 +43,3 @@ INSERT INTO kunde (art, id, vorname, nachname, adresse_id, bankdaten_id, geburts
 INSERT INTO bestellung (id, kunde_fk, idx, erzeugt, aktualisiert) VALUES (400,901,0,'01.08.2006 00:00:00','01.08.2006 00:00:00');
 
 INSERT INTO bestellposition (id, bestellung_fk, artikel_fk, anzahl, erzeugt, aktualisiert) VALUES (500, 400, 11, 1, '01.08.2006 00:00:00','01.08.2006 00:00:00');
-
-INSERT INTO lieferung (id, liefernr, transport_art, erzeugt, aktualisiert) VALUES (600,'20051005-001','ST','01.08.2006 00:00:00','01.08.2006 00:00:00');
-
-INSERT INTO bestellung_lieferung (bestellung_fk, lieferung_fk) VALUES (400,600);

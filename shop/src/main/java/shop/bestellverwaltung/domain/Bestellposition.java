@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PostPersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -20,14 +22,24 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.jboss.logging.Logger;
 
-import shop.util.persistence.AbstractAuditable;
 import shop.artikelverwaltung.domain.AbstractArtikel;
+import shop.util.persistence.AbstractAuditable;
 
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 @Entity
+// TODO MySQL 5.7 kann einen Index nicht 2x anlegen
 @Table(indexes =  {
 	@Index(columnList = "bestellung_fk"),
 	@Index(columnList = "artikel_fk")
 })
+//@NamedQueries({
+//    @NamedQuery(name  = Bestellposition.FIND_LADENHUETER,
+//   	            query = "SELECT a"
+//   	            	    + " FROM   Artikel a"
+//   	            	    + " WHERE  a NOT IN (SELECT bp.artikel FROM Bestellposition bp)")
+//})
 public class Bestellposition extends AbstractAuditable {
 	private static final long serialVersionUID = 2222771733641950913L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
@@ -136,6 +148,8 @@ public class Bestellposition extends AbstractAuditable {
 		}
 		final Bestellposition other = (Bestellposition) obj;
 		
+		// Bei persistenten Bestellpositionen koennen zu verschiedenen Bestellungen gehoeren
+		// und deshalb den gleichen Artikel (s.u.) referenzieren, deshalb wird Id hier beruecksichtigt
 		if (id == null) {
 			if (other.id != null) {
 				return false;
@@ -145,6 +159,8 @@ public class Bestellposition extends AbstractAuditable {
 			return false;
 		}
 
+		// Wenn eine neue Bestellung angelegt wird, dann wird jeder zu bestellende Artikel
+		// genau 1x referenziert (nicht zu verwechseln mit der "anzahl")
 		if (artikel == null) {
 			if (other.artikel != null) {
 				return false;

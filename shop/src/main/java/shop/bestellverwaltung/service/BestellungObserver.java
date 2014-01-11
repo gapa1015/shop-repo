@@ -17,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.jboss.logging.Logger;
 
+import shop.bestellverwaltung.domain.Bestellposition;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.interceptor.Log;
@@ -29,9 +30,9 @@ import shop.util.AbsenderName;
 @ApplicationScoped
 @Log
 public class BestellungObserver implements Serializable {
-	private static final long serialVersionUID = -2351215874310981613L;
-
+	private static final long serialVersionUID = -1567643645881819340L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	private static final String NEWLINE = System.getProperty("line.separator");
 	
 	@Inject
 	private transient Session session;
@@ -50,6 +51,7 @@ public class BestellungObserver implements Serializable {
 			LOGGER.warn("Der Absender fuer Bestellung-Emails ist nicht gesetzt.");
 			return;
 		}
+		LOGGER.infof("Absender fuer Bestellung-Emails: %s <%s>", absenderName, absenderMail);
 	}
 	
 	public void onCreateBestellung(@Observes @NeueBestellung Bestellung bestellung) {
@@ -58,7 +60,8 @@ public class BestellungObserver implements Serializable {
 		if (absenderMail == null || empfaengerMail == null) {
 			return;
 		}
-		final String empfaengerName = kunde.getNachname();
+		final String vorname = kunde.getVorname() == null ? "" : kunde.getVorname();
+		final String empfaengerName = vorname + " " + kunde.getNachname();
 		
 		final MimeMessage message = new MimeMessage(session);
 
@@ -75,7 +78,12 @@ public class BestellungObserver implements Serializable {
 			message.setSubject("Neue Bestellung Nr. " + bestellung.getId());
 			
 			// Text setzen mit MIME Type "text/plain"
-			final String text = "<h3>Neue Bestellung Nr. <b>" + bestellung.getId() + "</b></h3>";
+			final StringBuilder sb = new StringBuilder(256);
+			sb.append("<h3>Neue Bestellung Nr. <b>" + bestellung.getId() + "</b></h3>" + NEWLINE);
+			for (Bestellposition bp : bestellung.getBestellpositionen()) {
+				sb.append(bp.getAnzahl() + "\t" + bp.getArtikel().getName() + "<br/>" + NEWLINE);
+			}
+			final String text = sb.toString();
 			LOGGER.trace(text);
 			message.setContent(text, "text/html;charset=iso-8859-1");
 
