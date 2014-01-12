@@ -15,8 +15,10 @@ public interface ArtikelService {
 	List<AbstractArtikel> findArtikelByName(String name);
 
 	List<AbstractArtikel> findArtikelByPreis(BigDecimal preis);
-
-	<T extends AbstractArtikel> T createArtikel(T artikel);
+	
+	<T extends AbstractArtikel> T createArtikel(T artikel, Long lieferantId, Long herstellerId);
+	
+	<T extends AbstractArtikel> T createArtikel(T artikel, Lieferant lieferant, Hersteller hersteller);
 
 	<T> T updateArtikel(T artikel);
 	

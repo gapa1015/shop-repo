@@ -18,6 +18,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
 import shop.artikelverwaltung.domain.Lieferant;
@@ -103,20 +104,42 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 				.setParameter(AbstractArtikel.PARAM_PREIS, "%" + preis + "%")
 				.getResultList();
 	}
-
+	
 	@Override
-	public <T extends AbstractArtikel> T createArtikel(T artikel) {
+	public <T extends AbstractArtikel> T createArtikel(T artikel, Long lieferantId, Long herstellerId) {
 		if (artikel == null) {
-			return artikel;
+			return null;
 		}
 		
-		createHersteller(artikel.getHersteller());
+		final Lieferant lieferant = findLieferantById(lieferantId);
 		
-		createLieferant(artikel.getLieferant());
+		final Hersteller hersteller = findHerstellerById(herstellerId);
+				
+		return createArtikel(artikel, lieferant, hersteller);
+	}
+	
+	@Override
+	public <T extends AbstractArtikel> T createArtikel(T artikel, Lieferant lieferant, Hersteller hersteller) {
+		if (artikel == null) {
+			return null;
+		}
+		
+		if (!em.contains(lieferant)) {
+			lieferant = findLieferantById(lieferant.getId());
+		}
+		
+		if (!em.contains(hersteller)) {
+			hersteller = findHerstellerById(hersteller.getId());
+		}
+		
+		artikel.setLieferant(lieferant);
+		
+		artikel.setHersteller(hersteller);
 		
 		artikel.setId(KEINE_ID);
 		
 		em.persist(artikel);
+
 		return artikel;
 	}
 	

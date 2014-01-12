@@ -11,6 +11,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -58,6 +59,8 @@ public class ArtikelResource {
 	public Response findRadById(@PathParam("id") Long id) {
 		final AbstractArtikel artikel = as.findArtikelById(id);
 
+		setStructuralLinks(artikel, uriInfo);
+		
 		return Response		.ok(artikel)
 							.links(getTransitionalLinks(artikel, uriInfo))
 							.build();
@@ -102,8 +105,32 @@ public class ArtikelResource {
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createRad(@Valid AbstractArtikel artikel) {
-		artikel = as.createArtikel(artikel);
-		return Response.created(getUriArtikel(artikel, uriInfo)).build();
+		final String lieferantUriStr = artikel.getLieferantUri().toString();
+		int startPosLieferant = lieferantUriStr.lastIndexOf('/') + 1;
+		final String lieferantIdStr = lieferantUriStr.substring(startPosLieferant);
+		Long lieferantId = null;
+		try {
+			lieferantId = Long.valueOf(lieferantIdStr);
+		}
+		catch (NumberFormatException e) {
+			lieferantIdInvalid();
+		}
+		
+		final String herstellerUriStr = artikel.getHerstellerUri().toString();
+		int startPosHersteller = herstellerUriStr.lastIndexOf('/') + 1;
+		final String herstellerIdStr = herstellerUriStr.substring(startPosHersteller);
+		Long herstellerId = null;
+		try {
+			herstellerId = Long.valueOf(herstellerIdStr);
+		}
+		catch (NumberFormatException e) {
+			herstellerIdInvalid();
+		}
+		
+		artikel = as.createArtikel(artikel, lieferantId, herstellerId);
+		
+		final URI artikelUri = getUriArtikel(artikel, uriInfo);
+		return Response.created(artikelUri).build();
 	}
 
 	@PUT
@@ -111,5 +138,15 @@ public class ArtikelResource {
 	@Produces
 	public void updateArtikel(@Valid Rad rad) {
 		as.updateArtikel(rad);
+	}
+	
+	@NotNull(message = "{artikel.lieferant.id.invalid}")
+	public Long lieferantIdInvalid() {
+		return null;
+	}
+	
+	@NotNull(message = "{artikel.hersteller.id.invalid}")
+	public Long herstellerIdInvalid() {
+		return null;
 	}
 }

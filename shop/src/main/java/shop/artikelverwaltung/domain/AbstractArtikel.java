@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -91,22 +92,24 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	private BigDecimal preis;
 
 	@OneToOne
-	@NotNull(message = "{artikel.hersteller.notNull}")
+	//@NotNull(message = "{artikel.hersteller.notNull}")
+	@JoinColumn(name = "hersteller_fk")
 	@Valid
 	@XmlTransient
 	private Hersteller hersteller;
 
 	@Transient
-	private URI lieferantUri;
-	
+	private URI herstellerUri;
+
 	@OneToOne
-	@NotNull(message = "{artikel.lieferant.notNull}")
+	//@NotNull(message = "{artikel.lieferant.notNull}")
+	@JoinColumn(name = "lieferant_fk")
 	@Valid
 	@XmlTransient
 	private Lieferant lieferant;
 
 	@Transient
-	private URI herstellerUri;
+	private URI lieferantUri;
 	
 	@PostPersist
 	private void postPersist() {
