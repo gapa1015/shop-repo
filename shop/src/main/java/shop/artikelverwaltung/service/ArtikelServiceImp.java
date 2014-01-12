@@ -19,7 +19,6 @@ import javax.persistence.criteria.Root;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.fest.util.Strings;
 
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
@@ -86,7 +85,7 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	@NotNull(message = "{artikelverwaltung.artikel.notFound.name}")
 	public List<AbstractArtikel> findArtikelByName(String name) {
 
-		if (Strings.isNullOrEmpty(name)) {
+		if (name != null) {
 			return findVerfuegbareArtikel();
 		}
 
