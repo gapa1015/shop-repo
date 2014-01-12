@@ -101,16 +101,6 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	@Transient
 	private URI herstellerUri;
 
-	@OneToOne
-	//@NotNull(message = "{artikel.lieferant.notNull}")
-	@JoinColumn(name = "lieferant_fk")
-	@Valid
-	@XmlTransient
-	private Lieferant lieferant;
-
-	@Transient
-	private URI lieferantUri;
-	
 	@PostPersist
 	private void postPersist() {
 		LOGGER.debugf("Neues Ersatzteil/Rad mit ID=%d", id);
@@ -119,6 +109,14 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	public AbstractArtikel() {
 		super();
 	}
+	
+    public void setValues(AbstractArtikel a) {        
+        
+        name = a.name;
+        preis = a.preis;
+        hersteller = a.hersteller;
+        
+    }
 
 	public Long getId() {
 		return id;
@@ -153,27 +151,11 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	}
 	
 	public URI getHerstellerUri() {
-		return lieferantUri;
+		return herstellerUri;
 	}
 
 	public void setHerstellerUri(URI herstellerUri) {
 		this.herstellerUri = herstellerUri;
-	}
-
-	public Lieferant getLieferant() {
-		return lieferant;
-	}
-
-	public void setLieferant(Lieferant lieferant) {
-		this.lieferant = lieferant;
-	}
-
-	public URI getLieferantUri() {
-		return lieferantUri;
-	}
-
-	public void setLieferantUri(URI lieferantUri) {
-		this.lieferantUri = lieferantUri;
 	}
 	
 	@Override
@@ -189,8 +171,6 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 		result = prime * result
 				+ ((hersteller == null) ? 0 : hersteller.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((lieferant == null) ? 0 : lieferant.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((preis == null) ? 0 : preis.hashCode());
 		return result;
@@ -216,12 +196,6 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 				return false;
 		} 
 		else if (!id.equals(other.id))
-			return false;
-		if (lieferant == null) {
-			if (other.lieferant != null)
-				return false;
-		} 
-		else if (!lieferant.equals(other.lieferant))
 			return false;
 		if (name == null) {
 			if (other.name != null)

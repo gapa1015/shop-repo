@@ -27,8 +27,6 @@ import javax.ws.rs.core.UriInfo;
 import shop.util.interceptor.Log;
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
-import shop.artikelverwaltung.domain.Lieferant;
-import shop.artikelverwaltung.domain.Rad;
 import shop.artikelverwaltung.service.ArtikelService;
 import shop.util.rest.UriHelper;
 
@@ -49,9 +47,6 @@ public class ArtikelResource {
 	private HerstellerResource herstellerResource;
 	
 	@Inject
-	private LieferantResource lieferantResource;
-	
-	@Inject
 	private ArtikelService as;
 
 	@GET
@@ -67,12 +62,6 @@ public class ArtikelResource {
 	}
 
 	public void setStructuralLinks(AbstractArtikel artikel, UriInfo uriInfo) {
-		final Lieferant lieferant = artikel.getLieferant();
-		if (lieferant != null) {
-			final URI lieferantUri = lieferantResource.getUriLieferant(artikel.getLieferant(), uriInfo);
-			artikel.setLieferantUri(lieferantUri);
-		}
-		
 		final Hersteller hersteller = artikel.getHersteller();
 		if (hersteller != null) {
 			final URI herstellerUri = herstellerResource.getUriHersteller(artikel.getHersteller(), uriInfo);
@@ -105,20 +94,9 @@ public class ArtikelResource {
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createRad(@Valid AbstractArtikel artikel) {
-		final String lieferantUriStr = artikel.getLieferantUri().toString();
-		int startPosLieferant = lieferantUriStr.lastIndexOf('/') + 1;
-		final String lieferantIdStr = lieferantUriStr.substring(startPosLieferant);
-		Long lieferantId = null;
-		try {
-			lieferantId = Long.valueOf(lieferantIdStr);
-		}
-		catch (NumberFormatException e) {
-			lieferantIdInvalid();
-		}
-		
 		final String herstellerUriStr = artikel.getHerstellerUri().toString();
-		int startPosHersteller = herstellerUriStr.lastIndexOf('/') + 1;
-		final String herstellerIdStr = herstellerUriStr.substring(startPosHersteller);
+		int startPos = herstellerUriStr.lastIndexOf('/') + 1;
+		final String herstellerIdStr = herstellerUriStr.substring(startPos);
 		Long herstellerId = null;
 		try {
 			herstellerId = Long.valueOf(herstellerIdStr);
@@ -127,7 +105,7 @@ public class ArtikelResource {
 			herstellerIdInvalid();
 		}
 		
-		artikel = as.createArtikel(artikel, lieferantId, herstellerId);
+		artikel = as.createArtikel(artikel, herstellerId);
 		
 		final URI artikelUri = getUriArtikel(artikel, uriInfo);
 		return Response.created(artikelUri).build();
@@ -136,13 +114,12 @@ public class ArtikelResource {
 	@PUT
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
-	public void updateArtikel(@Valid Rad rad) {
-		as.updateArtikel(rad);
-	}
-	
-	@NotNull(message = "{artikel.lieferant.id.invalid}")
-	public Long lieferantIdInvalid() {
-		return null;
+	public void updateArtikel(@Valid AbstractArtikel artikel) {
+	    final AbstractArtikel origArtikel = as.findArtikelById(artikel.getId());
+		
+		origArtikel.setValues(artikel);
+		
+		as.updateArtikel(origArtikel);
 	}
 	
 	@NotNull(message = "{artikel.hersteller.id.invalid}")

@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import shop.artikelverwaltung.domain.Hersteller;
-import shop.artikelverwaltung.domain.Lieferant;
 import shop.util.persistence.AbstractAuditable;
 
 @Cacheable
@@ -57,24 +56,18 @@ public class Adresse extends AbstractAuditable {
 	@JoinColumn(name = "hersteller_fk", unique = true)
 	@XmlTransient
 	private Hersteller hersteller;
-	
-	@OneToOne
-	@JoinColumn(name = "lieferant_fk", unique = true)
-	@XmlTransient
-	private Lieferant lieferant;
 
 	public Adresse() {
 		super();
 	}
 	
-	public void setValues(String plz, String ort, String strasse, String hausnr, AbstractKunde kunde, Hersteller hersteller, Lieferant lieferant) {
+	public void setValues(String plz, String ort, String strasse, String hausnr, AbstractKunde kunde, Hersteller hersteller) {
 		this.strasse = strasse;
 		this.hausnummer = hausnr;
 		this.plz = plz;
 		this.stadt = ort;
 		this.kunde = kunde;
 		this.hersteller = hersteller;
-		this.lieferant = lieferant;
 		
 	}
 	
@@ -202,13 +195,4 @@ public class Adresse extends AbstractAuditable {
 	public void setHersteller(Hersteller hersteller) {
 		this.hersteller = hersteller;
 	}
-
-	public Lieferant getLieferant() {
-		return lieferant;
-	}
-
-	public void setLieferant(Lieferant lieferant) {
-		this.lieferant = lieferant;
-	}
-
 }

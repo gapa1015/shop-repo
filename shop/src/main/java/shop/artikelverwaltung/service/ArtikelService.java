@@ -5,7 +5,6 @@ import java.util.List;
 
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
-import shop.artikelverwaltung.domain.Lieferant;
 
 public interface ArtikelService {
 	AbstractArtikel findArtikelById(Long id);
@@ -16,17 +15,11 @@ public interface ArtikelService {
 
 	List<AbstractArtikel> findArtikelByPreis(BigDecimal preis);
 	
-	<T extends AbstractArtikel> T createArtikel(T artikel, Long lieferantId, Long herstellerId);
+	<T extends AbstractArtikel> T createArtikel(T artikel, Long herstellerId);
 	
-	<T extends AbstractArtikel> T createArtikel(T artikel, Lieferant lieferant, Hersteller hersteller);
+	<T extends AbstractArtikel> T createArtikel(T artikel, Hersteller hersteller);
 
 	<T> T updateArtikel(T artikel);
-	
-	Lieferant findLieferantById(Long id);
-	
-	Lieferant findLieferantByName(String name);
-	
-	Lieferant createLieferant(Lieferant lieferant);
 	
 	Hersteller findHerstellerById(Long id);
 	

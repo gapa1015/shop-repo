@@ -5,13 +5,6 @@ INSERT INTO adresse (id, hausnummer, plz, stadt, strasse, aktualisiert, erzeugt,
 INSERT INTO adresse (id, hausnummer, plz, stadt, strasse, aktualisiert, erzeugt, kunde_fk) VALUES (303, '6', '76133', 'Karlsruhe','Kaiserstrasse', '09.01.2013 00:00:00', '09.01.2013 00:00:00', NULL);
 INSERT INTO adresse (id, hausnummer, plz, stadt, strasse, aktualisiert, erzeugt, kunde_fk) VALUES (304, '30', '76133', 'Karlsruhe','Wegstrasse', '09.01.2013 00:00:00', '09.01.2013 00:00:00', NULL);
 
---Lieferant--
-INSERT INTO lieferant (id, aktualisiert, erzeugt, adresse_id, name) VALUES (100, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 301, 'Post');
-INSERT INTO lieferant (id, aktualisiert, erzeugt, adresse_id, name) VALUES (101, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 301, 'Paketlieferant');
-INSERT INTO lieferant (id, aktualisiert, erzeugt, adresse_id, name) VALUES (102, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 301, 'Paketdienst');
-INSERT INTO lieferant (id, aktualisiert, erzeugt, adresse_id, name) VALUES (103, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 301, 'Hermes');
-INSERT INTO lieferant (id, aktualisiert, erzeugt, adresse_id, name) VALUES (104, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 301, 'Pin');
-
 --Hersteller--
 INSERT INTO hersteller (id, aktualisiert, erzeugt, adresse_id, name) VALUES (100, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 302, 'Schwalbe');
 INSERT INTO hersteller (id, aktualisiert, erzeugt, adresse_id, name) VALUES (101, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 302, 'Cube');
@@ -24,15 +17,15 @@ INSERT INTO hersteller (id, aktualisiert, erzeugt, adresse_id, name) VALUES (107
 INSERT INTO hersteller (id, aktualisiert, erzeugt, adresse_id, name) VALUES (108, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 302, 'Trelock');
 
 --Artikel--
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk) VALUES ('R', 11, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Fahrrad', 350, '2013', 28, 100, 100);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk) VALUES ('R', 12, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Mountainbike', 1200, '2011', 28, 101, 101);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk) VALUES ('R', 13, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'KidsBike', 140, '2010', 15, 108, 104);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk) VALUES ('R', 14, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Damenrad', 220, '2011', 24, 102, 102);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk) VALUES ('R', 15, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Electrorad', 2520, '2014', 28, 103, 103);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk, rad_fk) VALUES ('E', 16, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Spiegel', 29, '2011', NULL, 104, 102, 11);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk, rad_fk) VALUES ('E', 17, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Pedale', 50, '2013', NULL, 105, 103, 12);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk, rad_fk) VALUES ('E', 18, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Sitz', 120, '2010', NULL, 106, 102, 13);
-INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, lieferant_fk, rad_fk) VALUES ('E', 19, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Lenker', 60, '2011', NULL, 107, 104, 14);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk) VALUES ('R', 11, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Fahrrad', 350, '2013', 28, 100);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk) VALUES ('R', 12, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Mountainbike', 1200, '2011', 28, 101);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk) VALUES ('R', 13, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'KidsBike', 140, '2010', 15, 108);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk) VALUES ('R', 14, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Damenrad', 220, '2011', 24, 102);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk) VALUES ('R', 15, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Electrorad', 2520, '2014', 28, 103);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, rad_fk) VALUES ('E', 16, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Spiegel', 29, '2011', NULL, 104, 11);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, rad_fk) VALUES ('E', 17, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Pedale', 50, '2013', NULL, 105, 12);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, rad_fk) VALUES ('E', 18, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Sitz', 120, '2010', NULL, 106, 13);
+INSERT INTO artikel (dtype, id, aktualisiert, erzeugt, name, preis, baujahr, zoll, hersteller_fk, rad_fk) VALUES ('E', 19, '09.01.2013 00:00:00', '09.01.2013 00:00:00', 'Lenker', 60, '2011', NULL, 107, 14);
 
 --Bankdaten--
 INSERT INTO bankdaten (id, kontonummer, blz, bankname, aktualisiert, erzeugt) VALUES (1, '123456789', '123454345', 'Sparkasse', '09.01.2013 00:00:00', '09.01.2013 00:00:00'); 

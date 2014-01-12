@@ -21,7 +21,6 @@ import javax.validation.constraints.Size;
 
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
-import shop.artikelverwaltung.domain.Lieferant;
 import shop.kundenverwaltung.service.KundenService;
 import shop.util.interceptor.Log;
 
@@ -107,33 +106,24 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	}
 	
 	@Override
-	public <T extends AbstractArtikel> T createArtikel(T artikel, Long lieferantId, Long herstellerId) {
+	public <T extends AbstractArtikel> T createArtikel(T artikel, Long herstellerId) {
 		if (artikel == null) {
 			return null;
 		}
-		
-		final Lieferant lieferant = findLieferantById(lieferantId);
-		
+	
 		final Hersteller hersteller = findHerstellerById(herstellerId);
 				
-		return createArtikel(artikel, lieferant, hersteller);
+		return createArtikel(artikel, hersteller);
 	}
 	
 	@Override
-	public <T extends AbstractArtikel> T createArtikel(T artikel, Lieferant lieferant, Hersteller hersteller) {
+	public <T extends AbstractArtikel> T createArtikel(T artikel, Hersteller hersteller) {
 		if (artikel == null) {
 			return null;
 		}
-		
-		if (!em.contains(lieferant)) {
-			lieferant = findLieferantById(lieferant.getId());
-		}
-		
 		if (!em.contains(hersteller)) {
 			hersteller = findHerstellerById(hersteller.getId());
 		}
-		
-		artikel.setLieferant(lieferant);
 		
 		artikel.setHersteller(hersteller);
 		
@@ -146,40 +136,11 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	
 	@Override
 	public <T> T updateArtikel(T artikel) {
-		if (artikel == null)
-			return null;
-
-		em.detach(artikel);
-		
-		artikel = em.merge(artikel);
-		return artikel;
-	}
-	
-	@Override
-	@NotNull(message = "{artikelverwaltung.lieferant.notFound.id}")
-	public Lieferant findLieferantById(Long id) {
-		return em.find(Lieferant.class, id);
-	}
-	
-	@Override
-	public Lieferant findLieferantByName(String name) {
-		final TypedQuery<Lieferant> query = em.createNamedQuery(Lieferant.FIND_LIEFERANT_BY_NAME,
-                								Lieferant.class)
-                							   .setParameter(Lieferant.PARAM_NAME, name);
-		
-		return (Lieferant) query.getResultList();
-	}
-	
-	@Override
-	public Lieferant createLieferant(Lieferant lieferant) {
-		if (lieferant == null) {
-			return lieferant;
-		}
-		
-		ks.createAdresse(lieferant.getAdresse());
-		
-		em.persist(lieferant);
-		return lieferant;
+        if (artikel == null)
+            return null;
+    
+        em.merge(artikel);
+        return artikel;
 	}
 	
 	@Override
