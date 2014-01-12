@@ -50,6 +50,7 @@ import shop.bestellverwaltung.rest.BestellungResource;
 import shop.bestellverwaltung.service.BestellungService;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.domain.Adresse;
+import shop.kundenverwaltung.domain.Bankdaten;
 import shop.kundenverwaltung.service.KundenService;
 import shop.kundenverwaltung.service.KundenService.FetchType;
 import shop.kundenverwaltung.service.KundenService.OrderType;
@@ -135,7 +136,7 @@ public class KundeResource {
 		                        .rel(REMOVE_LINK)
 		                        .build();
 
-		return new Link[] { self, list, add, update, remove };
+		return new Link[] {self, list, add, update, remove};
 	}
 	
 	public URI getUriKunde(AbstractKunde kunde, UriInfo uriInfo) {
@@ -173,7 +174,7 @@ public class KundeResource {
 			for (AbstractKunde k : kunden) {
 				setStructuralLinks(k, uriInfo);
 			}
-			entity = new GenericEntity<List<? extends AbstractKunde>>(kunden){};
+			entity = new GenericEntity<List<? extends AbstractKunde>>(kunden) { };
 			links = getTransitionalLinksKunden(kunden, uriInfo);
 		}
 		else if (kunde != null) {
@@ -199,7 +200,7 @@ public class KundeResource {
                               .rel(LAST_LINK)
                               .build();
 		
-		return new Link[] { first, last };
+		return new Link[] {first, last};
 	}
 	
 	@GET
@@ -229,7 +230,7 @@ public class KundeResource {
 			}
 		}
 		
-		final Response response = Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) {})
+		final Response response = Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) { })
                                           .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
                                           .build();
 		return response;
@@ -254,7 +255,7 @@ public class KundeResource {
                               .rel(LAST_LINK)
                               .build();
 		
-		return new Link[] { self, first, last };
+		return new Link[] {self, first, last};
 	}
 	
 	@GET
@@ -270,7 +271,7 @@ public class KundeResource {
 			bestellungenIds.add(bestellung.getId());
 		}
 		
-		return Response.ok(new GenericEntity<Collection<Long>>(bestellungenIds) {})
+		return Response.ok(new GenericEntity<Collection<Long>>(bestellungenIds) { })
 				       .build();
 	}
 	
@@ -292,6 +293,10 @@ public class KundeResource {
 		final Adresse adresse = kunde.getAdresse();
 		if (adresse != null) {
 			adresse.setKunde(kunde);
+		}
+		final Bankdaten bankdaten = kunde.getBankdaten();
+		if (bankdaten != null) {
+			bankdaten.setKunde(kunde);
 		}
 		
 		kunde = ks.createKunde(kunde);

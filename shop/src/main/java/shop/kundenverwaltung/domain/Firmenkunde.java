@@ -59,21 +59,24 @@ public class Firmenkunde extends AbstractKunde {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Firmenkunde other = (Firmenkunde) obj;
+		final Firmenkunde other = (Firmenkunde) obj;
 		if (firmenname == null) {
 			if (other.firmenname != null)
 				return false;
-		} else if (!firmenname.equals(other.firmenname))
+		}
+		else if (!firmenname.equals(other.firmenname))
 			return false;
 		if (rabatt == null) {
 			if (other.rabatt != null)
 				return false;
-		} else if (!rabatt.equals(other.rabatt))
+		} 
+		else if (!rabatt.equals(other.rabatt))
 			return false;
 		if (umsatz == null) {
 			if (other.umsatz != null)
 				return false;
-		} else if (!umsatz.equals(other.umsatz))
+		} 
+		else if (!umsatz.equals(other.umsatz))
 			return false;
 		return true;
 	}
