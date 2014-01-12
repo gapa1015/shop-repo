@@ -201,31 +201,36 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractArtikel other = (AbstractArtikel) obj;
+		final AbstractArtikel other = (AbstractArtikel) obj;
 		if (hersteller == null) {
 			if (other.hersteller != null)
 				return false;
-		} else if (!hersteller.equals(other.hersteller))
+		} 
+		else if (!hersteller.equals(other.hersteller))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} 
+		else if (!id.equals(other.id))
 			return false;
 		if (lieferant == null) {
 			if (other.lieferant != null)
 				return false;
-		} else if (!lieferant.equals(other.lieferant))
+		} 
+		else if (!lieferant.equals(other.lieferant))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} 
+		else if (!name.equals(other.name))
 			return false;
 		if (preis == null) {
 			if (other.preis != null)
 				return false;
-		} else if (!preis.equals(other.preis))
+		} 
+		else if (!preis.equals(other.preis))
 			return false;
 		return true;
 	}

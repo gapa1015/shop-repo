@@ -23,8 +23,9 @@ import shop.util.interceptor.Log;
 @Log
 public class KundenService implements Serializable {
 	private static final long serialVersionUID = -4188395218729678116L;
-
-	@Inject transient EntityManager em;
+	
+	@Inject 
+	private transient EntityManager em;
 	
 	public enum FetchType {
 		NUR_KUNDE,

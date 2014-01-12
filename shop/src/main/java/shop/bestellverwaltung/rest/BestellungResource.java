@@ -104,7 +104,7 @@ public class BestellungResource {
 		final Link add = Link.fromUri(uriHelper.getUri(BestellungResource.class, uriInfo))
                              .rel(ADD_LINK)
                              .build();
-		return new Link[] { self, add };
+		return new Link[] {self, add};
 	}
 
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {

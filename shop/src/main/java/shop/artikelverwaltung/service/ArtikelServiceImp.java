@@ -66,7 +66,8 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 		Predicate pred = null;
 		if (ids.size() == 1) {
 			pred = builder.equal(idPath, ids.get(0));
-		} else {
+		} 
+		else {
 			final Predicate[] equals = new Predicate[ids.size()];
 			int i = 0;
 			for (Long id : ids) {
