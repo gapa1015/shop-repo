@@ -24,7 +24,4 @@ public class EmailExistsException extends AbstractKundeServiceException {
 	public String getMessageKey() {
 		return MESSAGE_KEY;
 	}
-	
-	
-
 }

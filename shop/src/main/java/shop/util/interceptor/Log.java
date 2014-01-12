@@ -11,9 +11,6 @@ import java.lang.annotation.Target;
 
 import javax.interceptor.InterceptorBinding;
 
-/**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
- */
 @InterceptorBinding
 @Target({ TYPE, METHOD, CONSTRUCTOR })
 @Retention(RUNTIME)

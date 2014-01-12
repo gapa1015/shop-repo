@@ -15,5 +15,4 @@ public abstract class AbstractKundeServiceException extends AbstractShopExceptio
 		super(msg, t);
 		
 	}
-
 }

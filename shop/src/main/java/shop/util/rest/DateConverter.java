@@ -19,11 +19,6 @@ import javax.ws.rs.ext.Provider;
 
 import shop.util.interceptor.Log;
 
-/**
- * Bei @QueryParam oder @PathParam z.B. "2001-10-31" statt Default-Format "31 Oct 2001"
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
- *
- */
 @Provider
 @ApplicationScoped
 @Log
@@ -49,8 +44,6 @@ public class DateConverter implements ParamConverter<Date>, ParamConverterProvid
 			final Response response = Response.status(BAD_REQUEST)
 					                          .entity(msg)
 					                          .build();
-			// die Original-Exception wird bewusst nicht uebernommen, weil die neue
-			// Exception zum HTTP-Response fuer den aufrufenden Client wird
 			throw new WebApplicationException(response);
 		}
 	}
