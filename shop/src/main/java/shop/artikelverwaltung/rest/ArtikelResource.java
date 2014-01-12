@@ -95,7 +95,7 @@ public class ArtikelResource {
 	@Produces
 	public Response createRad(@Valid AbstractArtikel artikel) {
 		final String herstellerUriStr = artikel.getHerstellerUri().toString();
-		int startPos = herstellerUriStr.lastIndexOf('/') + 1;
+		final int startPos = herstellerUriStr.lastIndexOf('/') + 1;
 		final String herstellerIdStr = herstellerUriStr.substring(startPos);
 		Long herstellerId = null;
 		try {

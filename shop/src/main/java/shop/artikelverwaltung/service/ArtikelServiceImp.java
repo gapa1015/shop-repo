@@ -83,10 +83,6 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	@Override
 	@NotNull(message = "{artikelverwaltung.artikel.notFound.name}")
 	public List<AbstractArtikel> findArtikelByName(String name) {
-		if (name != null) {
-			return findVerfuegbareArtikel();
-		}
-
 		return em
 				.createNamedQuery(AbstractArtikel.FIND_ARTIKEL_BY_NAME,
 						AbstractArtikel.class)

@@ -46,7 +46,7 @@ public class Bankdaten extends AbstractAuditable  {
 	@XmlTransient
 	private AbstractKunde kunde;
 
-	public void setValues (Bankdaten b) {
+	public void setValues(Bankdaten b) {
 		bankname = b.bankname;
 		blz = b.blz;
 		kontonummer = b.kontonummer;
