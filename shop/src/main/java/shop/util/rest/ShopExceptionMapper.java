@@ -15,6 +15,9 @@ import shop.util.AbstractShopException;
 import shop.util.interceptor.Log;
 
 
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 @Provider
 @ApplicationScoped
 @Log

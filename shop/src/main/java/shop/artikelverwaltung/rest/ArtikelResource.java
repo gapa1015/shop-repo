@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -26,9 +25,10 @@ import javax.ws.rs.core.UriInfo;
 
 import shop.util.interceptor.Log;
 import shop.artikelverwaltung.domain.AbstractArtikel;
+import shop.artikelverwaltung.domain.Hersteller;
+import shop.artikelverwaltung.domain.Lieferant;
 import shop.artikelverwaltung.domain.Rad;
 import shop.artikelverwaltung.service.ArtikelService;
-import shop.util.Mock;
 import shop.util.rest.UriHelper;
 
 @Path("/artikel")
@@ -45,6 +45,12 @@ public class ArtikelResource {
 	private UriHelper uriHelper;
 	
 	@Inject
+	private HerstellerResource herstellerResource;
+	
+	@Inject
+	private LieferantResource lieferantResource;
+	
+	@Inject
 	private ArtikelService as;
 
 	@GET
@@ -57,6 +63,20 @@ public class ArtikelResource {
 							.build();
 	}
 
+	public void setStructuralLinks(AbstractArtikel artikel, UriInfo uriInfo) {
+		final Lieferant lieferant = artikel.getLieferant();
+		if (lieferant != null) {
+			final URI lieferantUri = lieferantResource.getUriLieferant(artikel.getLieferant(), uriInfo);
+			artikel.setLieferantUri(lieferantUri);
+		}
+		
+		final Hersteller hersteller = artikel.getHersteller();
+		if (hersteller != null) {
+			final URI herstellerUri = herstellerResource.getUriHersteller(artikel.getHersteller(), uriInfo);
+			artikel.setHerstellerUri(herstellerUri);
+		}
+	}
+	
 	private Link[] getTransitionalLinks(AbstractArtikel artikel, UriInfo uriInfo) {
 		final Link self = Link.fromUri(getUriArtikel(artikel, uriInfo)).rel(SELF_LINK)
 				.build();
@@ -64,7 +84,7 @@ public class ArtikelResource {
 	}
 
 	public URI getUriArtikel(AbstractArtikel artikel, UriInfo uriInfo) {
-		return uriHelper.getURI(ArtikelResource.class, "findRadById",
+		return uriHelper.getUri(ArtikelResource.class, "findRadById",
 				artikel.getId(), uriInfo);
 	}
 	
@@ -91,12 +111,5 @@ public class ArtikelResource {
 	@Produces
 	public void updateArtikel(@Valid Rad rad) {
 		as.updateArtikel(rad);
-	}
-
-	@DELETE
-	@Path("{id:[1-9][0-9]*}")
-	@Produces
-	public void deleteRad(@PathParam("id") Long id) {
-		Mock.deleteRad(id);
 	}
 }

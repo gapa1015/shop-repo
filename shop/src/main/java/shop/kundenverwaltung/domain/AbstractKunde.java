@@ -3,9 +3,9 @@ package shop.kundenverwaltung.domain;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -54,34 +54,39 @@ import shop.util.persistence.AbstractAuditable;
                          message = "{kunde.password.notEqual}")
 @Entity
 @NamedQueries({
-		@NamedQuery
-		(name = AbstractKunde.KUNDE_BY_NACHNAME, 
-		query = "Select k" 
-				+ " FROM AbstractKunde k" 
-				+ " WHERE k.nachname = :nachname" 
-				+ " ORDER BY k.nachname ASC"),
-		@NamedQuery(name = AbstractKunde.KUNDE_BY_ID, 
-		query = "Select k" 
-				+ " FROM AbstractKunde k"
-				+ " WHERE k.id = :id"
-				+ " ORDER BY k.id ASC"), 
-		@NamedQuery
-		(name = AbstractKunde.KUNDE_BY_VORNAME,
-		query = "SELECT k"
-				+ " FROM AbstractKunde k" 
-				+ " WHERE k.vorname = :vorname"
-				+ " ORDER BY k.vorname ASC"),
-		@NamedQuery(name = AbstractKunde.KUNDE_BY_EMAIL,
-		query = "SELECT k" 
-				+ " FROM AbstractKunde k"
-				+ " WHERE k.email = :email"
-				+ " ORDER BY k.email ASC"),
-		@NamedQuery
-		(name = AbstractKunde.KUNDE_BY_GEBURTSTAG, 
-		query = "Select k" 
-				+ " FROM AbstractKunde k"
-				+ " WHERE k.geburtstag = :geburtstag"
-				+ " ORDER BY k.geburtstag ASC")			
+	@NamedQuery(name  = AbstractKunde.FIND_KUNDEN,
+                query = "SELECT k"
+				        + " FROM   AbstractKunde k"),
+	@NamedQuery(name  = AbstractKunde.FIND_KUNDEN_ORDER_BY_ID,
+		        query = "SELECT   k"
+				        + " FROM  AbstractKunde k"
+		                + " ORDER BY k.id"),
+	@NamedQuery(name  = AbstractKunde.FIND_IDS_BY_PREFIX,
+		        query = "SELECT   k.id"
+		                + " FROM  AbstractKunde k"
+		                + " WHERE CONCAT('', k.id) LIKE :" + AbstractKunde.PARAM_KUNDE_ID_PREFIX
+		                + " ORDER BY k.id"),
+	@NamedQuery(name  = AbstractKunde.FIND_KUNDEN_BY_NACHNAME,
+	            query = "SELECT k"
+				        + " FROM   AbstractKunde k"
+	            		+ " WHERE  UPPER(k.nachname) = UPPER(:" + AbstractKunde.PARAM_KUNDE_NACHNAME + ")"),
+	@NamedQuery(name  = AbstractKunde.FIND_NACHNAMEN_BY_PREFIX,
+   	            query = "SELECT   DISTINCT k.nachname"
+				        + " FROM  AbstractKunde k "
+	            		+ " WHERE UPPER(k.nachname) LIKE UPPER(:"
+	            		+ AbstractKunde.PARAM_KUNDE_NACHNAME_PREFIX + ")"),
+   	@NamedQuery(name  = AbstractKunde.FIND_KUNDE_BY_EMAIL,
+   	            query = "SELECT DISTINCT k"
+   			            + " FROM   AbstractKunde k"
+   			            + " WHERE  k.email = :" + AbstractKunde.PARAM_KUNDE_EMAIL),
+    @NamedQuery(name  = AbstractKunde.FIND_KUNDEN_BY_PLZ,
+	            query = "SELECT k"
+				        + " FROM  AbstractKunde k"
+			            + " WHERE k.adresse.plz = :" + AbstractKunde.PARAM_KUNDE_ADRESSE_PLZ),
+	@NamedQuery(name = AbstractKunde.FIND_PRIVATKUNDEN_FIRMENKUNDEN,
+			    query = "SELECT k"
+			            + " FROM  AbstractKunde k"
+			    		+ " WHERE TYPE(k) IN (Privatkunde, Firmenkunde)")
 })
 @NamedEntityGraphs({
 		@NamedEntityGraph(name = "bestellungen", attributeNodes = @NamedAttributeNode("bestellungen"))
@@ -98,20 +103,36 @@ import shop.util.persistence.AbstractAuditable;
 public abstract class AbstractKunde extends AbstractAuditable {
 	private static final long serialVersionUID = -424504155716043120L;
 
-	private static final String PREFIX = "AbstractKunde.";
+	private static final String NAME_PATTERN = "[A-Z\u00C4\u00D6\u00DC][a-z\u00E4\u00F6\u00FC\u00DF]+";
+	private static final String PREFIX_ADEL = "(o'|von|von der|von und zu|van)?";
+	
+	public static final String NACHNAME_PATTERN = PREFIX_ADEL + NAME_PATTERN + "(-" + NAME_PATTERN + ")?";
+	
 	public static final String PRIVATKUNDE = "P";
 	public static final String FIRMENKUNDE = "F";
 	
+	private static final String PREFIX = "AbstractKunde.";
+	public static final String FIND_KUNDEN = PREFIX + "findKunden";
+	public static final String FIND_KUNDEN_ORDER_BY_ID = PREFIX + "findKundenOrderById";
+	public static final String FIND_IDS_BY_PREFIX = PREFIX + "findIdsByPrefix";
+	public static final String FIND_KUNDEN_BY_NACHNAME = PREFIX + "findKundenByNachname";
+	public static final String FIND_NACHNAMEN_BY_PREFIX = PREFIX + "findNachnamenByPrefix";
+	public static final String FIND_KUNDE_BY_EMAIL = PREFIX + "findKundeByEmail";
+	public static final String FIND_KUNDEN_BY_PLZ = PREFIX + "findKundenByPlz";
+	public static final String FIND_KUNDEN_BY_DATE = PREFIX + "findKundenByDate";
+	public static final String FIND_PRIVATKUNDEN_FIRMENKUNDEN = PREFIX + "findPrivatkundenFirmenkunden";
 	
-	public static final String KUNDE_BY_NACHNAME = PREFIX + "findKundeByNachname";
-	public static final String KUNDE_BY_ID = PREFIX + "findKundeById";
-	public static final String KUNDE_BY_VORNAME = PREFIX + "findKundeByVorname";
-	public static final String KUNDE_BY_EMAIL = PREFIX + "findKundeByEmail";
-	public static final String KUNDE_BY_GEBURTSTAG = PREFIX + "findKundeByGeburtstag";
-	public static final String KUNDE_BY_PLZ = PREFIX + "findKundeByPlz";
-	public static final String KUNDE_BY_STRASSE = PREFIX + "findKundeByStrasse";
-	public static final String KUNDE_BY_BANKDATEN = PREFIX + "findKundeByBankdaten";
-	public static final String KUNDE_BY_BESTELLUNG = PREFIX + "findKundeByBestellelung";
+	public static final String PARAM_KUNDE_ID = "kundeId";
+	public static final String PARAM_KUNDE_ID_PREFIX = "idPrefix";
+	public static final String PARAM_KUNDE_NACHNAME = "nachname";
+	public static final String PARAM_KUNDE_NACHNAME_PREFIX = "nachnamePrefix";
+	public static final String PARAM_KUNDE_ADRESSE_PLZ = "plz";
+	public static final String PARAM_KUNDE_SEIT = "seit";
+	public static final String PARAM_KUNDE_EMAIL = "email";
+	
+	public static final String GRAPH_BESTELLUNGEN = PREFIX + "bestellungen";
+	public static final String GRAPH_WARTUNGSVERTRAEGE = PREFIX + "wartungsvertraege";
+
 
 	@Id
 	@GeneratedValue
@@ -131,7 +152,6 @@ public abstract class AbstractKunde extends AbstractAuditable {
 	@NotNull(message = "{kunde.adresse.notnull}")
 	@Valid
 	@OneToOne(cascade = { PERSIST, REMOVE })
-	// default: fetch = EAGER
 	private Adresse adresse;
 
 	@NotNull(message = "{kunde.geburtstag.notnull}")
@@ -144,7 +164,6 @@ public abstract class AbstractKunde extends AbstractAuditable {
 
 	@NotNull(message = "{kunde.email.notnull}")
 	@Email(message = "{kunde.email.pattern}")
-	// @Pattern(regexp = "[\\w.%-]+@[\\w.%-]+\\.[A-Za-z] {2,4}")
 	@Column(unique = true)
 	private String email;
 
@@ -170,6 +189,7 @@ public abstract class AbstractKunde extends AbstractAuditable {
 	@OrderColumn(name = "idx")
 	private List<Bestellung> bestellungen;
 
+	@Transient
 	private URI bestellungUri;
 
     @PostLoad
@@ -177,6 +197,19 @@ public abstract class AbstractKunde extends AbstractAuditable {
             passwordWdh = password;
     }
 	
+	public void setValues(AbstractKunde k) {
+		nachname = k.nachname;
+		vorname = k.vorname;
+		adresse = k.adresse;
+		geburtstag = k.geburtstag;
+		telefon = k.telefon;
+		email = k.email;
+		bankdaten = k.bankdaten;
+		geschlecht = k.geschlecht;
+		password = k.password;
+		passwordWdh = k.password;
+	}
+    
 	public Long getId() {
 		return id;
 	}
@@ -260,97 +293,32 @@ public abstract class AbstractKunde extends AbstractAuditable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((adresse == null) ? 0 : adresse.hashCode());
-		result = prime * result
-				+ ((bankdaten == null) ? 0 : bankdaten.hashCode());
-		result = prime * result
-				+ ((bestellungUri == null) ? 0 : bestellungUri.hashCode());
-		result = prime * result
-				+ ((bestellungen == null) ? 0 : bestellungen.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result
-				+ ((geburtstag == null) ? 0 : geburtstag.hashCode());
-		result = prime * result
-				+ ((geschlecht == null) ? 0 : geschlecht.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((nachname == null) ? 0 : nachname.hashCode());
-		result = prime * result + ((telefon == null) ? 0 : telefon.hashCode());
-		result = prime * result + ((vorname == null) ? 0 : vorname.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		final AbstractKunde other = (AbstractKunde) obj;
-		if (adresse == null) {
-			if (other.adresse != null)
-				return false;
-		} 
-		else if (!adresse.equals(other.adresse))
-			return false;
-		if (bankdaten == null) {
-			if (other.bankdaten != null)
-				return false;
-		}
-		else if (!bankdaten.equals(other.bankdaten))
-			return false;
-		if (bestellungUri == null) {
-			if (other.bestellungUri != null)
-				return false;
-		} 
-		else if (!bestellungUri.equals(other.bestellungUri))
-			return false;
-		if (bestellungen == null) {
-			if (other.bestellungen != null)
-				return false;
-		}
-		else if (!bestellungen.equals(other.bestellungen))
-			return false;
+		
 		if (email == null) {
-			if (other.email != null)
+			if (other.email != null) {
 				return false;
+			}
 		}
-		else if (!email.equals(other.email))
+		else if (!email.equals(other.email)) {
 			return false;
-		if (geburtstag == null) {
-			if (other.geburtstag != null)
-				return false;
 		}
-		else if (!geburtstag.equals(other.geburtstag))
-			return false;
-		if (geschlecht != other.geschlecht)
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		}
-		else if (!id.equals(other.id))
-			return false;
-		if (nachname == null) {
-			if (other.nachname != null)
-				return false;
-		}
-		else if (!nachname.equals(other.nachname))
-			return false;
-		if (telefon == null) {
-			if (other.telefon != null)
-				return false;
-		}
-		else if (!telefon.equals(other.telefon))
-			return false;
-		if (vorname == null) {
-			if (other.vorname != null)
-				return false;
-		} 
-		else if (!vorname.equals(other.vorname))
-			return false;
+		
 		return true;
 	}
 
@@ -365,7 +333,10 @@ public abstract class AbstractKunde extends AbstractAuditable {
 	}
 
 	public List<Bestellung> getBestellungen() {
-		return bestellungen;
+		if (bestellungen == null) {
+			return null;
+		}		
+		return Collections.unmodifiableList(bestellungen);
 	}
 
 	public void setBestellungen(List<Bestellung> bestellungen) {

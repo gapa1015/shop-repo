@@ -11,8 +11,8 @@ import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 
-import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.bestellverwaltung.domain.Bestellung;
+import shop.bestellverwaltung.domain.Lieferung;
 import shop.kundenverwaltung.domain.AbstractKunde;
 
 /**
@@ -55,6 +55,10 @@ public abstract class BestellungServiceMitGeschenkverpackung implements Bestellu
 	/**
 	 * {inheritDoc}
 	 */
+	@Override
+	public List<Bestellung> findBestellungenByIds(List<Long> ids, FetchType fetch) {
+		return bs.findBestellungenByIds(ids, fetch);
+	}
 
 	/**
 	 * {inheritDoc}
@@ -77,18 +81,21 @@ public abstract class BestellungServiceMitGeschenkverpackung implements Bestellu
 	/**
 	 * {inheritDoc}
 	 */
+
+	/**
+	 * {inheritDoc}
+	 */
 	@Override
-	public List<AbstractArtikel> ladenhueter(int anzahl) {
-		return bs.ladenhueter(anzahl);
+	public List<Lieferung> findLieferungen(String nr) {
+		return bs.findLieferungen(nr);
 	}
 
 	/**
 	 * {inheritDoc}
 	 */
-
-
-	/**
-	 * {inheritDoc}
-	 */
-
+	@Override
+	public Lieferung createLieferung(Lieferung lieferung,
+			List<Bestellung> bestellungen) {
+		return bs.createLieferung(lieferung, bestellungen);
+	}
 }

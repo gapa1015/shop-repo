@@ -26,23 +26,30 @@ import java.util.List;
 
 import shop.util.interceptor.Log;
 
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 @Provider
 @ApplicationScoped
 @Log
 public class ConstraintViolationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {	@Override
 	public Response toResponse(ConstraintViolationException exception) {
 		final Set<ConstraintViolation<?>> violations = exception.getConstraintViolations();
+		// Rueckgabewert null oder leere Liste? d.h. NOT_FOUND?
 		if (violations.size() == 1) {
 			final ConstraintViolation<?> violation = violations.iterator().next();
 			
+			// Ende des Validation-Pfades suchen
 			final Iterator<Path.Node> pathIterator = violation.getPropertyPath().iterator();
 			Node node = null;
 			while (pathIterator.hasNext()) {
 				node = pathIterator.next();
 			}
 			
+			// Verletzung des Rueckgabewertes?
 			if (node != null && node.getKind() == RETURN_VALUE) {
 				final Object invalidValue = violation.getInvalidValue();
+				// null oder leere Liste?
 				if (invalidValue == null || (invalidValue instanceof List && ((List<?>) invalidValue).isEmpty())) {
 					return Response.status(NOT_FOUND)
 							       .type(TEXT_PLAIN)

@@ -21,8 +21,8 @@ import shop.bestellverwaltung.domain.Bestellposition;
 import shop.bestellverwaltung.domain.Bestellung;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.interceptor.Log;
-import shop.util.AbsenderMail;
-import shop.util.AbsenderName;
+import shop.util.mail.AbsenderMail;
+import shop.util.mail.AbsenderName;
 
 /**
  * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>

@@ -4,6 +4,7 @@ import static shop.util.Constants.KEINE_ID;
 
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.net.URI;
 
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -18,12 +19,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PostPersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonSubTypes.Type;
@@ -88,15 +91,23 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	private BigDecimal preis;
 
 	@OneToOne
-	//@NotNull(message = "{artikel.hersteller.notNull}")
+	@NotNull(message = "{artikel.hersteller.notNull}")
 	@Valid
+	@XmlTransient
 	private Hersteller hersteller;
 
+	@Transient
+	private URI lieferantUri;
+	
 	@OneToOne
-	//@NotNull(message = "{artikel.lieferant.notNull}")
+	@NotNull(message = "{artikel.lieferant.notNull}")
 	@Valid
+	@XmlTransient
 	private Lieferant lieferant;
 
+	@Transient
+	private URI herstellerUri;
+	
 	@PostPersist
 	private void postPersist() {
 		LOGGER.debugf("Neues Ersatzteil/Rad mit ID=%d", id);
@@ -137,6 +148,14 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	public void setHersteller(Hersteller hersteller) {
 		this.hersteller = hersteller;
 	}
+	
+	public URI getHerstellerUri() {
+		return lieferantUri;
+	}
+
+	public void setHerstellerUri(URI herstellerUri) {
+		this.herstellerUri = herstellerUri;
+	}
 
 	public Lieferant getLieferant() {
 		return lieferant;
@@ -146,6 +165,14 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 		this.lieferant = lieferant;
 	}
 
+	public URI getLieferantUri() {
+		return lieferantUri;
+	}
+
+	public void setLieferantUri(URI lieferantUri) {
+		this.lieferantUri = lieferantUri;
+	}
+	
 	@Override
 	public String toString() {
 		return "AbstractArtikel [id=" + id + ", name=" + name + ", preis="

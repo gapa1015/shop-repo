@@ -69,7 +69,7 @@ public class LieferantResource {
 	}
 	
 	public URI getUriLieferant(Lieferant lieferant, UriInfo uriInfo) {
-		return uriHelper.getURI(LieferantResource.class, "findLieferantById",
+		return uriHelper.getUri(LieferantResource.class, "findLieferantById",
 				lieferant.getId(), uriInfo);
 	}
 }

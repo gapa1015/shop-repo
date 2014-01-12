@@ -69,7 +69,7 @@ public class HerstellerResource {
 	}
 	
 	public URI getUriHersteller(Hersteller hersteller, UriInfo uriInfo) {
-		return uriHelper.getURI(HerstellerResource.class, "findHerstellerById",
+		return uriHelper.getUri(HerstellerResource.class, "findHerstellerById",
 				hersteller.getId(), uriInfo);
 	}
 }

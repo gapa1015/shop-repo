@@ -24,7 +24,6 @@ import org.fest.util.Strings;
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
 import shop.artikelverwaltung.domain.Lieferant;
-import shop.kundenverwaltung.domain.Adresse;
 import shop.kundenverwaltung.service.KundenService;
 import shop.util.interceptor.Log;
 
@@ -39,7 +38,6 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	@Inject
 	private KundenService ks;;
 
-	// TODO Fehlermeldung
 	public List<AbstractArtikel> findVerfuegbareArtikel() {
 		return em.createNamedQuery(AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL,
 				AbstractArtikel.class).getResultList();

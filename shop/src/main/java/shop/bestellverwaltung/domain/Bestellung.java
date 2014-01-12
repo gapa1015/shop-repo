@@ -46,12 +46,9 @@ import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.util.persistence.AbstractAuditable;
 
 
-/**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
- */
+
 @XmlRootElement
 @Entity
-// TODO MySQL 5.7 kann einen Index nicht 2x anlegen
 @Table(indexes = {
 	@Index(columnList = "kunde_fk"),
 	@Index(columnList = "erzeugt")
@@ -66,6 +63,10 @@ import shop.util.persistence.AbstractAuditable;
                         + " FROM   Bestellung b"
   			            + " WHERE  b.id = :" + Bestellung.PARAM_ID)
 })
+@NamedEntityGraphs({
+	@NamedEntityGraph(name = Bestellung.GRAPH_LIEFERUNGEN,
+					  attributeNodes = @NamedAttributeNode("lieferungen"))
+})
 @Cacheable
 @Transactional
 public class Bestellung extends AbstractAuditable {
@@ -79,6 +80,8 @@ public class Bestellung extends AbstractAuditable {
 	public static final String PARAM_KUNDE = "kunde";
 	public static final String PARAM_ID = "id";
 	
+	public static final String GRAPH_LIEFERUNGEN = PREFIX + "lieferungen";
+
 	@Id
 	@GeneratedValue
 	@Basic(optional = false)
@@ -97,6 +100,13 @@ public class Bestellung extends AbstractAuditable {
 	@NotEmpty(message = "{bestellung.bestellpositionen.notEmpty}")
 	@Valid
 	private Set<Bestellposition> bestellpositionen;
+	
+	@ManyToMany
+	@JoinTable(name = "bestellung_lieferung",
+			   joinColumns = @JoinColumn(name = "bestellung_fk"),
+			                 inverseJoinColumns = @JoinColumn(name = "lieferung_fk"))
+	@XmlTransient
+	private Set<Lieferung> lieferungen;
 
 	@XmlElement
 	public Date getDatum() {
@@ -141,8 +151,7 @@ public class Bestellung extends AbstractAuditable {
 			this.bestellpositionen = bestellpositionen;
 			return;
 		}
-		
-		// Wiederverwendung der vorhandenen Collection
+	
 		this.bestellpositionen.clear();
 		if (bestellpositionen != null) {
 			this.bestellpositionen.addAll(bestellpositionen);
@@ -170,6 +179,38 @@ public class Bestellung extends AbstractAuditable {
 
 	public void setKundeUri(URI kundeUri) {
 		this.kundeUri = kundeUri;
+	}
+
+	public Set<Lieferung> getLieferungen() {
+		return lieferungen == null ? null : Collections.unmodifiableSet(lieferungen);
+	}
+	
+	public void setLieferungen(Set<Lieferung> lieferungen) {
+		if (this.lieferungen == null) {
+			this.lieferungen = lieferungen;
+			return;
+		}
+		
+		this.lieferungen.clear();
+		if (lieferungen != null) {
+			this.lieferungen.addAll(lieferungen);
+		}
+	}
+	
+	public void addLieferung(Lieferung lieferung) {
+		if (lieferungen == null) {
+			lieferungen = new HashSet<>();
+		}
+		lieferungen.add(lieferung);
+	}
+	
+	@XmlTransient
+	public List<Lieferung> getLieferungenAsList() {
+		return lieferungen == null ? null : new ArrayList<>(lieferungen);
+	}
+
+	public void setLieferungenAsList(List<Lieferung> lieferungen) {
+		this.lieferungen = lieferungen == null ? null : new HashSet<>(lieferungen);
 	}
 	
 	@Override
