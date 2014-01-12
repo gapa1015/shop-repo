@@ -63,6 +63,21 @@ public class Adresse extends AbstractAuditable {
 	@XmlTransient
 	private Lieferant lieferant;
 
+	public Adresse() {
+		super();
+	}
+	
+	public void setValues(String plz, String ort, String strasse, String hausnr, AbstractKunde kunde, Hersteller hersteller, Lieferant lieferant) {
+		this.strasse = strasse;
+		this.hausnummer = hausnr;
+		this.plz = plz;
+		this.stadt = ort;
+		this.kunde = kunde;
+		this.hersteller = hersteller;
+		this.lieferant = lieferant;
+		
+	}
+	
 	public String getStrasse() {
 		return strasse;
 	}

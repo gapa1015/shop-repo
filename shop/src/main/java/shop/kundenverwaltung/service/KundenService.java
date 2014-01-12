@@ -162,6 +162,8 @@ public class KundenService implements Serializable {
 		if (kunde == null)
 			return null;
 		
+		createAdresse(kunde.getAdresse());
+		createBankdaten(kunde.getBankdaten());
 		kunde = em.merge(kunde);
 		return kunde;
 	}

@@ -50,6 +50,7 @@ import shop.bestellverwaltung.rest.BestellungResource;
 import shop.bestellverwaltung.service.BestellungService;
 import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.domain.Adresse;
+import shop.kundenverwaltung.domain.Bankdaten;
 import shop.kundenverwaltung.service.KundenService;
 import shop.kundenverwaltung.service.KundenService.FetchType;
 import shop.kundenverwaltung.service.KundenService.OrderType;
@@ -292,6 +293,10 @@ public class KundeResource {
 		final Adresse adresse = kunde.getAdresse();
 		if (adresse != null) {
 			adresse.setKunde(kunde);
+		}
+		final Bankdaten bankdaten = kunde.getBankdaten();
+		if (bankdaten != null) {
+			bankdaten.setKunde(kunde);
 		}
 		
 		kunde = ks.createKunde(kunde);
