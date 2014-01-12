@@ -18,9 +18,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.fest.util.Strings;
-
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
 import shop.artikelverwaltung.domain.Lieferant;
@@ -85,11 +82,6 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	@Override
 	@NotNull(message = "{artikelverwaltung.artikel.notFound.name}")
 	public List<AbstractArtikel> findArtikelByName(String name) {
-
-		if (Strings.isNullOrEmpty(name)) {
-			return findVerfuegbareArtikel();
-		}
-
 		return em
 				.createNamedQuery(AbstractArtikel.FIND_ARTIKEL_BY_NAME,
 						AbstractArtikel.class)
