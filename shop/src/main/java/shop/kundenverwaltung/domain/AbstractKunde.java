@@ -140,13 +140,13 @@ public abstract class AbstractKunde extends AbstractAuditable {
 	private Long id;
 
 	@NotNull(message = "{kunde.vorname.notnull}")
-	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "AbstractKunde.vorname.pattern")
-	@Size(min = 2, max = 32, message = "AbstractKunde.vorname.size")
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "kunde.vorname.pattern")
+	@Size(min = 2, max = 32, message = "kunde.vorname.size")
 	private String vorname;
 
 	@NotNull(message = "{kunde.nachname.notnull}")
-	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "AbstractKunde.nachname.pattern")
-	@Size(min = 2, max = 32, message = "AbstractKunde.nachname.size")
+	@Pattern(regexp = "[A-ZÄÖÜ][a-zäöü]+", message = "kunde.nachname.pattern")
+	@Size(min = 2, max = 32, message = "kunde.nachname.size")
 	private String nachname;
 
 	@NotNull(message = "{kunde.adresse.notnull}")
@@ -159,7 +159,7 @@ public abstract class AbstractKunde extends AbstractAuditable {
 	private Date geburtstag;
 
 	@NotNull(message = "{kunde.telefon.notnull}")
-	@Pattern(regexp = "[0-9]+", message = "AbstractKunde.telefon.pattern")
+	@Pattern(regexp = "[0-9]+", message = "kunde.telefon.pattern")
 	private String telefon;
 
 	@NotNull(message = "{kunde.email.notnull}")

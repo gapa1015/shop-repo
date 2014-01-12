@@ -92,7 +92,6 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	private BigDecimal preis;
 
 	@OneToOne
-	//@NotNull(message = "{artikel.hersteller.notNull}")
 	@JoinColumn(name = "hersteller_fk")
 	@Valid
 	@XmlTransient
