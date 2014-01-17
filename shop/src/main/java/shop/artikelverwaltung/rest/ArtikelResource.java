@@ -79,16 +79,6 @@ public class ArtikelResource {
 		return uriHelper.getUri(ArtikelResource.class, "findRadById",
 				artikel.getId(), uriInfo);
 	}
-	
-	@GET
-	@Path("{name}")
-	public Response findRadByKunde(@PathParam("name") Long id) {
-		final AbstractArtikel artikel = as.findArtikelById(id);
-
-		return Response		.ok(artikel)
-							.links(getTransitionalLinks(artikel, uriInfo))
-							.build();
-	}
 
 	@POST
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
@@ -115,9 +105,24 @@ public class ArtikelResource {
 	@Consumes({ APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateArtikel(@Valid AbstractArtikel artikel) {
-	    final AbstractArtikel origArtikel = as.findArtikelById(artikel.getId());
+		final String herstellerUriStr = artikel.getHerstellerUri().toString();
+		final int startPos = herstellerUriStr.lastIndexOf('/') + 1;
+		final String herstellerIdStr = herstellerUriStr.substring(startPos);
+		Long herstellerId = null;
+		try {
+			herstellerId = Long.valueOf(herstellerIdStr);
+		}
+		catch (NumberFormatException e) {
+			herstellerIdInvalid();
+		}
+		
+		final AbstractArtikel origArtikel = as.findArtikelById(artikel.getId());
+		
+		final Hersteller hersteller = as.findHerstellerById(herstellerId);
 		
 		origArtikel.setValues(artikel);
+		
+		origArtikel.setHersteller(hersteller);
 		
 		as.updateArtikel(origArtikel);
 	}

@@ -7,6 +7,8 @@ import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
 
 public interface ArtikelService {
+	List<AbstractArtikel> findVerfuegbareArtikel();
+	
 	AbstractArtikel findArtikelById(Long id);
 
 	List<AbstractArtikel> findArtikelByIds(List<Long> ids);

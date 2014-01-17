@@ -12,7 +12,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
-import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -272,15 +271,6 @@ public class KundeResource {
 		}
 		
 		return Response.ok(new GenericEntity<Collection<Long>>(bestellungenIds) { })
-				       .build();
-	}
-	
-	@GET
-	@Path("{id:[1-9][0-9]*}/wartungsvertraege")
-	public Response findWartungsvertraegeByKundeId(@PathParam("id") Long id) {
-		return Response.status(INTERNAL_SERVER_ERROR)
-				       .entity("findWartungsvertraegeByKundeId: NOT YET IMPLEMENTED")
-				       .type(TEXT_PLAIN)
 				       .build();
 	}
 	

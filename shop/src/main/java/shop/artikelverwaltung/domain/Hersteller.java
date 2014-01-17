@@ -80,6 +80,13 @@ public class Hersteller extends AbstractAuditable {
 		super();
 	}
 
+	public void setValues(Hersteller h) {        
+	        
+	      name = h.name; 
+	      adresse = h.adresse;
+	        
+	}
+	
 	public Long getId() {
 		return id;
 	}

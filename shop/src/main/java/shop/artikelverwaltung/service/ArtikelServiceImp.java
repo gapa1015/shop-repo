@@ -10,6 +10,7 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,6 +22,7 @@ import javax.validation.constraints.Size;
 
 import shop.artikelverwaltung.domain.AbstractArtikel;
 import shop.artikelverwaltung.domain.Hersteller;
+import shop.kundenverwaltung.domain.AbstractKunde;
 import shop.kundenverwaltung.service.KundenService;
 import shop.util.interceptor.Log;
 
@@ -34,10 +36,13 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 	
 	@Inject
 	private KundenService ks;;
-
+	
+	@Override
 	public List<AbstractArtikel> findVerfuegbareArtikel() {
-		return em.createNamedQuery(AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL,
-				AbstractArtikel.class).getResultList();
+		final TypedQuery<AbstractArtikel> query = em.createNamedQuery(AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL, 
+																	  AbstractArtikel.class);
+
+		return query.getResultList();
 	}
 
 	@Override
@@ -99,6 +104,18 @@ public class ArtikelServiceImp implements ArtikelService, Serializable {
 						AbstractArtikel.class)
 				.setParameter(AbstractArtikel.PARAM_PREIS, "%" + preis + "%")
 				.getResultList();
+	}
+	
+	@NotNull(message = "{kunde.notFound.email}")
+	public AbstractKunde findKundeByEmail(String email) {
+		try {
+			return em.createNamedQuery(AbstractKunde.FIND_KUNDE_BY_EMAIL, AbstractKunde.class)
+					 .setParameter(AbstractKunde.PARAM_KUNDE_EMAIL, email)
+					 .getSingleResult();
+		}
+		catch (NoResultException e) {
+			return null;
+		}
 	}
 	
 	@Override

@@ -61,14 +61,14 @@ public class Adresse extends AbstractAuditable {
 		super();
 	}
 	
-	public void setValues(String plz, String ort, String strasse, String hausnr, AbstractKunde kunde, Hersteller hersteller) {
+	public Adresse(String plz, String ort, String strasse, String hausnr, AbstractKunde kunde, Hersteller hersteller) {
+		super();
 		this.strasse = strasse;
 		this.hausnummer = hausnr;
 		this.plz = plz;
 		this.stadt = ort;
 		this.kunde = kunde;
 		this.hersteller = hersteller;
-		
 	}
 	
 	public String getStrasse() {

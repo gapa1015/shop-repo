@@ -1,5 +1,6 @@
 package shop.kundenverwaltung.domain;
 
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REMOVE;
 
@@ -151,7 +152,7 @@ public abstract class AbstractKunde extends AbstractAuditable {
 
 	@NotNull(message = "{kunde.adresse.notnull}")
 	@Valid
-	@OneToOne(cascade = { PERSIST, REMOVE })
+	@OneToOne(cascade = { PERSIST, REMOVE , MERGE })
 	private Adresse adresse;
 
 	@NotNull(message = "{kunde.geburtstag.notnull}")
@@ -169,7 +170,7 @@ public abstract class AbstractKunde extends AbstractAuditable {
 
 	@NotNull(message = "{kunde.bankdaten.notnull}")
 	@Valid
-	@OneToOne(cascade = { PERSIST, REMOVE })
+	@OneToOne(cascade = { PERSIST, REMOVE , MERGE })
 	private Bankdaten bankdaten;
 
 	@Column(length = 1)
@@ -200,11 +201,9 @@ public abstract class AbstractKunde extends AbstractAuditable {
 	public void setValues(AbstractKunde k) {
 		nachname = k.nachname;
 		vorname = k.vorname;
-		adresse = k.adresse;
 		geburtstag = k.geburtstag;
 		telefon = k.telefon;
 		email = k.email;
-		bankdaten = k.bankdaten;
 		geschlecht = k.geschlecht;
 		password = k.password;
 		passwordWdh = k.password;

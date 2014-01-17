@@ -45,15 +45,19 @@ import shop.util.persistence.AbstractAuditable;
 		@Type(value = Ersatzteil.class, name = AbstractArtikel.ERSATZTEIL),
 		@Type(value = Rad.class, name = AbstractArtikel.RAD) })
 @NamedQueries({
-		@NamedQuery(name = AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL, query = "SELECT a"
-				+ " FROM		 AbstractArtikel a" + " ORDER BY a.id ASC"),
-		@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_NAME, query = "SELECT      a"
-				+ " FROM		 AbstractArtikel a"
-				+ " WHERE     a.name LIKE :"
+		@NamedQuery(name = AbstractArtikel.FIND_VERFUEGBARE_ARTIKEL, 
+		  query = "SELECT   a"
+				+ " FROM    AbstractArtikel a" 
+				+ " ORDER BY a.id ASC"),
+		@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_NAME, 
+		  query = "SELECT  	a"
+				+ " FROM   	AbstractArtikel a"
+				+ " WHERE   a.name LIKE :"
 				+ AbstractArtikel.PARAM_NAME + " ORDER BY a.id ASC"),
-		@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_PREIS, query = "SELECT      a"
-				+ " FROM		 AbstractArtikel a"
-				+ " WHERE     a.preis < :"
+		@NamedQuery(name = AbstractArtikel.FIND_ARTIKEL_BY_PREIS, 
+		  query = "SELECT	a"
+				+ " FROM	AbstractArtikel a"
+				+ " WHERE  	a.preis < :"
 				+ AbstractArtikel.PARAM_PREIS + " ORDER BY a.id ASC") })
 
 @Cacheable
@@ -63,7 +67,7 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 	private static final long serialVersionUID = -6383194126780965236L;
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles
 			.lookup().lookupClass());
-
+	
 	private static final String PREFIX = "AbstractArtikel";
 	public static final String FIND_VERFUEGBARE_ARTIKEL = PREFIX
 			+ "findVerfuegbareArtikel";
@@ -77,6 +81,8 @@ public abstract class AbstractArtikel extends AbstractAuditable {
 
 	public static final String PARAM_NAME = "name";
 	public static final String PARAM_PREIS = "preis";
+	
+	
 
 	@Id
 	@GeneratedValue
@@ -114,6 +120,7 @@ public abstract class AbstractArtikel extends AbstractAuditable {
         name = a.name;
         preis = a.preis;
         hersteller = a.hersteller;
+        herstellerUri = a.herstellerUri;
         
     }
 
